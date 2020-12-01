@@ -4,13 +4,16 @@
 
 <script>
 export default {
+    props : ['id'],
     data(){
         return{
             id : '',
         }
     },
-    methods(){
-        
+    methods :{
+        GetData() {
+            $route.params.id
+        },
     }
 }
 </script>

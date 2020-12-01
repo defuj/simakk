@@ -11,7 +11,7 @@
                     <ul class="header-tabs nav font-size-lg" role="tablist">
                         <!--begin::Item-->
                         <li class="nav-item">
-                            <router-link to="/home" class="nav-link px-6" data-toggle="tab" data-target="#kt_header_tab_1" role="tab">
+                            <router-link to="/" class="nav-link px-6" data-toggle="tab" data-target="#kt_header_tab_1" role="tab">
                                 Home
                             </router-link>
                         </li>

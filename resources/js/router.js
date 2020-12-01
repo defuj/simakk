@@ -25,13 +25,13 @@ import KuesionerList from './components/pages/kuesioner/List.vue'
 
 const routes = [
     {
-        name: 'home',
+        name: 'h',
         path:'/',
-        redirect: '/home'
+        component: Home,
     },
     {
-        name: 'home',
-        path: '/home',
+        name: 'h',
+        path: '/h',
         component: Home,
     },
     {
@@ -52,6 +52,7 @@ const routes = [
     {
         name: 'kuesioner_edit',
         path: '/kuesioner/:id',
+        props: true,
         component : KuesionerEdit,
     },
     {
@@ -68,8 +69,8 @@ const routes = [
     {
         name: 'Not Found',
         path: '*',
-        //redirect: '/error_404',
-        redirect: '/home',
+        redirect: '/error_404',
+        //redirect: '/home',
     },
     {
         name: 'Not Found',
