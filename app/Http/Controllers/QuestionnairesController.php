@@ -1,23 +1,21 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
-use App\Models\Team;
 
-class TeamsController extends Controller
+use App\Models\Questionnaire;
+use Illuminate\Http\Request;
+
+class QuestionnairesController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(){
-        //$teams = DB::table('teams')->get();
-        $teams = Team::all();
-        return response()->json($teams);
+    public function index()
+    {
+        //
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -84,5 +82,4 @@ class TeamsController extends Controller
     {
         //
     }
-    
 }

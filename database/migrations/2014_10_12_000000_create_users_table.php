@@ -18,8 +18,9 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('token');
-            $table->string('access');
+            $table->enum('access', ['default', 'admin'])->default('default');
             $table->string('google_id');
+            $table->timestamps(0);
         });
     }
 

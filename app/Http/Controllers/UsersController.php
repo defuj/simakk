@@ -3,21 +3,19 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use App\Models\Team;
+use App\Models\User;
 
-class TeamsController extends Controller
+class UsersController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(){
-        //$teams = DB::table('teams')->get();
-        $teams = Team::all();
-        return response()->json($teams);
+    public function index()
+    {
+        //
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -43,10 +41,10 @@ class TeamsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Questionnaire  $questionnaire
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Questionnaire $questionnaire)
+    public function show($id)
     {
         //
     }
@@ -54,10 +52,10 @@ class TeamsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Questionnaire  $questionnaire
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Questionnaire $questionnaire)
+    public function edit($id)
     {
         //
     }
@@ -66,10 +64,10 @@ class TeamsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Questionnaire  $questionnaire
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Questionnaire $questionnaire)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -77,12 +75,11 @@ class TeamsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Questionnaire  $questionnaire
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Questionnaire $questionnaire)
+    public function destroy($id)
     {
         //
     }
-    
 }
