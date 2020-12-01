@@ -35,7 +35,24 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if(DB::table('users')->where('google_id', $request->google_id)->exists()){
+            $data = DB::table('users')->select('access')->where('google_id', $request->google_id)->first();
+            return $data->access;
+        }else{
+            $user               = new User();
+            $user->name         = $request->name;
+            $user->email        = $request->email;
+            $user->token        = $request->token;
+            $user->access       = $request->access;
+            $user->google_id    = $request->google_id;
+            $user->avatar       = $request->avatar;
+            $user->created_at   = $request->created_at;
+            $user->updated_at   = $request->updated_at;
+            $user->save();
+
+            $access = 'default';
+            return $access;
+        }
     }
 
     /**

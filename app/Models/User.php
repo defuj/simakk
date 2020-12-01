@@ -23,6 +23,7 @@ class User extends Authenticatable
         'email',
         'token',
         'access',
-        'google_id'
+        'google_id',
+        'avatar'
     ];
 }

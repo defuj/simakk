@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('token');
             $table->enum('access', ['default', 'admin'])->default('default');
             $table->string('google_id');
+            $table->string('avatar');
             $table->timestamps(0);
         });
     }

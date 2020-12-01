@@ -21,6 +21,7 @@
         data() {
             return {
                 login : null,
+                error : null,
             }
         },
         computed:{
@@ -35,6 +36,9 @@
             GetLoginStatus(){
                 return this.login
             },
+            GetErrorMessage(){
+                return this.error
+            },
             AuthProvider(provider) {
                 var bb = this
                 this.$auth.authenticate(provider).then(response =>{
@@ -47,27 +51,46 @@
                 this.$http.post('/sociallogin/'+provider,response).then(response => {
                     //console.log(response.data)
                     //console.log(response.data.user)
-                    var data = {
-                        'google_id' : response.data.id,
-
-                    }
+                    const data = {
+                        name      : response.data.name,
+                        email     : response.data.email,
+                        token     : response.data.token,
+                        access    : 'default',
+                        google_id : response.data.id,
+                        avatar    : response.data.avatar,
+                        created_at: new Date().getTime(),
+                        updated_at: new Date().getTime(),
+                    };
 
                     if(response.data.user.email.includes('stmik-sumedang.ac.id')){
-                        axios.post('/api/userlogin',data).then(result =>{
-                            console.log(result)
+                        axios.post('/api/registerUser',data)
+                        .then(result =>{
+                            console.log(result.data)
+                            if(result.data == 'admin'){
+                                this.$store.dispatch('saveLogin',response.data)
+                                this.$store.dispatch('saveUser',response.data.user)
+
+                                localStorage.setItem('user',JSON.stringify(response.data.user))
+                                localStorage.setItem('login',JSON.stringify(response.data))
+                            }else{
+                                this.login = 'failed'
+                                this.error = "Email yang Anda gunakan tidak memiliki akses admin."
+
+                                var login = JSON.parse(localStorage.getItem('login'))
+                                if(login != null){
+                                    localStorage.removeItem('user')
+                                    localStorage.removeItem('login')
+
+                                    location.reload()
+                                }
+                            }
                         }).catch(err => {
                             console.log({err:err})
                         })
 
-                        this.$store.dispatch('saveLogin',response.data)
-                        this.$store.dispatch('saveUser',response.data.user)
-
-                        localStorage.setItem('user',JSON.stringify(response.data.user))
-                        localStorage.setItem('login',JSON.stringify(response.data))
-
-                        //console.log(response.data)
                     }else{
                         this.login = 'failed'
+                        this.error = "Email yang Anda gunakan tidak didukung."
 
                         var login = JSON.parse(localStorage.getItem('login'))
                         if(login != null){

@@ -33,7 +33,7 @@ const store = new Vuex.Store({
           set_login: (state, login) => {
             state.login = login
           },
-          set_lgout: (state) => {
+          set_logout: (state) => {
               state.user = null
               state.login = null
           }
@@ -52,6 +52,9 @@ const store = new Vuex.Store({
         },
         saveLogin({commit, state}, login){
           commit('set_login',login)
+        },
+        destroyLogin({commit, state}){
+          commit('set_logout')
         },
       },
 })

@@ -63,7 +63,7 @@
                         <div class="alert-icon">
                             <i class="flaticon-warning"></i>
                         </div>
-                        <div class="alert-text">Email yang digunakan tidak didukung!</div>
+                        <div class="alert-text">{{getErrorMesssage()}}</div>
                         <div class="alert-close">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">
@@ -115,6 +115,9 @@
             },
             getStatusLogin(){
                 return this.$parent.GetLoginStatus()
+            },
+            getErrorMesssage(){
+                return this.$parent.GetErrorMessage()
             }
         },
     }
