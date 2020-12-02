@@ -171,7 +171,7 @@
                                 <!--end::Svg Icon-->
                             </span>
                             <a class="font-size-sm ml-2 text-dark"> 
-                                {{kuesioner.questionnaire_type}}
+                                {{kuesioner.questionnaire_type.toUpperCase()}}
                             </a>
                         </div>
                         <span class="svg-icon svg-icon-gray-500 icon-lg far mx-4" style="cursor:pointer;" @click="DuplicateKuesioner(kuesioner.questionnaire_id)">

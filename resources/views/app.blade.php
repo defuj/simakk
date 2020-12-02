@@ -104,8 +104,8 @@
         <!--begin::Page Scripts(used by this page)-->
         <script src="{{ asset('js/pages/custom/todo/todo.js') }}"></script>
         <script src="{{ asset('js/pages/widgets.js') }}"></script>
-        <script src="{{ asset('js/pages/features/miscellaneous/sweetalert2.js') }}"></script>
         <script src="{{ asset('js/pages/widgets.js') }}"></script>
+        <script src="{{ asset('js/pages/features/miscellaneous/sticky-panels.js') }}"></script>
         <!--end::Page Scripts-->
     </body>
 </html>
