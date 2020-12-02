@@ -25,12 +25,12 @@ import KuesionerList from './components/pages/kuesioner/List.vue'
 
 const routes = [
     {
-        name: 'h',
+        name: 'home',
         path:'/',
         component: Home,
     },
     {
-        name: 'h',
+        name: 'home',
         path: '/h',
         component: Home,
     },

@@ -5,7 +5,8 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
     state: {
         user : null,
-        login : null
+        login : null,
+        search : null
         /*
         login : {
           token : String,
@@ -36,7 +37,10 @@ const store = new Vuex.Store({
           set_logout: (state) => {
               state.user = null
               state.login = null
-          }
+          },
+          set_search: (state, search) => {
+            state.search = search
+          },
       },
       getters: {
         getUser : state =>{
@@ -44,6 +48,9 @@ const store = new Vuex.Store({
         },
         getLogin : state =>{
           return state.login
+        },
+        getSearch : state =>{
+          return state.search
         }
       },
       actions: {
@@ -55,6 +62,9 @@ const store = new Vuex.Store({
         },
         destroyLogin({commit, state}){
           commit('set_logout')
+        },
+        updateSearch({commit, state}, search){
+          commit('set_search',search)
         },
       },
 })

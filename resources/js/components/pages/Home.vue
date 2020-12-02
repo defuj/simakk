@@ -77,7 +77,7 @@
             <!--begin::Details-->
             <div class="d-flex align-items-center flex-wrap">
                 <!--begin::Title-->
-                <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Kuesioner</h5>
+                <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Kuesioner terbaru</h5>
                 <!--end::Title-->
                 <!--begin::Separator-->
                 <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-5 bg-gray-200"></div>
@@ -85,7 +85,7 @@
                 <div class="d-flex align-items-center" id="kt_subheader_search">
                     <span class="text-dark-50 font-weight-bold" id="kt_subheader_total">{{total}} Total</span>
 
-                    <div class="input-group input-group-sm input-group-solid" style="width:300px;margin-left:24px;">
+                    <div class="input-group input-group-sm input-group-solid" style="width:300px;margin-left:24px;display:none;">
                         <input type="text" :v-value="this.search" class="form-control" id="kt_subheader_search_form" :placeholder="'Cari...'" v-model="search">
                         <div class="input-group-append">
                             <span class="input-group-text">
@@ -205,12 +205,13 @@
 
 <script>
 export default {
+    props : ['home'],
     data(){
         return {
             limit : 8,
             total : 0,
             kuesioners : [],
-            search : null,
+            search : this.getSearch,
         }
     },
     watch : {
@@ -220,6 +221,15 @@ export default {
             }else{
                 this.GetKuesioner()
             }
+            //console.log(this.getSearch)
+        },
+        getSearch(){
+            if(this.getSearch.length > 0){
+                this.SearchKuesioner(this.getSearch)
+            }else{
+                this.GetKuesioner()
+            }
+            //console.log(this.getSearch)
         }
     },
     methods:{
@@ -310,7 +320,7 @@ export default {
             this.$swal({
                 title : 'Perhatian',
                 text : 'Apakah Anda ingin menghapus kuesioner ini?',
-                icon : 'warning',
+                icon : 'question',
                 showCancelButton: true,
                 confirmButtonText: 'Ya, lanjutkan',
                 cancelButtonText: 'Tidak'
@@ -344,7 +354,7 @@ export default {
             this.$swal({
                 title : 'Perhatian',
                 text : 'Apakah Anda ingin menduplikat kuesioner ini?',
-                icon : 'warning',
+                icon : 'question',
                 showCancelButton: true,
                 confirmButtonText: 'Ya, lanjutkan',
                 cancelButtonText: 'Tidak'
@@ -373,10 +383,9 @@ export default {
         }
     },
     computed:{
-        
-    },
-    computed:{
-
+        getSearch(){
+            return this.$store.getters.getSearch
+        },
     },
     mounted(){
         this.GetKuesioner()
