@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-xl-4">
             <!--begin::Stats Widget 14-->
-            <a href="#" class="card card-custom bg-primary bg-hover-state-primary card-stretch gutter-b">
+            <a class="card card-custom bg-primary bg-hover-state-primary card-stretch gutter-b">
                 <!--begin::Body-->
                 <div class="card-body">
                     <span class="svg-icon svg-icon-white svg-icon-3x ml-n1">
@@ -173,6 +173,29 @@ export default {
                 desc : "",
                 question : 50
             },
+        }
+    },
+    methods:{
+        CreateNew(){
+            axios.get('/api/createKuesioner').then(result =>{
+                if(result.data.result){
+                    
+                }else{
+                    this.$swal({
+                        title: 'Oops',
+                        text: 'Untuk saat ini fitur tidak dapat digunakan',
+                        type: 'warning',
+                        timer:3000,
+                    });
+                }
+            }).catch(err => {
+                this.$swal({
+                    title: 'Oops',
+                    text: 'Telah terjadi kesalahan',
+                    type: 'error',
+                    timer:3000,
+                });
+            })
         }
     },
     computed:{

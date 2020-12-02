@@ -46,19 +46,14 @@ const routes = [
     },
     {
         name: 'kuesioner_list',
-        path: '/kuesioner',
+        path: '/q',
         component : KuesionerList,
     },
     {
         name: 'kuesioner_edit',
-        path: '/kuesioner/:id',
+        path: '/q/:id',
         props: true,
         component : KuesionerEdit,
-    },
-    {
-        name: 'questionnaire',
-        path: '/questionnaire/:id',
-        component: Team,
     },
     {
         path: '/auth/:provide/callback',

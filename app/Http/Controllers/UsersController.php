@@ -50,8 +50,7 @@ class UsersController extends Controller
             $user->updated_at   = $request->updated_at;
             $user->save();
 
-            $access = 'default';
-            return $access;
+            return $request->access;
         }
     }
 
