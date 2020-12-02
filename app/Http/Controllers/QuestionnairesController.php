@@ -16,7 +16,7 @@ class QuestionnairesController extends Controller
      */
     public function index()
     {
-        $questionnaire = DB::table('questionnaires')->get(); //Questionnaire::all();
+        $questionnaire = DB::table('questionnaires')->orderByDesc('created_at')->get(); //Questionnaire::all();
         return response()->json($questionnaire);
     }
 
