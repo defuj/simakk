@@ -5,6 +5,7 @@ import store from './store/index.js'
 import VueSweetalert2 from 'vue-sweetalert2';
 import { setHeaderToken } from './utils/auth.js'
 axios.defaults.baseURL = 'http://127.0.0.1:8000/'
+const baseURL = 'http://127.0.0.1:8000/'
 
 const options = {
   confirmButtonColor: '#41b882',

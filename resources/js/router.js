@@ -45,11 +45,6 @@ const routes = [
         component: Team,
     },
     {
-        name: 'kuesioner_list',
-        path: '/q',
-        component : KuesionerList,
-    },
-    {
         name: 'kuesioner_edit',
         path: '/q/:id',
         props: true,

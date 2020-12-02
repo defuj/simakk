@@ -4,14 +4,18 @@
         <!--begin::Top-->
         <div class="header-top">
             <!--begin::Container-->
-            <div class=" container ">
+            <div class=" container " style="max-width:100%;">
                 <!--begin::Left-->
                 <div class="d-none d-lg-flex align-items-center mr-3">
+                    <router-link to="/" exact class="mr-20">
+                        <img alt="Logo" :src="this.$parent.GetLogo()" class="max-h-35px">
+                        <span class="kuesioner">SISTEM MANAJEMEN<br>KUESIONER KAMPUS</span>
+                    </router-link>
                     <!--begin::Tab Navs(for desktop mode)-->
-                    <ul class="header-tabs nav font-size-lg" role="tablist">
+                    <ul class="header-tabs nav font-size-lg" role="tablist" style="display:none;">
                         <!--begin::Item-->
                         <li class="nav-item">
-                            <router-link to="/" class="nav-link px-6" data-toggle="tab" data-target="#kt_header_tab_1" role="tab">
+                            <router-link to="/" exact class="nav-link px-6" data-toggle="tab" data-target="#kt_header_tab_1" role="tab">
                                 Home
                             </router-link>
                         </li>
@@ -111,4 +115,18 @@
         padding-top: 40px;
     }
 }
+</style>
+
+<style scoped>
+    .kuesioner {
+        color: #FFFFFF;
+        margin-left: 16px;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        display: inline-block;
+        font-family: 'Product Sans',Arial,sans-serif;
+        font-size: 16px;
+        vertical-align: middle;
+        font-weight: bold;
+    }
 </style>

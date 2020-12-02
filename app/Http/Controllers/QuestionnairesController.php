@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Questionnaire;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class QuestionnairesController extends Controller
 {
@@ -14,7 +16,8 @@ class QuestionnairesController extends Controller
      */
     public function index()
     {
-        //
+        $questionnaire = DB::table('questionnaires')->get(); //Questionnaire::all();
+        return response()->json($questionnaire);
     }
 
     /**
@@ -24,7 +27,31 @@ class QuestionnairesController extends Controller
      */
     public function create()
     {
-        //
+        $id = rand();
+        $insert = DB::table('questionnaires')->insert([
+            'questionnaire_id'          => $id, 
+            'questionnaire_title'       => '', 
+            'questionnaire_description' => '', 
+            'questionnaire_status'      => 'enable',//enable & disabled
+            'questionnaire_type'        => 'draf',//draf & publish
+            'created_at'                => Date('Y-d-m h:i:s'),
+            'updated_at'                => Date('Y-d-m h:i:s'),
+        ]);
+
+        if($insert){
+            $result = [
+                'result' => true, 
+                'id' => $id
+            ];
+
+            return $result;
+        }else{
+            $result = [
+                'result' => false
+            ];
+
+            return $result;
+        }
     }
 
     /**
@@ -44,9 +71,24 @@ class QuestionnairesController extends Controller
      * @param  \App\Models\Questionnaire  $questionnaire
      * @return \Illuminate\Http\Response
      */
-    public function show(Questionnaire $questionnaire)
+    public function show(Request $request)
     {
         //
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Questionnaire  $questionnaire
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+        $questionnaire = DB::table('questionnaires');
+        $questionnaire->where('questionnaire_id', 'like', '%'.$request->search.'%');
+        $questionnaire->orWhere('questionnaire_title', 'like', '%'.$request->search.'%');
+        $questionnaire->orWhere('questionnaire_description', 'like', '%'.$request->search.'%');
+        return response()->json($questionnaire->get());
     }
 
     /**
@@ -78,8 +120,9 @@ class QuestionnairesController extends Controller
      * @param  \App\Models\Questionnaire  $questionnaire
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Questionnaire $questionnaire)
+    public function destroy(Request $request)
     {
-        //
+        $delete = DB::table('questionnaires')->where('questionnaire_id',$request->id);
+        return $delete->delete();
     }
 }

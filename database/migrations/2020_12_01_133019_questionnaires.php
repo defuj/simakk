@@ -17,10 +17,9 @@ class Questionnaires extends Migration
             $table->id('questionnaire_id');
             $table->string('questionnaire_title');
             $table->string('questionnaire_description');
-            $table->string('questionnaire_status');
-            $table->string('questionnaire_type');
-            $table->dateTime('questionnaire_created_at',0);
-            $table->string('google_id')->unique();
+            $table->enum('questionnaire_status', ['enable', 'disabled'])->default('disabled');
+            $table->enum('questionnaire_type', ['draf', 'publish'])->default('draf');
+            $table->timestamps(0);
         });
     }
 

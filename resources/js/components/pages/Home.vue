@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-xl-4">
             <!--begin::Stats Widget 14-->
-            <a class="card card-custom bg-primary bg-hover-state-primary card-stretch gutter-b">
+            <a class="card card-custom bg-primary bg-hover-state-primary card-stretch gutter-b" @click="CreateNew()">
                 <!--begin::Body-->
                 <div class="card-body">
                     <span class="svg-icon svg-icon-white svg-icon-3x ml-n1">
@@ -83,14 +83,34 @@
                 <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-5 bg-gray-200"></div>
                 <!--end::Separator-->
                 <div class="d-flex align-items-center" id="kt_subheader_search">
-                    <span class="text-dark-50 font-weight-bold" id="kt_subheader_total">54 Total</span>
+                    <span class="text-dark-50 font-weight-bold" id="kt_subheader_total">{{total}} Total</span>
+
+                    <div class="input-group input-group-sm input-group-solid" style="width:300px;margin-left:24px;">
+                        <input type="text" :v-value="this.search" class="form-control" id="kt_subheader_search_form" :placeholder="'Cari...'" v-model="search">
+                        <div class="input-group-append">
+                            <span class="input-group-text">
+                                <span class="svg-icon">
+                                    <!--begin::Svg Icon | path:/metronic/theme/html/demo7/dist/assets/media/svg/icons/General/Search.svg-->
+                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <rect x="0" y="0" width="24" height="24"></rect>
+                                            <path d="M14.2928932,16.7071068 C13.9023689,16.3165825 13.9023689,15.6834175 14.2928932,15.2928932 C14.6834175,14.9023689 15.3165825,14.9023689 15.7071068,15.2928932 L19.7071068,19.2928932 C20.0976311,19.6834175 20.0976311,20.3165825 19.7071068,20.7071068 C19.3165825,21.0976311 18.6834175,21.0976311 18.2928932,20.7071068 L14.2928932,16.7071068 Z" fill="#000000" fill-rule="nonzero" opacity="0.3"></path>
+                                            <path d="M11,16 C13.7614237,16 16,13.7614237 16,11 C16,8.23857625 13.7614237,6 11,6 C8.23857625,6 6,8.23857625 6,11 C6,13.7614237 8.23857625,16 11,16 Z M11,18 C7.13400675,18 4,14.8659932 4,11 C4,7.13400675 7.13400675,4 11,4 C14.8659932,4 18,7.13400675 18,11 C18,14.8659932 14.8659932,18 11,18 Z" fill="#000000" fill-rule="nonzero"></path>
+                                        </g>
+                                    </svg>
+                                    <!--end::Svg Icon-->
+                                </span>
+                                <!--<i class="flaticon2-search-1 icon-sm"></i>-->
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
             <!--end::Details-->
             <!--begin::Toolbar-->
             <div class="d-flex align-items-center">
                 <!--begin::Button-->
-                <button class="btn btn-light-primary font-weight-bold ml-2">Lihat Semua</button>
+                <button class="btn btn-light-primary font-weight-bold ml-2" @click="ShowAll()">Lihat Semua</button>
                 <!--end::Button-->
             </div>
             <!--end::Toolbar-->
@@ -98,10 +118,10 @@
     </div>
 
     <div class="row">
-        <div class="col-xl-3">
+        <div class="col-xl-3" v-for="kuesioner in kuesioners" :key="kuesioner.questionnaire_id">
             <!--begin::Card-->
             <div class="card card-custom gutter-b card-stretch">
-                <a href="#">
+                <router-link v-bind:to="'/q/'+kuesioner.questionnaire_id">
                     <!--begin::Body-->
                     <div class="card-body" style="padding: 1.2rem !important;">
                         <!--begin::Info-->
@@ -109,8 +129,11 @@
                             <!--begin::Info-->
                             <div class="d-flex flex-column mr-auto">
                                 <!--begin: Title-->
-                                <div class="d-flex flex-column text-dark font-size-h5 font-weight-bolder">
-                                    Nexa - Next generation SAAS
+                                <div class="d-flex flex-column text-dark font-size-h5 font-weight-bolder" v-if="kuesioner.questionnaire_title != ''">
+                                    {{kuesioner.questionnaire_title}}
+                                </div>
+                                <div class="d-flex flex-column text-dark font-size-h5 font-weight-bolder" v-else>
+                                    Belum diberikan judul
                                 </div>
                                 <!--end::Title-->
                             </div>
@@ -118,12 +141,17 @@
                         </div>
                         <!--end::Info-->
                         <!--begin::Description-->
-                        <div class="font-size-sm text-dark">I distinguish three main text objectives.First, your objective could be merely to inform people.A second be to persuade people.</div>
+                        <div class="font-size-sm text-dark" v-if="kuesioner.questionnaire_description != ''">
+                            {{kuesioner.questionnaire_description}}
+                        </div>
+                        <div class="font-size-sm text-dark" v-else>
+                            {{'Belum memiliki deskripsi'}}
+                        </div>
                         <!--end::Description-->
                         
                     </div>
                     <!--end::Body-->
-                </a>
+                </router-link>
                 
 
                 <!--begin::Footer-->
@@ -143,14 +171,13 @@
                             </span>
                             <a class="font-size-sm ml-2 text-dark">72 Pertanyaan</a>
                         </div>
-                        <i class="icon-lg far fa-trash-alt" style="cursor:pointer;"></i>
+                        <i class="icon-lg far fa-trash-alt" style="cursor:pointer;" @click="DeleteKuesioner(kuesioner.questionnaire_id)"></i>
                     </div>
                 </div>
                 <!--end::Footer-->
             </div>
             <!--end:: Card-->
         </div>
-        <item-kuesioner ref="kuesioner"></item-kuesioner>
     </div>
 
 </section>
@@ -168,41 +195,119 @@
 export default {
     data(){
         return {
-            kuesioner : {
-                title : "",
-                desc : "",
-                question : 50
-            },
+            limit : 8,
+            total : 0,
+            kuesioners : [],
+            search : null,
+        }
+    },
+    watch : {
+        search(){
+            if(this.search.length > 0){
+                this.SearchKuesioner(this.search)
+            }else{
+                this.GetKuesioner()
+            }
         }
     },
     methods:{
+        SearchKuesioner(keyword){
+            axios.post('/api/searchKuesioner',{search : keyword}).then((result) => {
+                this.kuesioners = result.data
+                this.total = result.data.length
+            })
+        },
+        ShowAll(){
+            this.limit = 0
+            this.search = ''
+            this.GetKuesioner()
+        },
+        GetKuesioner(){
+            axios.get('/api/kuesioner').then((result) => {
+                this.total = result.data.length
+                console.log(this.total)
+                if(this.limit == 8){
+                    if(result.data.length > 8){
+                        this.kuesioners = []
+                        for(var i =0;i<8;i++){
+                            this.kuesioners.push(result.data[i])
+                        }
+                    }else{
+                        this.kuesioners = result.data
+                    }
+                }else{
+                    this.kuesioners = result.data
+                }
+            })
+        },
         CreateNew(){
             axios.get('/api/createKuesioner').then(result =>{
                 if(result.data.result){
-                    
+                    this.$router.push('q/'+result.data.id);
                 }else{
                     this.$swal({
                         title: 'Oops',
                         text: 'Untuk saat ini fitur tidak dapat digunakan',
-                        type: 'warning',
+                        icon: 'warning',
                         timer:3000,
+                        confirmButtonText: 'Oke, saya mengerti',
                     });
                 }
             }).catch(err => {
                 this.$swal({
                     title: 'Oops',
                     text: 'Telah terjadi kesalahan',
-                    type: 'error',
+                    icon: 'error',
                     timer:3000,
+                    confirmButtonText : 'Oke, saya mengerti'
                 });
             })
+        },
+        DeleteKuesioner(kuesioner_id){
+            this.$swal({
+                title : 'Perhatian',
+                text : 'Apakah Anda ingin menghapus kuesioner ini?',
+                icon : 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ya, lanjutkan',
+                cancelButtonText: 'Tidak'
+            }).then((result)=>{
+                if(result.isConfirmed){
+                    console.log(kuesioner_id)
+                    axios.post('/api/deleteKuesioner',{
+                        id : kuesioner_id
+                    }).then(result=>{
+                        console.log(result.data)
+                        if(result.data){
+                            this.GetKuesioner()
+                            this.$router.push('/');
+                            this.$swal({
+                                title : 'Berhasil',
+                                text : 'Kuesioner telah berhasil dihapus',
+                                icon : 'success'
+                            });
+                        }else{
+                            this.$swal({
+                                title : 'Oops',
+                                text : 'Gagal menghapus, terjadi kesalahan.',
+                                icon : 'error'
+                            });
+                        }
+                    });
+                    
+                    
+                }
+            });
         }
     },
     computed:{
-
+        
     },
     computed:{
 
+    },
+    mounted(){
+        this.GetKuesioner()
     }
 }
 </script>

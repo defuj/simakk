@@ -10,6 +10,9 @@ Route::get('/teams', [TeamsController::class, 'index']);
 Route::post('/registerUser', [UsersController::class,'store']);
 
 Route::get('/createKuesioner', [QuestionnairesController::class,'create']);
+Route::post('/deleteKuesioner', [QuestionnairesController::class,'destroy']);
+Route::get('/kuesioner', [QuestionnairesController::class,'index']);
+Route::post('/searchKuesioner', [QuestionnairesController::class,'search']);
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

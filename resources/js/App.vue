@@ -22,6 +22,7 @@
             return {
                 login : null,
                 error : null,
+                logo : 'http://127.0.0.1:8000/media/logos/logo-letter-9.png',
             }
         },
         computed:{
@@ -33,6 +34,9 @@
             }
         },
         methods: {  
+            GetLogo(){
+                return this.logo
+            },
             GetLoginStatus(){
                 return this.login
             },
@@ -109,7 +113,7 @@
                 this.$swal({
                     title: 'Oops',
                     text: 'Harap untuk menggunakan email kampus',
-                    type: 'warning',
+                    icon: 'warning',
                     timer:5000,
                 });
             }
