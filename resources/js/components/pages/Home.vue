@@ -121,7 +121,7 @@
         <div class="col-xl-3" v-for="kuesioner in kuesioners" :key="kuesioner.questionnaire_id">
             <!--begin::Card-->
             <div class="card card-custom gutter-b card-stretch">
-                <router-link v-bind:to="'/q/'+kuesioner.questionnaire_id">
+                <router-link v-bind:to="'/q/'+kuesioner.questionnaire_id" style="min-height: 120px;">
                     <!--begin::Body-->
                     <div class="card-body" style="padding: 1.2rem !important;">
                         <!--begin::Info-->
@@ -162,16 +162,28 @@
                                 <!--begin::Svg Icon | path:/metronic/theme/html/demo7/dist/assets/media/svg/icons/Text/Bullet-list.svg-->
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                        <rect x="0" y="0" width="24" height="24"></rect>
-                                        <path d="M10.5,5 L19.5,5 C20.3284271,5 21,5.67157288 21,6.5 C21,7.32842712 20.3284271,8 19.5,8 L10.5,8 C9.67157288,8 9,7.32842712 9,6.5 C9,5.67157288 9.67157288,5 10.5,5 Z M10.5,10 L19.5,10 C20.3284271,10 21,10.6715729 21,11.5 C21,12.3284271 20.3284271,13 19.5,13 L10.5,13 C9.67157288,13 9,12.3284271 9,11.5 C9,10.6715729 9.67157288,10 10.5,10 Z M10.5,15 L19.5,15 C20.3284271,15 21,15.6715729 21,16.5 C21,17.3284271 20.3284271,18 19.5,18 L10.5,18 C9.67157288,18 9,17.3284271 9,16.5 C9,15.6715729 9.67157288,15 10.5,15 Z" fill="#000000"></path>
-                                        <path d="M5.5,8 C4.67157288,8 4,7.32842712 4,6.5 C4,5.67157288 4.67157288,5 5.5,5 C6.32842712,5 7,5.67157288 7,6.5 C7,7.32842712 6.32842712,8 5.5,8 Z M5.5,13 C4.67157288,13 4,12.3284271 4,11.5 C4,10.6715729 4.67157288,10 5.5,10 C6.32842712,10 7,10.6715729 7,11.5 C7,12.3284271 6.32842712,13 5.5,13 Z M5.5,18 C4.67157288,18 4,17.3284271 4,16.5 C4,15.6715729 4.67157288,15 5.5,15 C6.32842712,15 7,15.6715729 7,16.5 C7,17.3284271 6.32842712,18 5.5,18 Z" fill="#000000" opacity="0.3"></path>
+                                        <rect x="0" y="0" width="24" height="24"/>
+                                        <path d="M8,3 L8,3.5 C8,4.32842712 8.67157288,5 9.5,5 L14.5,5 C15.3284271,5 16,4.32842712 16,3.5 L16,3 L18,3 C19.1045695,3 20,3.8954305 20,5 L20,21 C20,22.1045695 19.1045695,23 18,23 L6,23 C4.8954305,23 4,22.1045695 4,21 L4,5 C4,3.8954305 4.8954305,3 6,3 L8,3 Z" fill="#000000" opacity="0.3"/>
+                                        <path d="M10.875,15.75 C10.6354167,15.75 10.3958333,15.6541667 10.2041667,15.4625 L8.2875,13.5458333 C7.90416667,13.1625 7.90416667,12.5875 8.2875,12.2041667 C8.67083333,11.8208333 9.29375,11.8208333 9.62916667,12.2041667 L10.875,13.45 L14.0375,10.2875 C14.4208333,9.90416667 14.9958333,9.90416667 15.3791667,10.2875 C15.7625,10.6708333 15.7625,11.2458333 15.3791667,11.6291667 L11.5458333,15.4625 C11.3541667,15.6541667 11.1145833,15.75 10.875,15.75 Z" fill="#000000"/>
+                                        <path d="M11,2 C11,1.44771525 11.4477153,1 12,1 C12.5522847,1 13,1.44771525 13,2 L14.5,2 C14.7761424,2 15,2.22385763 15,2.5 L15,3.5 C15,3.77614237 14.7761424,4 14.5,4 L9.5,4 C9.22385763,4 9,3.77614237 9,3.5 L9,2.5 C9,2.22385763 9.22385763,2 9.5,2 L11,2 Z" fill="#000000"/>
                                     </g>
                                 </svg>
                                 <!--end::Svg Icon-->
                             </span>
-                            <a class="font-size-sm ml-2 text-dark">72 Pertanyaan</a>
+                            <a class="font-size-sm ml-2 text-dark"> 
+                                {{kuesioner.questionnaire_type}}
+                            </a>
                         </div>
-                        <i class="icon-lg far fa-trash-alt" style="cursor:pointer;" @click="DeleteKuesioner(kuesioner.questionnaire_id)"></i>
+                        <span class="svg-icon svg-icon-gray-500 icon-lg far mx-4" style="cursor:pointer;" @click="DuplicateKuesioner(kuesioner.questionnaire_id)">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <rect x="0" y="0" width="24" height="24"/>
+                                    <path d="M15.9956071,6 L9,6 C7.34314575,6 6,7.34314575 6,9 L6,15.9956071 C4.70185442,15.9316381 4,15.1706419 4,13.8181818 L4,6.18181818 C4,4.76751186 4.76751186,4 6.18181818,4 L13.8181818,4 C15.1706419,4 15.9316381,4.70185442 15.9956071,6 Z" fill="#000000" fill-rule="nonzero" opacity="0.3"/>
+                                    <path d="M10.1818182,8 L17.8181818,8 C19.2324881,8 20,8.76751186 20,10.1818182 L20,17.8181818 C20,19.2324881 19.2324881,20 17.8181818,20 L10.1818182,20 C8.76751186,20 8,19.2324881 8,17.8181818 L8,10.1818182 C8,8.76751186 8.76751186,8 10.1818182,8 Z" fill="#000000"/>
+                                </g>
+                            </svg>
+                        </span>
+                        <i class="icon-me far fa-trash-alt" style="cursor:pointer;margin-top: 2px;" @click="DeleteKuesioner(kuesioner.questionnaire_id)"></i>
                     </div>
                 </div>
                 <!--end::Footer-->
@@ -211,6 +223,12 @@ export default {
         }
     },
     methods:{
+        CountQuestion:function(question_id){
+            axios.post('/api/countQuestions',{id : question_id}).then(result => {
+                console.log(result.data)
+                return result.data
+            })
+        },
         SearchKuesioner(keyword){
             axios.post('/api/searchKuesioner',{search : keyword}).then((result) => {
                 this.kuesioners = result.data
@@ -241,7 +259,30 @@ export default {
             })
         },
         CreateNew(){
+            this.$swal({
+                title : 'Sedang membuat kuesioner ....',
+                timerProgressBar: true,
+                showConfirmButton: false,
+                allowOutsideClick : false,
+                willOpen: () => {
+                    this.$swal.showLoading()
+                },
+                willClose:() => {
+
+                },
+            }).then((result) => {
+                /* Read more about handling dismissals below */
+                if (result.dismiss === Swal.DismissReason.timer) {
+                    this.$swal({
+                        title : 'Selesai',
+                        text : 'Kuesioner telah berhasil dibuat',
+                        icon : 'success'
+                    });
+                }
+            });
+
             axios.get('/api/createKuesioner').then(result =>{
+                this.$swal.close();
                 if(result.data.result){
                     this.$router.push('q/'+result.data.id);
                 }else{
@@ -254,6 +295,7 @@ export default {
                     });
                 }
             }).catch(err => {
+                this.$swal.close();
                 this.$swal({
                     title: 'Oops',
                     text: 'Telah terjadi kesalahan',
@@ -261,7 +303,8 @@ export default {
                     timer:3000,
                     confirmButtonText : 'Oke, saya mengerti'
                 });
-            })
+            });
+            
         },
         DeleteKuesioner(kuesioner_id){
             this.$swal({
@@ -294,8 +337,37 @@ export default {
                             });
                         }
                     });
-                    
-                    
+                }
+            });
+        },
+        DuplicateKuesioner(kuesioner_id){
+            this.$swal({
+                title : 'Perhatian',
+                text : 'Apakah Anda ingin menduplikat kuesioner ini?',
+                icon : 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ya, lanjutkan',
+                cancelButtonText: 'Tidak'
+            }).then((result)=>{
+                if(result.isConfirmed){
+                    this.$swal({
+                        title : 'Sedang menduplikasi ....',
+                        timerProgressBar: true,
+                        timer : 5000,
+                        showConfirmButton: false,
+                        willOpen: () => {
+                            this.$swal.showLoading()
+                        },
+                    }).then((result) => {
+                        /* Read more about handling dismissals below */
+                        if (result.dismiss === Swal.DismissReason.timer) {
+                            this.$swal({
+                                title : 'Selesai',
+                                text : 'Kuesioner telah berhasil diduplikasi',
+                                icon : 'success'
+                            });
+                        }
+                    });
                 }
             });
         }

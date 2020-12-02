@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Question;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class QuestionsController extends Controller
 {
@@ -36,6 +37,18 @@ class QuestionsController extends Controller
     public function store(Request $request)
     {
         //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function count(Request $request)
+    {
+        $questionnaire = DB::table('questions')->where('questionnaire_id', $request->id)->count();
+        return $questionnaire;
     }
 
     /**
