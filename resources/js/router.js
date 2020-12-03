@@ -40,7 +40,7 @@ const routes = [
         component: Team,
     },
     {
-        name: 'kuesioner_edit',
+        name: 'kuesioner',
         path: '/q/:id',
         props: true,
         component : KuesionerEdit,
@@ -52,13 +52,12 @@ const routes = [
         }
     },
     {
-        name: 'Not Found 1',
         path: '*',
         redirect: '/error_404',
         //redirect: '/home',
     },
     {
-        name: 'Not Found 2',
+        name: 'not_found',
         path: '/error_404',
         component: NotFound,
     },

@@ -16,6 +16,10 @@ Route::get('/kuesioner', [QuestionnairesController::class,'index']);
 Route::post('/searchKuesioner', [QuestionnairesController::class,'search']);
 Route::post('/countQuestions', [QuestionsController::class,'count']);
 
+Route::post('/getKuesioner', [QuestionnairesController::class,'show']);
+Route::post('/updateTypeKuesioner', [QuestionnairesController::class,'updateType']);
+Route::post('/updateStatusKuesioner', [QuestionnairesController::class,'updateStatus']);
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });

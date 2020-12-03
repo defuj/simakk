@@ -9,6 +9,20 @@ use Carbon\Carbon;
 
 class QuestionnairesController extends Controller
 {
+    public function updateStatus(Request $request)
+    {
+        $status = ($request->status == 'true') ? 'enable' : 'disabled';
+        $update = DB::table('questionnaires')->where('questionnaire_id', $request->id)->update(['questionnaire_status' => $status]);
+        return $update;
+    }
+
+    public function updateType(Request $request)
+    {
+        $type = ($request->type == 'true') ? 'publish' : 'draf';
+        $update = DB::table('questionnaires')->where('questionnaire_id', $request->id)->update(['questionnaire_type' => $type]);
+        return $update;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -73,7 +87,8 @@ class QuestionnairesController extends Controller
      */
     public function show(Request $request)
     {
-        //
+        $questionnaire = DB::table('questionnaires')->where('questionnaire_id', $request->kode)->first();
+        return response()->json($questionnaire);
     }
 
     /**

@@ -121,7 +121,7 @@
         <div class="col-xl-3" v-for="kuesioner in kuesioners" :key="kuesioner.questionnaire_id">
             <!--begin::Card-->
             <div class="card card-custom gutter-b card-stretch">
-                <router-link v-bind:to="'/q/'+kuesioner.questionnaire_id" style="min-height: 120px;">
+                <a style="min-height: 120px;cursor:pointer;" @click="OpenKuesioner(kuesioner.questionnaire_id)">
                     <!--begin::Body-->
                     <div class="card-body" style="padding: 1.2rem !important;">
                         <!--begin::Info-->
@@ -151,7 +151,7 @@
                         
                     </div>
                     <!--end::Body-->
-                </router-link>
+                </a>
                 
 
                 <!--begin::Footer-->
@@ -234,6 +234,9 @@ export default {
         }
     },
     methods:{
+        OpenKuesioner(id){
+            window.location.href = '/q/'+id
+        },
         SearchKuesioner(keyword){
             if(this.kuesionersAll.length > 0){
                 this.kuesioners = []
