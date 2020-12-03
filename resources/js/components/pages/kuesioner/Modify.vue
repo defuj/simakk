@@ -3,8 +3,10 @@
 	<div class="card card-custom card-sticky" id="kt_page_sticky_card" style="margin-top: 50px;margin-bottom: 50px;">
 		<div class="card-header">
 			<div class="card-title">
-				<a href="#" class="btn btn-light-primary font-weight-bolder mr-2">
-				<i class="ki ki-long-arrow-back icon-sm"></i>Back</a>
+				<a href="#" class="btn btn-light-primary font-weight-bolder mr-2" style="display:none;">
+					<i class="ki ki-long-arrow-back icon-sm"></i>
+					Back
+				</a>
 				<section style="margin-left:10px;">
 					<input :value="this.type" v-model="type" v-on:change="UpdateType()" data-switch="true" type="checkbox" data-on-text="Publish" data-handle-width="55" data-off-text="Draf" data-on-color="primary"/>
 				</section>
@@ -15,33 +17,15 @@
 			
 			</div>
 			<div class="card-toolbar">
-				<div class="btn-group">
-					
-					<button type="button" class="btn btn-primary font-weight-bolder">
-					<i class="ki ki-check icon-sm"></i>Save Form</button>
-					<button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-					<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
-						<ul class="nav nav-hover flex-column">
-							<li class="nav-item">
-								<a href="#" class="nav-link">
-									<i class="nav-icon flaticon2-reload"></i>
-									<span class="nav-text">Save &amp; continue</span>
-								</a>
-							</li>
-							<li class="nav-item">
-								<a href="#" class="nav-link">
-									<i class="nav-icon flaticon2-add-1"></i>
-									<span class="nav-text">Save &amp; add new</span>
-								</a>
-							</li>
-							<li class="nav-item">
-								<a href="#" class="nav-link">
-									<i class="nav-icon flaticon2-power"></i>
-									<span class="nav-text">Save &amp; exit</span>
-								</a>
-							</li>
-						</ul>
-					</div>
+				<a href="#" class="btn btn-icon" style="margin-right:10px;" @click="DeleteKuesioner()">
+					<i class="flaticon2-trash"></i>
+				</a>
+				<a href="#" class="btn btn-icon" style="margin-right:10px;">
+					<i class="flaticon2-plus-1"></i>
+				</a>
+				<div class="btn-group" style="display:none;">
+					<button type="button" class="btn btn-light-primary font-weight-bolder">
+					<i class="ki ki-plus icon-sm"></i>Tambah Pertanyaan</button>
 				</div>			
 			</div>
 		</div>
@@ -63,17 +47,44 @@ export default {
 	},
 	watch:{
 		status(){
-			if(this.isLoaded){
-				this.UpdateStatus(this.status)
-			}
+			this.UpdateStatus(this.status)
 		},
 		type(){
-			if(this.isLoaded){
-				this.UpdateType(this.type)
-			}
+			this.UpdateType(this.type)
 		}
 	},
     methods :{
+		DeleteKuesioner(){
+			this.$swal({
+                title : 'Perhatian',
+                text : 'Apakah Anda ingin menghapus kuesioner ini?',
+                icon : 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Ya, lanjutkan',
+                cancelButtonText: 'Tidak'
+            }).then((result)=>{
+                if(result.isConfirmed){
+                    axios.post('/api/deleteKuesioner',{
+                        id : this.GetID()
+                    }).then(result=>{
+                        if(result.data){
+                            this.$swal({
+                                title : 'Berhasil',
+                                text : 'Kuesioner telah berhasil dihapus',
+                                icon : 'success'
+							});
+							this.$router.push({ name: 'home' })
+                        }else{
+                            this.$swal({
+                                title : 'Oops',
+                                text : 'Gagal menghapus, terjadi kesalahan.',
+                                icon : 'error'
+                            });
+                        }
+                    });
+                }
+            });
+		},
         GetID() {
             return this.$route.params.id
 		},
