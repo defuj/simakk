@@ -1,268 +1,199 @@
 <template>
-<div class="row" data-sticky-container>
-    <div class="col-lg-3 col-xl-2">
-    	<div class="card card-custom sticky" data-sticky="true" data-margin-top="140px" data-sticky-for="1023" data-sticky-class="sticky">
-            <div class="card-body p-0">
-                <ul class="navi navi-bold navi-hover my-5" role="tablist">
-                    <li class="navi-item">
-                        <a class="navi-link active" data-toggle="tab" href="#kt_profile_tab_personal_information" >
-                            <span class="navi-icon"><i class="flaticon-avatar"></i></span>
-                            <span class="navi-text">Personal Information</span>
-                        </a>
-                    </li>
-                    <li class="navi-item">
-                        <a class="navi-link" data-toggle="tab" href="#kt_profile_tab_account_information" >
-                            <span class="navi-icon"><i class="flaticon-lock"></i></span>
-                            <span class="navi-text">Acccount Information</span>
-                        </a>
-                    </li>
-                    <li class="navi-item">
-                        <a class="navi-link" data-toggle="tab" href="#kt_profile_change_password" >
-                            <span class="navi-icon"><i class="flaticon-settings"></i></span>
-                            <span class="navi-text">Change Password</span>
-                        </a>
-                    </li>
-                    <li class="navi-item">
-                        <a class="navi-link" data-toggle="tab" href="#kt_profile_email_settings" >
-                            <span class="navi-icon"><i class="flaticon-multisymbol-2"></i></span>
-                            <span class="navi-text">Email Settings</span>
-                        </a>
-                    </li>
-                    <li class="navi-item">
-                        <a class="navi-link" href="#"  data-toggle="tooltip" title="" data-placement="right" data-original-title="This feature is coming soon!">
-                            <span class="navi-icon"><i class="flaticon-coins"></i></span>
-                            <span class="navi-text">Saved Credit Cards</span>
-                        </a>
-                    </li>
-                    <li class="navi-item">
-                        <a class="navi-link" href="#"  data-toggle="tooltip" title="" data-placement="right" data-original-title="This feature is coming soon!">
-                            <span class="navi-icon"><i class="flaticon-customer"></i></span>
-                            <span class="navi-text">Social Networks</span>
-                        </a>
-                    </li>
-                    <li class="navi__separator"></li>
-                    <li class="navi-item">
-                        <a class="navi-link" href="#"  data-toggle="tooltip" title="" data-placement="right" data-original-title="This feature is coming soon!">
-                            <span class="navi-icon"><i class="flaticon-diagram"></i></span>
-                            <span class="navi-text">Tax Information</span>
-                        </a>
-                    </li>
-                    <li class="navi-item">
-                        <a class="navi-link" href="#"  data-toggle="tooltip" title="" data-placement="right" data-original-title="This feature is coming soon!">
-                            <span class="navi-icon"><i class="flaticon-bag"></i></span>
-                            <span class="navi-text">Purchases</span>
-                        </a>
-                    </li>
-                    <li class="navi-item">
-                        <a class="navi-link" href="#"  data-toggle="tooltip" title="" data-placement="right" data-original-title="This feature is coming soon!">
-                            <span class="navi-icon"><i class="flaticon-tabs"></i></span>
-                            <span class="navi-text">Statements</span>
-                        </a>
-                    </li>
-                    <li class="navi-item">
-                        <a class="navi-link" href="#"  data-toggle="tooltip" title="" data-placement="right" data-original-title="This feature is coming soon!">
-                            <span class="navi-icon"><i class="flaticon-share"></i></span>
-                            <span class="navi-text">Audit Log</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-6 col-xl-8">
-    	<div class="card card-custom gutter-b example example-compact">
-            <div class="card-header">
-                <div class="card-title">
-                    <h3 class="card-label">StickyJS <small>handles sticky elements</small></h3>
-                </div>
-                <div class="card-toolbar">
-                    <div class="example-tools justify-content-center">
-                        <span class="example-toggle" data-toggle="tooltip" title="View code"></span>
-                        <span class="example-copy" data-toggle="tooltip" title="Copy code"></span>
-                    </div>
-                </div>
-            </div>
-            <div class="card-body">
-                <div class="example-preview">
-                    Metronic Sticky panel features are powered by <strong>Sticky-js</strong> library written in vanilla javascript.
-    		 		With this library you can easily set sticky elements on your website. It's also responsive.
-    		  		Just wrap sticky area with <code>data-sticky-container</code> attribute and use <code>data-sticky="true"</code> attribute on required elements to enable sticky mode and
-    		  		use <code>data-margin-top="120"</code> to set margin to to enable the sticky mode for your element.
-    		  		For more info please visit the plugin's the plugin's <a href="https://github.com/rgalus/sticky-js" class="font-weight-bold" target="_blank">documentation</a>.
-                </div>
+<div class="card card-custom card-sticky" id="kt_page_sticky_card" style="margin-top: 50px;margin-bottom: 50px;">
+	<div class="card-header">
+		<div class="card-title">
+			<a href="#" class="btn btn-light-primary font-weight-bolder mr-2">
+			<i class="ki ki-long-arrow-back icon-sm"></i>Back</a>
+			<section style="margin-left:10px;">
+				<input data-switch="true" type="checkbox" data-on-text="Publish" data-handle-width="55" data-off-text="Draf" data-on-color="primary"/>
+			</section>
 
-                <!--begin::Code example-->
-                <div class="example-code">
-                    <div class="example-highlight"><pre ><code class="language-html">
-                    &lt;div class=&quot;row&quot; data-sticky-container&gt;
-                        &lt;div class=&quot;col-lg-3 col-xl-2&quot;&gt;
-                        	&lt;div class=&quot;card card-custom sticky&quot; data-sticky=&quot;true&quot; data-margin-top=&quot;140&quot; data-sticky-for=&quot;1023&quot; data-sticky-class=&quot;stickyjs&quot;&gt;
-                                &lt;div class=&quot;card-body p-0&quot;&gt;
-                                    ...
-                                &lt;/div&gt;
-                            &lt;/div&gt;
-                        &lt;/div&gt;
-                        &lt;div class=&quot;col-lg-6 col-xl-8&quot;&gt;
-                        	&lt;div class=&quot;card card-custom gutter-b example example-compact&quot;&gt;
-                                &lt;div class=&quot;card-header&quot;&gt;
-                                    &lt;div class=&quot;card-title&quot;&gt;
-                                        &lt;h3 class=&quot;card-label&quot;&gt;StickyJS &lt;small&gt;handles sticky elements&lt;/small&gt;&lt;/h3&gt;
-                                    &lt;/div&gt;
-                                &lt;/div&gt;
-                                &lt;div class=&quot;card-body&quot;&gt;
-                                    ...
-                    		    &lt;/div&gt;
-                    		&lt;/div&gt;
-                        &lt;/div&gt;
-                        &lt;div class=&quot;col-lg-3 col-xl-2&quot;&gt;
-                        	&lt;div class=&quot;card card-custom sticky&quot; data-sticky=&quot;true&quot; data-margin-top=&quot;140&quot; data-sticky-for=&quot;1023&quot; data-sticky-class=&quot;stickyjs&quot;&gt;
-                                &lt;div class=&quot;card-body&quot;&gt;
-                                    ...
-                                &lt;/div&gt;
-                            &lt;/div&gt;
-                        &lt;/div&gt;
-                    &lt;/div&gt;
-                    </code></pre></div>                </div>
-
-		        <p class="mt-5">
-		        	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-		        </p>
-		         <p>
-		        	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-		        </p>
-		         <p>
-		        	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-		        </p>
-		         <p>
-		        	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-		        </p>
-		         <p>
-		        	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-		        </p>
-		        <p>
-		        	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-		        </p>
-		         <p>
-		        	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-		        </p>
-		         <p>
-		        	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-		        </p>
-		         <p>
-		        	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-		        </p>
-		         <p>
-		        	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-		        </p>
-		        <p>
-		        	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-		        </p>
-		         <p>
-		        	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-		        </p>
-		         <p>
-		        	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-		        </p>
-		         <p>
-		        	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-		        </p>
-		         <p>
-		        	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-		        </p>
-		        <p>
-		        	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-		        </p>
-		         <p>
-		        	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-		        </p>
-		         <p>
-		        	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-		        </p>
-		         <p>
-		        	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-		        </p>
-		         <p>
-		        	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-		        </p>
-		        <p>
-		        	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-		        </p>
-		         <p>
-		        	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-		        </p>
-		         <p>
-		        	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-		        </p>
-		         <p>
-		        	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-		        </p>
-		         <p>
-		        	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-		        </p>
-		        <p>
-		        	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-		        </p>
-		         <p>
-		        	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-		        </p>
-		         <p>
-		        	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-		        </p>
-		         <p>
-		        	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-		        </p>
-		         <p>
-		        	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-		        </p>
-		        <p>
-		        	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-		        </p>
-		         <p>
-		        	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-		        </p>
-		         <p>
-		        	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-		        </p>
-		         <p>
-		        	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-		        </p>
-		         <p>
-		        	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-		        </p>
-		        <p>
-		        	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-		        </p>
-		         <p>
-		        	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-		        </p>
-		         <p>
-		        	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-		        </p>
-		         <p>
-		        	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-		        </p>
-		         <p>
-		        	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-		        </p>
-		    </div>
+			<section style="margin-left:10px;">
+				<input data-switch="true" type="checkbox" data-on-text="Enabled" data-handle-width="55" data-off-text="Disabled" data-on-color="primary"/>
+			</section>
+		
 		</div>
-    </div>
-    <div class="col-lg-3 col-xl-2">
-    	<div class="card card-custom sticky" data-sticky="true" data-margin-top="140px" data-sticky-for="1023" data-sticky-class="sticky">
-            <div class="card-body">
-                <p>
-		        	Lorem Ipsum is simply dummy text of the printing and typesetting industry. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged
-		        </p>
-		        <p>
-		        	 It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages.
-		        </p>
-		        <p>
-		        	Recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-		        </p>
-            </div>
-        </div>
-    </div>
+		<div class="card-toolbar">
+			<div class="btn-group">
+				
+				<button type="button" class="btn btn-primary font-weight-bolder">
+				<i class="ki ki-check icon-sm"></i>Save Form</button>
+				<button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+				<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+					<ul class="nav nav-hover flex-column">
+						<li class="nav-item">
+							<a href="#" class="nav-link">
+								<i class="nav-icon flaticon2-reload"></i>
+								<span class="nav-text">Save &amp; continue</span>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="#" class="nav-link">
+								<i class="nav-icon flaticon2-add-1"></i>
+								<span class="nav-text">Save &amp; add new</span>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="#" class="nav-link">
+								<i class="nav-icon flaticon2-power"></i>
+								<span class="nav-text">Save &amp; exit</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>			
+		</div>
+	</div>
+	<div class="card-body">
+		<!--begin::Form-->
+		<form class="form" id="kt_form">
+			<div class="row">
+				<div class="col-xl-2"></div>
+				<div class="col-xl-8">
+					<div class="my-5">
+						<h3 class="text-dark font-weight-bold mb-10">Customer Info:</h3>
+						<div class="form-group row">
+							<label class="col-3">First Name</label>
+							<div class="col-9">
+								<input class="form-control form-control-solid" type="text" value="Nick" />
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-3">Last Name</label>
+							<div class="col-9">
+								<input class="form-control form-control-solid" type="text" value="Watson" />
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-3">Company Name</label>
+							<div class="col-9">
+								<input class="form-control form-control-solid" type="text" value="Loop Inc." />
+								<span class="form-text text-muted">If you want your invoices addressed to a company. Leave blank to use your full name.</span>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-3">Contact Phone</label>
+							<div class="col-9">
+								<div class="input-group input-group-solid">
+									<div class="input-group-prepend">
+										<span class="input-group-text">
+											<i class="la la-phone"></i>
+										</span>
+									</div>
+									<input type="text" class="form-control form-control-solid" value="+45678967456" placeholder="Phone" />
+								</div>
+								<span class="form-text text-muted">We'll never share your email with anyone else.</span>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-3">Email Address</label>
+							<div class="col-9">
+								<div class="input-group input-group-solid">
+									<div class="input-group-prepend">
+										<span class="input-group-text">
+											<i class="la la-at"></i>
+										</span>
+									</div>
+									<input type="text" class="form-control form-control-solid" value="nick.watson@loop.com" placeholder="Email" />
+								</div>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-3">Company Site</label>
+							<div class="col-9">
+								<div class="input-group input-group-solid">
+									<input type="text" class="form-control form-control-solid" placeholder="Username" value="loop" />
+									<div class="input-group-append">
+										<span class="input-group-text">.com</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="separator separator-dashed my-10"></div>
+					<div class="my-5">
+						<h3 class="text-dark font-weight-bold mb-10">Address Details:</h3>
+						
+						<div class="form-group row">
+							<label class="col-3">Address Line 1</label>
+							<div class="col-9">
+								<input class="form-control form-control-solid" type="text" value="District 6 1352 W. Olive Ave" />
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-3">Address Line 2</label>
+							<div class="col-9">
+								<input class="form-control form-control-solid" type="text" value="Fresno 559-488-4020" />
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-3">City</label>
+							<div class="col-9">
+								<input class="form-control form-control-solid" type="text" value="Polo Alto" />
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-3">State / Province / Region</label>
+							<div class="col-9">
+								<input class="form-control form-control-solid" type="text" value="Los Angeles" />
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-3">Zip / Postal Code</label>
+							<div class="col-9">
+								<input class="form-control form-control-solid" type="text" value="780456" />
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-3"></label>
+							<div class="col-9">
+								<div class="checkbox-inline">
+									<label class="checkbox">
+									<input type="checkbox" />
+									<span></span>Use as shipping address</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="separator separator-dashed my-10"></div>
+					<div class="my-52">
+						<h3 class="text-dark font-weight-bold mb-10">Security:</h3>
+						<div class="form-group row">
+							<label class="col-3">Login verification</label>
+							<div class="col-9">
+								<button type="button" class="btn btn-light-primary font-weight-bold btn-sm">Setup login verification</button>
+								<div class="form-text text-muted mt-3">After you log in, you will be asked for additional information to confirm your identity and protect your account from being compromised. 
+								<a href="#">Learn more</a>.</div>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-3">Password reset verification</label>
+							<div class="col-9">
+								<div class="checkbox-inline">
+									<label class="checkbox mb-2">
+									<input type="checkbox" />
+									<span></span>Require personal information to reset your password</label>
+								</div>
+								<div class="form-text text-muted">For extra security, this requires you to confirm your email or phone number when you reset your password. 
+								<a href="#" class="font-weight-bold">Learn more</a>.</div>
+							</div>
+						</div>
+						<div class="form-group row mt-10">
+							<label class="col-3"></label>
+							<div class="col-9">
+								<button type="button" class="btn btn-light-danger font-weight-bold btn-sm">Deactivate your account ?</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-2"></div>
+			</div>
+		</form>
+		<!--end::Form-->
+	</div>
 </div>
+
+
 </template>
 
 <script>
@@ -283,6 +214,10 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+	.card-sticky-on .card.card-custom.card-sticky > .card-header{
+		margin-top: -96px !important;
+		width: 100%;
+    	margin-left: -10%;
+	}
 </style>

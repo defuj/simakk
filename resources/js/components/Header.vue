@@ -1,6 +1,6 @@
 <template>
     <!--begin::Header-->
-    <div id="kt_header" class="header flex-column  header-fixed ">
+    <div id="kt_header" class="header flex-column  header-fixed " style="z-index:200">
         <!--begin::Top-->
         <div class="header-top">
             <!--begin::Container-->
@@ -110,6 +110,9 @@
                 this.$store.dispatch('updateSearch',this.search)
                 //console.log(this.getSearch)
             },
+            getSearch(){
+                this.search = this.getSearch
+            }
         },
         methods :{
             Relog(){
@@ -164,6 +167,10 @@
     }
 
     @media (min-width: 992px){
+        .header .header-top {
+            -webkit-box-shadow: 0 10px 30px 0 rgba(82,63,105,.08);
+            box-shadow: 0 10px 30px 0 rgba(82,63,105,.08);
+        }
         .my-search-bar{
             position: relative;
             margin-top: auto;

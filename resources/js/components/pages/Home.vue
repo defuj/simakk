@@ -211,6 +211,7 @@ export default {
             limit : 8,
             total : 0,
             kuesioners : [],
+            kuesionersAll : [],
             search : this.getSearch,
         }
     },
@@ -233,26 +234,38 @@ export default {
         }
     },
     methods:{
-        CountQuestion:function(question_id){
-            axios.post('/api/countQuestions',{id : question_id}).then(result => {
-                console.log(result.data)
-                return result.data
-            })
-        },
         SearchKuesioner(keyword){
-            axios.post('/api/searchKuesioner',{search : keyword}).then((result) => {
-                this.kuesioners = result.data
-                this.total = result.data.length
-            })
+            if(this.kuesionersAll.length > 0){
+                this.kuesioners = []
+                this.total = 0
+
+                /*
+                for(var i =0;i<this.kuesionersAll.length;i++){
+                    if(this.kuesionersAll[i].questionnaire_title.includes(keyword)){
+                        this.kuesioners.push(this.kuesionersAll[i])
+                        this.total +=1
+                    }
+                }
+                */
+                for(var result in this.kuesionersAll){
+                    if(this.kuesionersAll[result].questionnaire_title.toLowerCase().includes(keyword.toLowerCase())){
+                        this.kuesioners.push(this.kuesionersAll[result])
+                        this.total +=1
+                    }
+                }
+            }
         },
         ShowAll(){
             this.limit = 0
             this.search = ''
             this.GetKuesioner()
+            this.$store.dispatch('updateSearch','')
         },
         GetKuesioner(){
             axios.get('/api/kuesioner').then((result) => {
                 this.total = result.data.length
+                this.kuesionersAll = result.data
+
                 console.log(this.total)
                 if(this.limit == 8){
                     if(result.data.length > 8){
@@ -264,7 +277,7 @@ export default {
                         this.kuesioners = result.data
                     }
                 }else{
-                    this.kuesioners = result.data
+                    this.kuesioners = this.kuesionersAll
                 }
             })
         },

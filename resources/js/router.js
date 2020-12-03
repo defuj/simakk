@@ -30,11 +30,6 @@ const routes = [
         component: Home,
     },
     {
-        name: 'home',
-        path: '/h',
-        component: Home,
-    },
-    {
         name: 'about',
         path: '/about',
         component: About,
@@ -57,13 +52,13 @@ const routes = [
         }
     },
     {
-        name: 'Not Found',
+        name: 'Not Found 1',
         path: '*',
         redirect: '/error_404',
         //redirect: '/home',
     },
     {
-        name: 'Not Found',
+        name: 'Not Found 2',
         path: '/error_404',
         component: NotFound,
     },
