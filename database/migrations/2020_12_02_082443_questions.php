@@ -17,7 +17,7 @@ class Questions extends Migration
             $table->id('questions_id');
             $table->foreignId('questionnaire_id');
             $table->string('question_content');
-            $table->enum('questions_type', ['multiple_choice', 'essay'])->nullable();
+            $table->enum('question_type', ['multiple_choice', 'essay'])->nullable();
             $table->tinyInteger('question_index');
             $table->timestamps(0);
         });

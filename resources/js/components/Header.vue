@@ -82,7 +82,7 @@
                         <i class="la la-link icon-2x mx-3" style="cursor:pointer;color: #5f6368 !important;" data-container="body" data-toggle="tooltip" data-theme="dark" data-placement="bottom" title="Salin URL"></i>
                         <i class="la la-eye icon-2x mx-3" style="cursor:pointer;color: #5f6368 !important;" data-container="body" data-toggle="tooltip" data-theme="dark" data-placement="bottom" title="Pertinjau"></i>
                         <i @click="DeleteKuesioner()" class="la la-trash icon-2x mx-3" style="cursor:pointer;color: #5f6368 !important;" data-container="body" data-toggle="tooltip" data-theme="dark" data-placement="bottom" title="Hapus"></i>
-                        <i class="la la-plus-circle icon-2x mx-3" style="cursor:pointer;color: #5f6368 !important;" data-container="body" data-toggle="tooltip" data-theme="dark" data-placement="bottom" title="Tambah Pertanyaan"></i>
+                        <i @click="AddQuestion()" class="la la-plus-circle icon-2x mx-3" style="cursor:pointer;color: #5f6368 !important;" data-container="body" data-toggle="tooltip" data-theme="dark" data-placement="bottom" title="Tambah Pertanyaan"></i>
                         <button type="button" class="btn btn-primary font-weight-bolder mx-3" style="width:80px;" data-container="body" data-toggle="tooltip" data-theme="dark" data-placement="bottom" title="Publikasikan Kuesioner">
                             Kirim
                         </button>	
@@ -138,39 +138,48 @@
                 this.$parent.AuthProvider('google')
             },
             DeleteKuesioner(){
-			this.$swal({
-                title : 'Perhatian',
-                text : 'Apakah Anda ingin menghapus kuesioner ini?',
-                icon : 'question',
-                showCancelButton: true,
-                confirmButtonText: 'Ya, lanjutkan',
-                cancelButtonText: 'Tidak'
-            }).then((result)=>{
-                if(result.isConfirmed){
-                    axios.post('/api/deleteKuesioner',{
-                        id : this.GetID()
-                    }).then(result=>{
-                        if(result.data){
-                            this.$swal({
-                                title : 'Berhasil',
-                                text : 'Kuesioner telah berhasil dihapus',
-                                icon : 'success'
-							});
-							this.$router.push({ name: 'home' })
-                        }else{
-                            this.$swal({
-                                title : 'Oops',
-                                text : 'Gagal menghapus, terjadi kesalahan.',
-                                icon : 'error'
-                            });
-                        }
-                    });
-                }
-            });
-		},
-        GetID() {
-            return this.$route.params.id
-		},
+                this.$swal({
+                    title : 'Perhatian',
+                    text : 'Apakah Anda ingin menghapus kuesioner ini?',
+                    icon : 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Ya, lanjutkan',
+                    cancelButtonText: 'Tidak'
+                }).then((result)=>{
+                    if(result.isConfirmed){
+                        axios.post('/api/deleteKuesioner',{
+                            id : this.GetID()
+                        }).then(result=>{
+                            if(result.data){
+                                this.$swal({
+                                    title : 'Berhasil',
+                                    text : 'Kuesioner telah berhasil dihapus',
+                                    icon : 'success'
+                                });
+                                this.$router.push({ name: 'home' })
+                            }else{
+                                this.$swal({
+                                    title : 'Oops',
+                                    text : 'Gagal menghapus, terjadi kesalahan.',
+                                    icon : 'error'
+                                });
+                            }
+                        });
+                    }
+                });
+            },
+            GetID() {
+                return this.$route.params.id
+            },
+            AddQuestion(){
+                axios.post('/api/addQuestion',{id : this.GetID()}).then(result=>{
+                    if(result.data.result){
+                        console.log('a question has been added');
+                    }else{
+                        console.log('failed to add a question');
+                    }
+                });
+            },
         },
         computed:{
             getUser(){

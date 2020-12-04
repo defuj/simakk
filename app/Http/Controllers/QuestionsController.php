@@ -8,6 +8,31 @@ use Illuminate\Support\Facades\DB;
 
 class QuestionsController extends Controller
 {
+    public function addQuestion(Request $request)
+    {
+        $insert = DB::table('questions')->insert([
+            'questionnaire_id'          => $request->id, 
+            'question_content'         => '', 
+            'question_type'            => 'multiple_choice',//multiple_choice or essay
+            'created_at'                => Date('Y-d-m h:i:s'),
+            'updated_at'                => Date('Y-d-m h:i:s'),
+        ]);
+
+        if($insert){
+            $result = [
+                'result' => true,
+            ];
+
+            return $result;
+        }else{
+            $result = [
+                'result' => false
+            ];
+
+            return $result;
+        }
+    }
+
     /**
      * Display a listing of the resource.
      *
