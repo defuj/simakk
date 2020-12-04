@@ -3,37 +3,47 @@
 	<div class="card card-custom gutter-b example example-compact" style="margin-left:auto;margin-right:auto;">
 		<div class="card-body">
 			<div class="form-group" style="margin-bottom:0px !important;">
-				<textarea maxlength="255" v-model="title" class="form-control form-control-lg" id="kt_autosize_1" placeholder="Judul kuesioner" style="font-size:32px;height: 70px;"></textarea>
-				<textarea v-model="desc" class="form-control my-3" id="kt_autosize_2" placeholder="Deskripsi kuesioner"></textarea>
-				
+				<textarea v-model="title" maxlength="255" class="form-control form-control-lg my-form" id="kt_autosize_1" placeholder="Judul kuesioner" style="font-size:32px;height: 70px;"></textarea>
+				<textarea v-model="desc" class="form-control my-3 my-form" id="kt_autosize_2" placeholder="Deskripsi kuesioner"></textarea>
 			</div>
 		</div>
 	</div>
 
 	<div class="row mb-12">
 		<div class="col-lg-12">
-			<!--begin::Card-->
-			<div class="card card-custom">
-				<div class="card-header">
-					<div class="card-title">
-						<span class="card-icon">
-							<i class="flaticon2-chat-1 text-primary"></i>
-						</span>
-						<h3 class="card-label">Card Footer 
-						<small>sub title</small></h3>
-					</div>
-					<div class="card-toolbar">
-						<a href="#" class="btn btn-sm btn-success font-weight-bold">
-						<i class="flaticon2-cube"></i>Reports</a>
+			<div class="card card-custom gutter-b example example-compact">
+				<div class="card-body">
+					<div class="row">
+						<div class="col-md-8 col-sm-12">
+							<textarea class="form-control autosize" placeholder="Pertanyaan" style="font-size:16px;height: 44px;"></textarea>
+						</div>
+						<div class="col-md-4 col-sm-12">
+							<div class="form-group">
+								<div></div>
+								<select class="custom-select form-control">
+									<option selected="selected">Multiple Choice</option>
+									<option value="1">Essay</option>
+								</select>
+							</div>
+						</div>
 					</div>
 				</div>
-				<div class="card-body">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled.</div>
-				<div class="card-footer d-flex justify-content-between">
-					<a href="#" class="btn btn-light-primary font-weight-bold">Manage</a>
-					<a href="#" class="btn btn-outline-secondary font-weight-bold">Learn more</a>
+				<div class="card-header" style="min-height: 60px;border-top: 1px solid #EBEDF3;">
+					<h3 class="card-title"></h3>
+					<div class="card-toolbar">
+						<div class="example-tools justify-content-center">
+							<i class="la la-trash icon-2x mx-3" style="cursor:pointer;color: #5f6368 !important;"></i>
+							<label class="col-form-label mx-3">Wajib diisi</label>
+							<span class="switch switch-icon switch-sm">
+								<label>
+									<input type="checkbox" checked="checked" name="select" />
+									<span></span>
+								</label>
+							</span>
+						</div>
+					</div>
 				</div>
 			</div>
-			<!--end::Card-->
 		</div>
 	</div>
 </section>
@@ -44,8 +54,8 @@ export default {
         return{
 			status : null,
 			type : null,
-			title : '',
-			desc : '',
+			title : "",
+			desc : "",
 			question : [],
 			isUpdating : false,
         }
@@ -139,6 +149,12 @@ export default {
 </script>
 
 <style scoped>
+	.my-form{
+		border: none !important;	
+	}
+	.my-form:focus, .my-form:active{
+		border: 1px solid #E4E6EF !important;
+	}
 	.card-sticky-on .card.card-custom.card-sticky > .card-header{
 		margin-top: -96px !important;
 		width: 100%;

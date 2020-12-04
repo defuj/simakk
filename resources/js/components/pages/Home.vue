@@ -130,7 +130,7 @@
                             <div class="d-flex flex-column mr-auto">
                                 <!--begin: Title-->
                                 <div class="d-flex flex-column text-dark font-size-h5 font-weight-bolder" v-if="kuesioner.questionnaire_title != ''">
-                                    {{kuesioner.questionnaire_title}}
+                                    {{kuesioner.questionnaire_title.length > 27 ? kuesioner.questionnaire_title.substring(0, 27 - 3) + "..." : kuesioner.questionnaire_title}}
                                 </div>
                                 <div class="d-flex flex-column text-dark font-size-h5 font-weight-bolder" v-else>
                                     Belum diberikan judul
@@ -142,7 +142,7 @@
                         <!--end::Info-->
                         <!--begin::Description-->
                         <div class="font-size-sm text-dark" v-if="kuesioner.questionnaire_description != ''">
-                            {{kuesioner.questionnaire_description}}
+                            {{kuesioner.questionnaire_description.length > 100 ? kuesioner.questionnaire_description.substring(0, 100 - 3) + "..." : kuesioner.questionnaire_description}}
                         </div>
                         <div class="font-size-sm text-dark" v-else>
                             {{'Belum memiliki deskripsi'}}
