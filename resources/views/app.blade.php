@@ -25,7 +25,7 @@
     </head>
     <!--end::Head-->
 
-    <body id="kt_body app" class="header-fixed header-mobile-fixed page-loading card-sticky-on">
+    <body id="kt_body app" class="header-fixed header-mobile-fixed">
         <!--begin::Main-->
         <div id="app">
             <app-component ref="app"></app-component>
@@ -104,7 +104,7 @@
         <!--begin::Page Scripts(used by this page)-->
         <script src="{{ asset('js/pages/custom/todo/todo.js') }}"></script>
         <script src="{{ asset('js/pages/widgets.js') }}"></script>
-        <script src="{{ asset('js/pages/crud/forms/widgets/bootstrap-switch.js') }}"></script>
+        <script src="{{ asset('js/pages/crud/forms/widgets/autosize.js') }}"></script>
         <!--end::Page Scripts-->
     </body>
 </html>

@@ -1,40 +1,43 @@
 <template>
-<section>
-	<div class="card card-custom card-sticky" id="kt_page_sticky_card" style="margin-top: 50px;margin-bottom: 50px;">
-		<div class="card-header">
-			<div class="card-title">
-				<a href="#" class="btn btn-light-primary font-weight-bolder mr-2" style="display:none;">
-					<i class="ki ki-long-arrow-back icon-sm"></i>
-					Back
-				</a>
-				<section style="margin-left:10px;">
-					<input :value="this.type" v-model="type" v-on:change="UpdateType()" data-switch="true" type="checkbox" data-on-text="Publish" data-handle-width="55" data-off-text="Draf" data-on-color="primary"/>
-				</section>
-
-				<section style="margin-left:10px;">
-					<input :value="this.status" v-model="status" v-on:change="UpdateStatus()" data-switch="true" type="checkbox" data-on-text="Enable" data-handle-width="55" data-off-text="Disable" data-on-color="primary"/>
-				</section>
-			
-			</div>
-			<div class="card-toolbar">
-				<a href="#" class="btn btn-icon" style="margin-right:10px;" @click="DeleteKuesioner()">
-					<i class="flaticon2-trash"></i>
-				</a>
-				<a href="#" class="btn btn-icon" style="margin-right:10px;">
-					<i class="flaticon2-plus-1"></i>
-				</a>
-				<div class="btn-group" style="display:none;">
-					<button type="button" class="btn btn-light-primary font-weight-bolder">
-					<i class="ki ki-plus icon-sm"></i>Tambah Pertanyaan</button>
-				</div>			
+<section class="container-kuesioner">
+	<div class="card card-custom gutter-b example example-compact" style="margin-left:auto;margin-right:auto;">
+		<div class="card-body">
+			<div class="form-group" style="margin-bottom:0px !important;">
+				<textarea v-model="title" class="form-control form-control-lg" id="kt_autosize_1" placeholder="Judul kuesioner" style="font-size:32px;height: 70px;"></textarea>
+				<textarea v-model="desc" class="form-control my-3" id="kt_autosize_2" placeholder="Deskripsi kuesioner"></textarea>
+				
 			</div>
 		</div>
 	</div>
 
-	
+	<div class="row mb-12">
+		<div class="col-lg-12">
+			<!--begin::Card-->
+			<div class="card card-custom">
+				<div class="card-header">
+					<div class="card-title">
+						<span class="card-icon">
+							<i class="flaticon2-chat-1 text-primary"></i>
+						</span>
+						<h3 class="card-label">Card Footer 
+						<small>sub title</small></h3>
+					</div>
+					<div class="card-toolbar">
+						<a href="#" class="btn btn-sm btn-success font-weight-bold">
+						<i class="flaticon2-cube"></i>Reports</a>
+					</div>
+				</div>
+				<div class="card-body">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled.</div>
+				<div class="card-footer d-flex justify-content-between">
+					<a href="#" class="btn btn-light-primary font-weight-bold">Manage</a>
+					<a href="#" class="btn btn-outline-secondary font-weight-bold">Learn more</a>
+				</div>
+			</div>
+			<!--end::Card-->
+		</div>
+	</div>
 </section>
 </template>
-
 <script>
 export default {
     data(){
@@ -42,7 +45,8 @@ export default {
 			status : null,
 			type : null,
 			title : '',
-			desc : ''
+			desc : '',
+			question : [],
         }
 	},
 	watch:{
@@ -54,37 +58,6 @@ export default {
 		}
 	},
     methods :{
-		DeleteKuesioner(){
-			this.$swal({
-                title : 'Perhatian',
-                text : 'Apakah Anda ingin menghapus kuesioner ini?',
-                icon : 'question',
-                showCancelButton: true,
-                confirmButtonText: 'Ya, lanjutkan',
-                cancelButtonText: 'Tidak'
-            }).then((result)=>{
-                if(result.isConfirmed){
-                    axios.post('/api/deleteKuesioner',{
-                        id : this.GetID()
-                    }).then(result=>{
-                        if(result.data){
-                            this.$swal({
-                                title : 'Berhasil',
-                                text : 'Kuesioner telah berhasil dihapus',
-                                icon : 'success'
-							});
-							this.$router.push({ name: 'home' })
-                        }else{
-                            this.$swal({
-                                title : 'Oops',
-                                text : 'Gagal menghapus, terjadi kesalahan.',
-                                icon : 'error'
-                            });
-                        }
-                    });
-                }
-            });
-		},
         GetID() {
             return this.$route.params.id
 		},
@@ -131,4 +104,12 @@ export default {
 		width: 100%;
     	margin-left: -10%;
 	}
+	@media (min-width: 992px){
+		.container-kuesioner{
+			max-width: 780px;
+			margin-left: auto;
+			margin-right: auto;
+		}
+	}
+	
 </style>
