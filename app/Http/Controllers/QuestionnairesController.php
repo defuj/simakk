@@ -23,6 +23,18 @@ class QuestionnairesController extends Controller
         return $update;
     }
 
+    public function updateTitle(Request $request)
+    {
+        $update = DB::table('questionnaires')->where('questionnaire_id', $request->id)->update(['questionnaire_title' => $request->title]);
+        return $update;
+    }
+
+    public function updateDescription(Request $request)
+    {
+        $update = DB::table('questionnaires')->where('questionnaire_id', $request->id)->update(['questionnaire_description' => $request->desc]);
+        return $update;
+    }
+
     /**
      * Display a listing of the resource.
      *

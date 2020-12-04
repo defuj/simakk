@@ -3,7 +3,7 @@
 	<div class="card card-custom gutter-b example example-compact" style="margin-left:auto;margin-right:auto;">
 		<div class="card-body">
 			<div class="form-group" style="margin-bottom:0px !important;">
-				<textarea v-model="title" class="form-control form-control-lg" id="kt_autosize_1" placeholder="Judul kuesioner" style="font-size:32px;height: 70px;"></textarea>
+				<textarea maxlength="255" v-model="title" class="form-control form-control-lg" id="kt_autosize_1" placeholder="Judul kuesioner" style="font-size:32px;height: 70px;"></textarea>
 				<textarea v-model="desc" class="form-control my-3" id="kt_autosize_2" placeholder="Deskripsi kuesioner"></textarea>
 				
 			</div>
@@ -47,14 +47,30 @@ export default {
 			title : '',
 			desc : '',
 			question : [],
+			isUpdating : false,
         }
 	},
 	watch:{
 		status(){
-			this.UpdateStatus(this.status)
+			if(!this.isUpdating){
+				this.UpdateStatus(this.status)
+			}
 		},
 		type(){
-			this.UpdateType(this.type)
+			if(!this.isUpdating){
+				this.UpdateType(this.type)
+			}
+		},
+		title(){
+			if(!this.isUpdating){
+				this.UpdateTitle()
+			}
+			
+		},
+		desc(){
+			if(!this.isUpdating){
+				this.UpdateDescription()
+			}
 		}
 	},
     methods :{
@@ -76,21 +92,45 @@ export default {
 			});
 		},
 		UpdateType(){
+			this.isUpdating = true
 			axios.post('/api/updateTypeKuesioner',{ 
 				type : this.type ,
 				id : this.GetID()
 			}).then(result =>{
+				this.isUpdating = false
 				console.log((result.data == 0) ? 'type still same' : 'type has been changed')
 			});
 		},
 		UpdateStatus(){
+			this.isUpdating = true
 			axios.post('/api/updateStatusKuesioner',{ 
 				status : this.status,
 				id : this.GetID() 
 			}).then(result =>{
+				this.isUpdating = false
 				console.log((result.data == 0) ? 'status still same' : 'status has been changed')
 			});
-		}
+		},
+		UpdateTitle(){
+			this.isUpdating = true
+			axios.post('/api/updateTitleKuesioner',{id : this.GetID(),title : this.title}).then(result=>{
+				this.isUpdating = false
+				console.log((result.data == 0) ? 'title not update' : 'title has been updated');
+			});
+		},
+		UpdateDescription(){
+			this.isUpdating = true
+			axios.post('/api/updateDescriptionKuesioner',{id : this.GetID(),desc : this.desc}).then(result=>{
+				this.isUpdating = false
+				console.log((result.data == 0) ? 'desc not update' : 'desc has been updated');
+			});
+		},
+		AddQuestions(){
+			this.isUpdating = true
+			axios.post('/api/updateTitleKuesioner',{id : this.GetID()}).then(result=>{
+				this.isUpdating = false
+			});
+		},
 	},
     mounted(){
         this.GetKuesioner(this.GetID())

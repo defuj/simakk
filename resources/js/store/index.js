@@ -6,7 +6,9 @@ const store = new Vuex.Store({
     state: {
         user : null,
         login : null,
-        search : null
+        search : null,
+        questions : [],
+        answers : [],
         /*
         login : {
           token : String,
@@ -41,6 +43,18 @@ const store = new Vuex.Store({
           set_search: (state, search) => {
             state.search = search
           },
+          set_questions: (state, questions) =>{
+            state.questions = questions
+          },
+          set_answers: (state, answers) =>{
+            state.answers = answers
+          }, 
+          add_questions: (state, questions) =>{
+            state.questions.push(questions)
+          },
+          add_answers: (state, answers) =>{
+            state.answers.push(answers)
+          },
       },
       getters: {
         getUser : state =>{
@@ -51,7 +65,10 @@ const store = new Vuex.Store({
         },
         getSearch : state =>{
           return state.search
-        }
+        },
+        getQuestions : state =>{
+          return state.questions
+        },
       },
       actions: {
         saveUser({commit, state}, user){
@@ -65,6 +82,9 @@ const store = new Vuex.Store({
         },
         updateSearch({commit, state}, search){
           commit('set_search',search)
+        },
+        addQuestions({commit, state}, questions){
+          commit('add_questions',questions)
         },
       },
 })
