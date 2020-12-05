@@ -21,7 +21,11 @@ Route::post('/updateTitleKuesioner', [QuestionnairesController::class,'updateTit
 Route::post('/updateDescriptionKuesioner', [QuestionnairesController::class,'updateDescription']);
 
 Route::post('/countQuestions', [QuestionsController::class,'count']);
+Route::post('/getQuestion', [QuestionsController::class,'getQuestion']);
 Route::post('/addQuestion', [QuestionsController::class,'addQuestion']);
+Route::post('/deleteQuestion', [QuestionsController::class,'deleteQuestion']);
+Route::post('/updateQuestionContent', [QuestionsController::class,'updateQuestionContent']);
+Route::post('/updateQuestionRequire', [QuestionsController::class,'updateQuestionRequire']);
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

@@ -19,18 +19,42 @@ class QuestionsController extends Controller
         ]);
 
         if($insert){
-            $result = [
-                'result' => true,
-            ];
-
-            return $result;
+            $question = DB::table('questions')->where('questionnaire_id', $request->id)->get();
+            return response()->json($question);
         }else{
-            $result = [
-                'result' => false
-            ];
+            $result = [];
 
             return $result;
         }
+    }
+
+    public function getQuestion(Request $request)
+    {
+        $question = DB::table('questions')->where('questionnaire_id', $request->id)->get();
+        return response()->json($question);
+    }
+
+    public function updateQuestionContent(Request $request)
+    {
+        $question = DB::table('questions')->where(
+            ['question_id' => $request->question_id],
+            ['questionnaire_id' => $request->questionnaire_id]
+        )->update(['question_content' => $request->question_content]);
+        return $question;
+    }
+
+    public function updateQuestionRequire(Request $request)
+    {
+        $question = DB::table('questions')->where(
+            ['question_id' => $request->question_id],
+            ['questionnaire_id' => $request->questionnaire_id]
+        )->update(['question_require' => $request->question_require]);
+        return $question;
+    }
+
+    public function deleteQuestion(Request $request){
+        $delete = DB::table('questions')->where('question_id',$request->id);
+        return $delete->delete();
     }
 
     /**

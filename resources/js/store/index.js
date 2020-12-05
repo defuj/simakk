@@ -46,14 +46,11 @@ const store = new Vuex.Store({
           set_questions: (state, questions) =>{
             state.questions = questions
           },
-          set_answers: (state, answers) =>{
-            state.answers = answers
-          }, 
+          clear_questions: (state, questions) =>{
+            state.questions = []
+          },
           add_questions: (state, questions) =>{
             state.questions.push(questions)
-          },
-          add_answers: (state, answers) =>{
-            state.answers.push(answers)
           },
       },
       getters: {
@@ -83,8 +80,11 @@ const store = new Vuex.Store({
         updateSearch({commit, state}, search){
           commit('set_search',search)
         },
+        clearQuestions({commit, state}, questions){
+          commit('clear_questions',questions)
+        },
         addQuestions({commit, state}, questions){
-          commit('add_questions',questions)
+          commit('set_questions',questions)
         },
       },
 })

@@ -10,19 +10,22 @@
 	</div>
 
 	<div class="row mb-12">
-		<div class="col-lg-12">
+		<div class="col-lg-12" v-for="(data, index) in question" :item="data" :index="index" :key="data.question_id">
 			<div class="card card-custom gutter-b example example-compact">
 				<div class="card-body">
 					<div class="row">
 						<div class="col-md-8 col-sm-12">
-							<textarea class="form-control autosize" placeholder="Pertanyaan" style="font-size:16px;height: 44px;"></textarea>
+							<textarea @change="UpdateQuestionContent(index)" class="form-control autosize" v-model="question[index].question_content" placeholder="Pertanyaan" style="font-size:16px;height: 44px;"></textarea>
 						</div>
 						<div class="col-md-4 col-sm-12">
 							<div class="form-group">
 								<div></div>
 								<select class="custom-select form-control">
-									<option selected="selected">Multiple Choice</option>
-									<option value="1">Essay</option>
+									<option :value="'multiple_choice'" v-if="data.question_type == 'multiple_choice'" selected="selected">Multiple Choice</option>
+									<option :value="'multiple_choice'" v-else>Multiple Choice</option>
+
+									<option :value="'essay'" v-if="data.question_type == 'essay'" selected="selected">Essay</option>
+									<option :value="'essay'" v-else>Essay</option>
 								</select>
 							</div>
 						</div>
@@ -32,11 +35,11 @@
 					<h3 class="card-title"></h3>
 					<div class="card-toolbar">
 						<div class="example-tools justify-content-center">
-							<i class="la la-trash icon-2x mx-3" style="cursor:pointer;color: #5f6368 !important;"></i>
+							<i @click="DeleteQuestion(index)" class="la la-trash icon-2x mx-3" style="cursor:pointer;color: #5f6368 !important;"></i>
 							<label class="col-form-label mx-3">Wajib diisi</label>
 							<span class="switch switch-icon switch-sm">
 								<label>
-									<input type="checkbox" checked="checked" name="select" />
+									<input type="checkbox" name="select" v-model="question[index].question_require" @change="UpdateRequired(index)"/>
 									<span></span>
 								</label>
 							</span>
@@ -81,6 +84,9 @@ export default {
 			if(!this.isUpdating){
 				this.UpdateDescription()
 			}
+		},
+		getQuestions(){
+			this.question = (this.$store.getters.getQuestions)
 		}
 	},
     methods :{
@@ -99,6 +105,29 @@ export default {
 					this.desc = data.questionnaire_description
 				}
 				
+			});
+		},
+		GetQuestion(){
+			axios.post('/api/getQuestion',{id : this.GetID()}).then(result=>{
+				this.question = result.data
+			});
+		},
+		UpdateRequired(index){
+			axios.post('/api/updateQuestionRequire',{
+				question_id : this.question[index].question_id,
+				question_require : this.question[index].question_require,
+				questionnaire_id : this.GetID()
+			}).then(result=>{
+				console.log((result.data == 0) ? 'require still same' : 'require has been changed')
+			});
+		},
+		UpdateQuestionContent(index){
+			axios.post('/api/updateQuestionContent',{
+				question_id : this.question[index].question_id,
+				question_content : this.question[index].question_content,
+				questionnaire_id : this.GetID()
+			}).then(result=>{
+				console.log((result.data == 0) ? 'content still same' : 'content has been changed')
 			});
 		},
 		UpdateType(){
@@ -135,6 +164,32 @@ export default {
 				console.log((result.data == 0) ? 'desc not update' : 'desc has been updated');
 			});
 		},
+		DeleteQuestion(index){
+			this.$swal({
+				title : 'Perhatian',
+				text : 'Apakah Anda ingin menghapus pertanyaan ini?',
+				icon : 'question',
+				showCancelButton: true,
+				confirmButtonText: 'Ya, lanjutkan',
+				cancelButtonText: 'Tidak'
+			}).then((result)=>{
+				if(result.isConfirmed){
+					axios.post('/api/deleteQuestion',{
+						id : this.question[index].question_id
+					}).then(result=>{
+						if(result.data){
+							this.question.splice(index,1)
+						}else{
+							this.$swal({
+								title : 'Oops',
+								text : 'Gagal menghapus, terjadi kesalahan.',
+								icon : 'error'
+							});
+						}
+					});
+				}
+			});
+		},
 		AddQuestions(){
 			this.isUpdating = true
 			axios.post('/api/updateTitleKuesioner',{id : this.GetID()}).then(result=>{
@@ -143,8 +198,14 @@ export default {
 		},
 	},
     mounted(){
-        this.GetKuesioner(this.GetID())
-    }
+		this.GetKuesioner(this.GetID())
+		this.GetQuestion()
+	},
+	computed:{
+		getQuestions(){
+            return this.$store.getters.getQuestions
+        },
+	}
 }
 </script>
 

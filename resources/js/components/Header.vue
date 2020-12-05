@@ -173,8 +173,9 @@
             },
             AddQuestion(){
                 axios.post('/api/addQuestion',{id : this.GetID()}).then(result=>{
-                    if(result.data.result){
+                    if(result.data.length > 0){
                         console.log('a question has been added');
+                        this.$store.dispatch('addQuestions',result.data)
                     }else{
                         console.log('failed to add a question');
                     }
