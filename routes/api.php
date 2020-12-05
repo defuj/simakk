@@ -20,12 +20,15 @@ Route::post('/updateStatusKuesioner', [QuestionnairesController::class,'updateSt
 Route::post('/updateTitleKuesioner', [QuestionnairesController::class,'updateTitle']);
 Route::post('/updateDescriptionKuesioner', [QuestionnairesController::class,'updateDescription']);
 
+Route::get('/getQuestionType', [QuestionsController::class,'getQuestionType']);
 Route::post('/countQuestions', [QuestionsController::class,'count']);
 Route::post('/getQuestion', [QuestionsController::class,'getQuestion']);
 Route::post('/addQuestion', [QuestionsController::class,'addQuestion']);
 Route::post('/deleteQuestion', [QuestionsController::class,'deleteQuestion']);
 Route::post('/updateQuestionContent', [QuestionsController::class,'updateQuestionContent']);
 Route::post('/updateQuestionRequire', [QuestionsController::class,'updateQuestionRequire']);
+Route::post('/updateQuestionType', [QuestionsController::class,'updateQuestionType']);
+
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

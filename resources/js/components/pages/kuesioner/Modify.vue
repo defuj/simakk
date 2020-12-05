@@ -15,17 +15,20 @@
 				<div class="card-body">
 					<div class="row">
 						<div class="col-md-8 col-sm-12">
-							<textarea @change="UpdateQuestionContent(index)" class="form-control autosize" v-model="question[index].question_content" placeholder="Pertanyaan" style="font-size:16px;height: 44px;"></textarea>
+							<textarea-autosize :min-height="46" :max-height="500" @change="UpdateQuestionContent(index)" class="form-control autosize" v-model="question[index].question_content" placeholder="Pertanyaan" style="font-size:16px;height: 44px;"></textarea-autosize>
 						</div>
 						<div class="col-md-4 col-sm-12">
 							<div class="form-group">
 								<div></div>
-								<select class="custom-select form-control">
-									<option :value="'multiple_choice'" v-if="data.question_type == 'multiple_choice'" selected="selected">Multiple Choice</option>
-									<option :value="'multiple_choice'" v-else>Multiple Choice</option>
+								<select class="custom-select form-control" v-model="question[index].question_type" @input="UpdateQuestionType(index)">
+									<option :value="'Pilihan Ganda'" v-if="data.question_type == 'Pilihan Ganda'" selected="selected">Pilihan Ganda</option>
+									<option :value="'Pilihan Ganda'" v-else>Pilihan Ganda</option>
 
-									<option :value="'essay'" v-if="data.question_type == 'essay'" selected="selected">Essay</option>
-									<option :value="'essay'" v-else>Essay</option>
+									<option :value="'Skala Linier'" v-if="data.question_type == 'Skala Linier'" selected="selected">Skala Linier</option>
+									<option :value="'Skala Linier'" v-else>Skala Linier</option>
+
+									<option :value="'Jawaban Singkat'" v-if="data.question_type == 'Jawaban Singkat'" selected="selected">Jawaban Singkat</option>
+									<option :value="'Jawaban Singkat'" v-else>Jawaban Singkat</option>
 								</select>
 							</div>
 						</div>
@@ -60,6 +63,7 @@ export default {
 			title : "",
 			desc : "",
 			question : [],
+			questionType : [],
 			isUpdating : false,
         }
 	},
@@ -78,7 +82,6 @@ export default {
 			if(!this.isUpdating){
 				this.UpdateTitle()
 			}
-			
 		},
 		desc(){
 			if(!this.isUpdating){
@@ -92,6 +95,13 @@ export default {
     methods :{
         GetID() {
             return this.$route.params.id
+		},
+		GetQuestionType(){
+			axios.get('/api/getQuestionType').then(result =>{
+				if(result.data.length > 0){
+					this.questionType = result.data
+				}
+			});
 		},
 		GetKuesioner(ID){
 			axios.post('/api/getKuesioner',{kode : ID}).then(result =>{
@@ -110,6 +120,16 @@ export default {
 		GetQuestion(){
 			axios.post('/api/getQuestion',{id : this.GetID()}).then(result=>{
 				this.question = result.data
+			});
+		},
+		UpdateQuestionType(index){
+			axios.post('/api/updateQuestionContent',{
+				question_id : this.question[index].question_id,
+				question_type : this.question[index].question_type,
+				questionnaire_id : this.GetID()
+			}).then(result=>{
+				console.log(this.question[index].question_type);
+				//console.log((result.data == 0) ? 'type still same' : 'type has been changed')
 			});
 		},
 		UpdateRequired(index){
@@ -200,6 +220,7 @@ export default {
     mounted(){
 		this.GetKuesioner(this.GetID())
 		this.GetQuestion()
+		this.GetQuestionType()
 	},
 	computed:{
 		getQuestions(){

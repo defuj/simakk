@@ -8,12 +8,17 @@ use Illuminate\Support\Facades\DB;
 
 class QuestionsController extends Controller
 {
+    public function getQuestionType()
+    {
+        $type = DB::table('question_type')->get();
+        return response()->json($type);
+    }
+
     public function addQuestion(Request $request)
     {
         $insert = DB::table('questions')->insert([
             'questionnaire_id'          => $request->id, 
             'question_content'         => '', 
-            'question_type'            => 'multiple_choice',//multiple_choice or essay
             'created_at'                => Date('Y-d-m h:i:s'),
             'updated_at'                => Date('Y-d-m h:i:s'),
         ]);
@@ -26,6 +31,15 @@ class QuestionsController extends Controller
 
             return $result;
         }
+    }
+
+    public function updateQuestionType(Request $request)
+    {
+        $question = DB::table('questions')->where(
+            ['question_id' => $request->question_id],
+            ['questionnaire_id' => $request->questionnaire_id]
+        )->update(['question_type' => $request->question_type]);
+        return $question;
     }
 
     public function getQuestion(Request $request)

@@ -16,8 +16,8 @@ class Questions extends Migration
         Schema::create('questions', function (Blueprint $table) {
             $table->id('question_id');
             $table->foreignId('questionnaire_id');
-            $table->string('question_content')->nullable();
-            $table->enum('question_type', ['multiple_choice', 'essay'])->nullable();
+            $table->text('question_content')->nullable();
+            $table->enum('question_type', ['Pilihan Ganda','Skala Linier','Jawaban Singkat'])->default('Skala Linier');
             $table->tinyInteger('question_index')->nullable();
             $table->boolean('question_require')->default(false);
             $table->timestamps(0);
