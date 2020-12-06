@@ -33,27 +33,33 @@ class QuestionsController extends Controller
         }
     }
 
-    public function updateQuestionType(Request $request)
-    {
-        $question = DB::table('questions')->where(
-            ['question_id' => $request->question_id],
-            ['questionnaire_id' => $request->questionnaire_id]
-        )->update(['question_type' => $request->question_type]);
-        return $question;
-    }
-
     public function getQuestion(Request $request)
     {
         $question = DB::table('questions')->where('questionnaire_id', $request->id)->get();
         return response()->json($question);
     }
 
+    public function updateQuestionType(Request $request)
+    {
+        $question = DB::table('questions')->where('question_id',$request->question_id)->update(['question_type' => $request->question_type]);
+        if($question){
+            if($request->question_type == 'Skala Linier'){
+                $jml = DB::table('skala_linier')->where('question_id', $request->question_id)->count();
+                if($jml > 0){
+
+                }else{
+                    $insert = DB::table('skala_linier')->insert([
+                        'question_id' => $request->question_id
+                    ]);
+                }
+            }
+        }
+        return $question;
+    }
+
     public function updateQuestionContent(Request $request)
     {
-        $question = DB::table('questions')->where(
-            ['question_id' => $request->question_id],
-            ['questionnaire_id' => $request->questionnaire_id]
-        )->update(['question_content' => $request->question_content]);
+        $question = DB::table('questions')->where('question_id',(int)$request->question_id)->update(['question_content' => $request->question_content]);
         return $question;
     }
 

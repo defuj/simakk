@@ -15,20 +15,13 @@
 				<div class="card-body">
 					<div class="row">
 						<div class="col-md-8 col-sm-12">
-							<textarea-autosize :min-height="46" :max-height="500" @change="UpdateQuestionContent(index)" class="form-control autosize" v-model="question[index].question_content" placeholder="Pertanyaan" style="font-size:16px;height: 44px;"></textarea-autosize>
+							<textarea-autosize :min-height="46" :max-height="500" @input="UpdateQuestionContent(index)" class="form-control autosize" v-model="question[index].question_content" placeholder="Pertanyaan" style="font-size:16px;height: 44px;">{{question[index].question_content}}</textarea-autosize>
 						</div>
 						<div class="col-md-4 col-sm-12">
 							<div class="form-group">
 								<div></div>
-								<select class="custom-select form-control" v-model="question[index].question_type" @input="UpdateQuestionType(index)">
-									<option :value="'Pilihan Ganda'" v-if="data.question_type == 'Pilihan Ganda'" selected="selected">Pilihan Ganda</option>
-									<option :value="'Pilihan Ganda'" v-else>Pilihan Ganda</option>
-
-									<option :value="'Skala Linier'" v-if="data.question_type == 'Skala Linier'" selected="selected">Skala Linier</option>
-									<option :value="'Skala Linier'" v-else>Skala Linier</option>
-
-									<option :value="'Jawaban Singkat'" v-if="data.question_type == 'Jawaban Singkat'" selected="selected">Jawaban Singkat</option>
-									<option :value="'Jawaban Singkat'" v-else>Jawaban Singkat</option>
+								<select class="custom-select form-control" v-model="question[index].question_type" @change="UpdateQuestionType(index)">
+									<option v-for="type in questionType" :key="type.id" :value="type.type" :selected="type.type === data.question_type">{{type.type}}</option>
 								</select>
 							</div>
 						</div>
@@ -89,7 +82,16 @@ export default {
 			}
 		},
 		getQuestions(){
-			this.question = (this.$store.getters.getQuestions)
+			if(this.$store.getters.getQuestions.length > this.question.length){
+				this.question = this.$store.getters.getQuestions
+			}
+		},
+		question(){
+			if(this.question.length > 0){
+				for(var i =0;i<this.question.length;i++){
+					var data = this.question[i]
+				}
+			}
 		}
 	},
     methods :{
@@ -123,30 +125,39 @@ export default {
 			});
 		},
 		UpdateQuestionType(index){
-			axios.post('/api/updateQuestionContent',{
+			this.isUpdating = true
+			axios.post('/api/updateQuestionType',{
 				question_id : this.question[index].question_id,
-				question_type : this.question[index].question_type,
-				questionnaire_id : this.GetID()
+				question_type : this.question[index].question_type
 			}).then(result=>{
-				console.log(this.question[index].question_type);
-				//console.log((result.data == 0) ? 'type still same' : 'type has been changed')
+				this.isUpdating = false
+				var type = this.question[index].question_type
+				//console.log((result.data == 0) ? 'type still same : '+type : 'type has been changed to : '+type)
+
+				if(this.question[index].question_type === 'Skala Linier'){
+					
+				}
 			});
 		},
 		UpdateRequired(index){
+			this.isUpdating = true
 			axios.post('/api/updateQuestionRequire',{
 				question_id : this.question[index].question_id,
 				question_require : this.question[index].question_require,
 				questionnaire_id : this.GetID()
 			}).then(result=>{
+				this.isUpdating = false
 				console.log((result.data == 0) ? 'require still same' : 'require has been changed')
 			});
 		},
 		UpdateQuestionContent(index){
+			this.isUpdating = true
+			console.log(this.question[index].question_content);
 			axios.post('/api/updateQuestionContent',{
 				question_id : this.question[index].question_id,
-				question_content : this.question[index].question_content,
-				questionnaire_id : this.GetID()
+				question_content : this.question[index].question_content
 			}).then(result=>{
+				this.isUpdating = false
 				console.log((result.data == 0) ? 'content still same' : 'content has been changed')
 			});
 		},
