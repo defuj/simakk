@@ -33,6 +33,11 @@ Route::post('/updateLabelMinimum', [QuestionsController::class,'updateLabelMinim
 Route::post('/updateLabelMaximum', [QuestionsController::class,'updateLabelMaximum']);
 Route::post('/updateSkalaMinimum', [QuestionsController::class,'updateSkalaMinimum']);
 Route::post('/updateSkalaMaximum', [QuestionsController::class,'updateSkalaMaximum']);
+Route::post('/addOptions', [QuestionsController::class,'addOptions']);
+Route::post('/deleteOptions', [QuestionsController::class,'deleteOptions']);
+Route::post('/getOptions', [QuestionsController::class,'getOptions']);
+Route::post('/updateOptions', [QuestionsController::class,'updateOptions']);
+
 
 
 

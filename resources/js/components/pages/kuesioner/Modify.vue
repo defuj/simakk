@@ -79,21 +79,23 @@
 					<div class="row align-items-center mb-3">
 						<div class="col text-left">Opsi jawaban : </div>
 					</div>
-					<div class="row">
-						<div class="col-md-11 col-sm-11">
-							<textarea-autosize :min-height="24" :max-height="500" type="text" class="form-control" placeholder="Opsi"></textarea-autosize>
+					<section v-if="data.options !== null" style="width:100%;">
+						<div class="row" v-for="(option,i) in data.options" :key="option.id" :index="i">
+							<div class="col-md-11 col-sm-11">
+								<textarea-autosize v-model="option.choice" @input="UpdateOptions(index,i)" :min-height="24" :max-height="500" type="text" class="form-control" :placeholder="'Opsi '+i">{{option.choice}}</textarea-autosize>
+							</div>
+							<div class="col-md-1 col-sm-1">
+								<a @click="DeleteOptions(option.id)" style="pointer:sursor;" class="btn btn-icon btn-light-secondary btn-circle">
+									<i class="flaticon2-cross" style="color: #969698 !important;"></i>
+								</a>
+							</div>
 						</div>
-						<div class="col-md-1 col-sm-1">
-							<a href="#" class="btn btn-icon btn-light-secondary btn-circle">
-								<i class="flaticon2-cross" style="color: #969698 !important;"></i>
-							</a>
-						</div>
-						
-					</div>
+					</section>
+					
 				</div>
 				<div class="card-header" style="min-height: 60px;border-top: 1px solid #EBEDF3;">
 					<h3 class="card-title">
-						<button v-if="data.question_type === 'Pilihan Ganda'" type="button" class="btn btn-sm font-weight-normal btn-primary mr-2">Tambahkan opsi</button>
+						<button @click="AddOptions(index)" v-if="data.question_type === 'Pilihan Ganda'" type="button" class="btn btn-sm font-weight-normal btn-primary mr-2">Tambahkan opsi</button>
 					</h3>
 					<div class="card-toolbar">
 						<div class="example-tools justify-content-center">
@@ -151,6 +153,7 @@ export default {
 		getQuestions(){
 			if(this.$store.getters.getQuestions.length > this.question.length){
 				this.question = this.$store.getters.getQuestions
+				this.GetAllOptions()
 			}
 		},
 		question(){
@@ -162,6 +165,25 @@ export default {
 		}
 	},
     methods :{
+		
+		AddOptions(index){
+			axios.post('/api/addOptions',{id : this.question[index].question_id}).then(result=>{
+				console.log(result.data == 1 ? 'success add a option' : 'failed add a option');
+			})
+		},
+		UpdateOptions(index,i){
+			axios.post('/api/updateOptions',{
+				id : this.question[index].options[i].id,
+				choice : this.question[index].options[i].choice
+			}).then(result=>{
+				console.log(result.data == 1 ? 'option has been updated' : 'failed to update option');
+			})
+		},
+		DeleteOptions(ID){
+			axios.post('/api/deleteOptions',{id : ID}).then(result=>{
+				console.log(result.data == 1 ? 'option has been deleted' : 'failed to delete option');
+			})
+		},
 		UpdateSkalaMinimum(index){
 			if(this.question[index].maximum <= this.question[index].minimum){
 				this.question[index].maximum +=1 
@@ -236,7 +258,20 @@ export default {
 		GetQuestion(){
 			axios.post('/api/getQuestion',{id : this.GetID()}).then(result=>{
 				this.question = result.data
+				this.GetAllOptions()
 			});
+		},
+		GetAllOptions(){
+			for(var i=0;i<this.question.length;i++){
+				var data = this.question[i]
+				console.log(data.questionnaire_type);
+				if(data.questionnaire_type == 'Pilihan Ganda'){
+					axios.post('/api/getOptions',{id : data.question_id}).then(result=>{
+						this.question[i].options = result.data
+						console.log(result.data);
+					})
+				}
+			}
 		},
 		UpdateQuestionType(index){
 			this.isUpdating = true

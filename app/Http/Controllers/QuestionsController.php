@@ -8,6 +8,37 @@ use Illuminate\Support\Facades\DB;
 
 class QuestionsController extends Controller
 {
+    public function updateOptions(Request $request)
+    {
+        $update = DB::table('multiple_choice')->where('id',$request->id)->update(['choice' => $request->choice]);
+        return $update;
+    }
+
+    public function getOptions(Request $request)
+    {
+        $options = DB::table('multiple_choice')->where('question_id', $request->id)->get();
+        return response()->json($options);
+    }
+
+    public function deleteOptions(Request $request){
+        $delete = DB::table('multiple_choice')->where('id',$request->id);
+        return $delete->delete();
+    }
+
+    public function addOptions(Request $request)
+    {
+        $insert = DB::table('multiple_choice')->insert([
+            'question_id'          => $request->id
+        ]);
+        if($insert){
+            $result = 1;
+            return $result;
+        }else{
+            $result = 0;
+            return $result;
+        }
+    }
+
     public function updateSkalaMinimum(Request $request)
     {
         $skala = DB::table('skala_linier')->where('question_id',$request->id)->update(['minimum' => $request->minimum]);
