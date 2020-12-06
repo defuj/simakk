@@ -8,6 +8,18 @@ use Illuminate\Support\Facades\DB;
 
 class QuestionsController extends Controller
 {
+    public function updateSkalaMinimum(Request $request)
+    {
+        $skala = DB::table('skala_linier')->where('question_id',$request->id)->update(['minimum' => $request->minimum]);
+        return $skala;
+    }
+
+    public function updateSkalaMaximum(Request $request)
+    {
+        $skala = DB::table('skala_linier')->where('question_id',$request->id)->update(['maximum' => $request->maximum]);
+        return $skala;
+    }
+
     public function updateLabelMinimum(Request $request)
     {
         $skala = DB::table('skala_linier')->where('question_id',$request->id)->update(['label_minimum' => $request->label]);

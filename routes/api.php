@@ -31,6 +31,9 @@ Route::post('/updateQuestionType', [QuestionsController::class,'updateQuestionTy
 Route::post('/getSkalaLinier', [QuestionsController::class,'getSkalaLinier']);
 Route::post('/updateLabelMinimum', [QuestionsController::class,'updateLabelMinimum']);
 Route::post('/updateLabelMaximum', [QuestionsController::class,'updateLabelMaximum']);
+Route::post('/updateSkalaMinimum', [QuestionsController::class,'updateSkalaMinimum']);
+Route::post('/updateSkalaMaximum', [QuestionsController::class,'updateSkalaMaximum']);
+
 
 
 
