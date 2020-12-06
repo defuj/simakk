@@ -17,7 +17,7 @@ class SkalaLinier extends Migration
             $table->id();
             $table->foreignId('question_id');
             $table->integer('minimum')->default(1);
-            $table->integer('maximum')->default(3);
+            $table->integer('maximum')->default(5);
             $table->string('label_minimum')->nullable();
             $table->string('label_maximum')->nullable();
         });

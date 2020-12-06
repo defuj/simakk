@@ -8,6 +8,18 @@ use Illuminate\Support\Facades\DB;
 
 class QuestionsController extends Controller
 {
+    public function updateLabelMinimum(Request $request)
+    {
+        $skala = DB::table('skala_linier')->where('question_id',$request->id)->update(['label_minimum' => $request->label]);
+        return $skala;
+    }
+
+    public function updateLabelMaximum(Request $request)
+    {
+        $skala = DB::table('skala_linier')->where('question_id',$request->id)->update(['label_maximum' => $request->label]);
+        return $skala;
+    }
+
     public function getQuestionType()
     {
         $type = DB::table('question_type')->get();
@@ -35,7 +47,7 @@ class QuestionsController extends Controller
 
     public function getQuestion(Request $request)
     {
-        $question = DB::table('questions')->where('questionnaire_id', $request->id)->get();
+        $question = DB::table('questions')->leftJoin('skala_linier', 'questions.question_id', '=', 'skala_linier.question_id')->where('questions.questionnaire_id', $request->id)->get();
         return response()->json($question);
     }
 
@@ -55,6 +67,12 @@ class QuestionsController extends Controller
             }
         }
         return $question;
+    }
+
+    public function getSkalaLinier(Request $request)
+    {
+        $result = DB::table('skala_linier')->where('question_id', $request->question_id)->first();
+        return response()->json($result);
     }
 
     public function updateQuestionContent(Request $request)

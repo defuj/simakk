@@ -26,6 +26,54 @@
 							</div>
 						</div>
 					</div>
+					<div class="row my-3" v-if="data.question_type === 'Skala Linier'">
+						<div class="col-md-2 col-sm-6">
+							<div class="form-group">
+								<select class="custom-select form-control" v-model="data.minimum">
+									<option v-for="n in 2" :key="n" :value="n-1" :selected="n-data.minimum === data.minimum">{{n-1}}</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-1 col-sm-6 mr-3">
+							<div class="form-group">
+								<label for="example-month-input" class="col-form-label">Sampai</label>
+							</div>
+						</div>
+						<div class="col-md-2 col-sm-6">
+							<div class="form-group">
+								<select class="custom-select form-control" v-model="data.maximum">
+									<option v-for="n in 9" :key="n" :value="n+data.minimum" :selected="n+data.minimum === data.maximum">{{n+data.minimum}}</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row" v-if="question[index].question_type === 'Skala Linier'">
+						<div class="col-md-1 col-sm-6">
+							<div class="form-group">
+								<label for="example-month-input" class="col-form-label">{{data.minimum}}</label>
+							</div>
+						</div>
+						<div class="col-md-4 col-sm-6">
+							<div class="form-group">
+								<input v-model="question[index].label_minimum" @input="UpdateLabelMinumum(index)" type="text" class="form-control" placeholder="Label (opsional)">
+							</div>
+						</div>
+					</div>
+					<div class="row" v-if="question[index].question_type === 'Skala Linier'">
+						<div class="col-md-1 col-sm-6">
+							<div class="form-group">
+								<label for="example-month-input" class="col-form-label">{{data.maximum}}</label>
+							</div>
+						</div>
+						<div class="col-md-4 col-sm-6">
+							<div class="form-group">
+								<input type="text" v-model="data.label_maximum" @input="UpdateLabelMaximum(index)" class="form-control" placeholder="Label (opsional)">
+							</div>
+						</div>
+					</div>
+					<div class="row" v-if="question[index].question_type === 'Pilihan Ganda'">
+						
+					</div>
 				</div>
 				<div class="card-header" style="min-height: 60px;border-top: 1px solid #EBEDF3;">
 					<h3 class="card-title"></h3>
@@ -58,6 +106,7 @@ export default {
 			question : [],
 			questionType : [],
 			isUpdating : false,
+			skala_linier : []
         }
 	},
 	watch:{
@@ -95,6 +144,24 @@ export default {
 		}
 	},
     methods :{
+		UpdateLabelMinumum(index){
+			console.log(this.question[index].label_minimum);
+			axios.post('/api/updateLabelMinimum',{
+					id : this.question[index].question_id,
+					label : this.question[index].label_minimum
+				}).then(result=>{
+				console.log(result)
+			})
+		},
+		UpdateLabelMaximum(index){
+			console.log(this.question[index].label_maximum);
+			axios.post('/api/updateLabelMaximum',{
+					id : this.question[index].question_id,
+					label : this.question[index].label_maximum
+				}).then(result=>{
+				console.log(result)
+			})
+		},
         GetID() {
             return this.$route.params.id
 		},
@@ -135,7 +202,7 @@ export default {
 				//console.log((result.data == 0) ? 'type still same : '+type : 'type has been changed to : '+type)
 
 				if(this.question[index].question_type === 'Skala Linier'){
-					
+
 				}
 			});
 		},

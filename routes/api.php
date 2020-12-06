@@ -28,6 +28,10 @@ Route::post('/deleteQuestion', [QuestionsController::class,'deleteQuestion']);
 Route::post('/updateQuestionContent', [QuestionsController::class,'updateQuestionContent']);
 Route::post('/updateQuestionRequire', [QuestionsController::class,'updateQuestionRequire']);
 Route::post('/updateQuestionType', [QuestionsController::class,'updateQuestionType']);
+Route::post('/getSkalaLinier', [QuestionsController::class,'getSkalaLinier']);
+Route::post('/updateLabelMinimum', [QuestionsController::class,'updateLabelMinimum']);
+Route::post('/updateLabelMaximum', [QuestionsController::class,'updateLabelMaximum']);
+
 
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
