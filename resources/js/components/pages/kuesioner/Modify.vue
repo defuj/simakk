@@ -11,13 +11,13 @@
 
 	<div class="row mb-12">
 		<div class="col-lg-12" v-for="(data, index) in question" :item="data" :index="index" :key="data.question_id">
-			<div class="card card-custom gutter-b example example-compact">
+			<div class="card card-custom gutter-b example example-compact btn-shadow">
 				<div class="card-body">
 					<div class="row">
-						<div class="col-md-8 col-sm-12">
-							<textarea-autosize :min-height="46" :max-height="500" @input="UpdateQuestionContent(index)" class="form-control autosize" v-model="question[index].question_content" placeholder="Pertanyaan" style="font-size:16px;height: 44px;">{{question[index].question_content}}</textarea-autosize>
+						<div class="col-md-9 col-sm-12">
+							<textarea-autosize :min-height="46" :max-height="500" @input="UpdateQuestionContent(index)" class="form-control autosize" v-model="question[index].question_content" placeholder="Pertanyaan atau Pernyataan" style="font-size:16px;">{{question[index].question_content}}</textarea-autosize>
 						</div>
-						<div class="col-md-4 col-sm-12">
+						<div class="col-md-3 col-sm-12">
 							<div class="form-group">
 								<div></div>
 								<select class="custom-select form-control" v-model="question[index].question_type" @change="UpdateQuestionType(index)">
