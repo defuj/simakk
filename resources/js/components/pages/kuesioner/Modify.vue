@@ -3,8 +3,8 @@
 	<div class="card card-custom gutter-b example example-compact" style="margin-left:auto;margin-right:auto;">
 		<div class="card-body">
 			<div class="form-group" style="margin-bottom:0px !important;">
-				<textarea-autosize v-model="title" maxlength="255" class="form-control form-control-lg my-form" placeholder="Judul kuesioner" style="font-size:32px;height: 70px;"></textarea-autosize>
-				<textarea-autosize v-model="desc" class="form-control my-3 my-form" placeholder="Deskripsi kuesioner"></textarea-autosize>
+				<textarea-autosize :min-height="40" :max-height="500" v-model="title" maxlength="255" class="form-control form-control-lg my-form" rows="1" placeholder="Judul kuesioner" style="font-size:32px;"></textarea-autosize>
+				<textarea-autosize v-model="desc" class="form-control my-3 my-form" rows="1" placeholder="Deskripsi kuesioner"></textarea-autosize>
 			</div>
 		</div>
 	</div>
@@ -15,7 +15,7 @@
 				<div class="card-body">
 					<div class="row">
 						<div class="col-md-9 col-sm-12">
-							<textarea-autosize :min-height="46" :max-height="500" @input="UpdateQuestionContent(index)" class="form-control autosize" v-model="question[index].question_content" placeholder="Pertanyaan atau Pernyataan" style="font-size:16px;">{{question[index].question_content}}</textarea-autosize>
+							<textarea-autosize :min-height="40" :max-height="500" @input="UpdateQuestionContent(index)" class="form-control input-question" v-model="question[index].question_content" placeholder="Pertanyaan atau Pernyataan" rows="1" style="font-size:16px;">{{question[index].question_content}}</textarea-autosize>
 						</div>
 						<div class="col-md-3 col-sm-12">
 							<div class="form-group">
@@ -75,18 +75,18 @@
 						
 					</div>
 				</div>
-				<div class="card-footer bg-gray-100 border-top-0" v-if="data.question_type === 'Pilihan Ganda'">
+				<div class="card-footer border-top-0" v-if="data.question_type === 'Pilihan Ganda'" style="padding-top: 0px;">
 					<div class="row align-items-center mb-3">
 						<div class="col text-left">Opsi jawaban : </div>
 					</div>
 					<section v-if="options.length > 0" style="width:100%;">
 						<div class="row my-2" v-for="(option,i) in options" :key="option.id" :index="i" v-show="option.question_id === data.question_id">
 							<div class="col-md-11 col-sm-11" v-if="option.question_id === data.question_id">
-								<textarea-autosize v-model="option.choice" @input="UpdateOptions(i)" :min-height="24" :max-height="500" type="text" class="form-control" :placeholder="'Opsi pertanyaan'">{{option.choice}}</textarea-autosize>
+								<textarea-autosize v-model="option.choice" @input="UpdateOptions(i)" :min-height="24" :max-height="500" type="text" class="form-control option-input" rows="1" :placeholder="'Opsi pertanyaan'">{{option.choice}}</textarea-autosize>
 							</div>
 							<div class="col-md-1 col-sm-1" v-if="option.question_id == data.question_id">
-								<a @click="DeleteOptions(option.id,i)" style="pointer:sursor;" class="btn btn-icon btn-light-secondary btn-circle">
-									<i class="flaticon2-cross" style="color: #969698 !important;"></i>
+								<a href="#" class="btn btn-text-dark btn-hover-text-dark" @click="DeleteOptions(option.id,i)" style="pointer:cursor;">
+									<i class="flaticon2-cross icon-nm" style="color:#969698 !important;"></i>
 								</a>
 							</div>
 						</div>
@@ -152,7 +152,9 @@ export default {
 		},
 		getQuestions(){
 			if(this.$store.getters.getQuestions.length > this.question.length){
-				this.question = this.$store.getters.getQuestions
+				var data = this.$store.getters.getQuestions
+				this.question.push(data[data.length-1])
+				//this.GetAllOptions()
 			}
 		},
 		question(){
@@ -160,14 +162,21 @@ export default {
 				for(var i =0;i<this.question.length;i++){
 					var data = this.question[i]
 				}
+				this.GetAllOptions()
 			}
-			this.GetAllOptions()
+			
 		}
 	},
     methods :{
 		AddOptions(index){
 			axios.post('/api/addOptions',{id : this.question[index].question_id}).then(result=>{
-				this.GetAllOptions()
+				if(result.data === 1){
+					this.GetAllOptions()
+				}else{
+					this.ShowToast('Gagal menambahkan opsi','error')
+				}
+			}).catch(err=>{
+				this.ShowToast('Gagal menambahkan opsi','error')
 			})
 		},
 		UpdateOptions(index){
@@ -175,14 +184,26 @@ export default {
 				id : this.options[index].id,
 				choice : this.options[index].choice
 			}).then(result=>{
-				console.log(result.data == 1 ? 'option has been updated' : 'failed to update option');
+				//console.log(result.data == 1 ? 'option has been updated' : '');
+				if(result.data === 1){
+					this.ShowToast('Perubahan telah disimpan','success')
+				}
+			}).catch(err=>{
+				this.ShowToast('Gagal menyimpan perubahan','error')
 			})
 		},
 		DeleteOptions(ID,index){
 			axios.post('/api/deleteOptions',{id : ID}).then(result=>{
 				//this.GetAllOptions()
-				this.options.splice(index,1)
-				console.log(result.data == 1 ? 'option has been deleted' : 'failed to delete option');
+				
+				//console.log(result.data == 1 ? 'option has been deleted' : 'failed to delete option');
+				if(result.data === 1){
+					this.options.splice(index,1)
+				}else{
+					this.ShowToast('Gagal menghapus opsi','error')
+				}
+			}).catch(err=>{
+				this.ShowToast('Gagal menghapus opsi','error')
 			})
 		},
 		UpdateSkalaMinimum(index){
@@ -195,7 +216,12 @@ export default {
 				id : this.question[index].question_id,
 				minimum : this.question[index].minimum
 			}).then(result=>{
-				console.log(result.data == 1 ? 'success updated minimum' : 'failed updated minimum');
+				//console.log(result.data == 1 ? 'success updated minimum' : 'failed updated minimum');
+				if(result.data === 1){
+					this.ShowToast('Perubahan telah disimpan','success')
+				}
+			}).catch(err=>{
+				this.ShowToast('Gagal menyimpan perubahan','error')
 			})
 		},
 		UpdateSkalaMaximumCustom(index,max){
@@ -203,7 +229,12 @@ export default {
 				id : this.question[index].question_id,
 				maximum : max
 			}).then(result=>{
-				console.log(result.data == 1 ? 'success updated maximum' : 'failed updated maximum');
+				//console.log(result.data == 1 ? 'success updated maximum' : 'failed updated maximum');
+				if(result.data === 1){
+					this.ShowToast('Perubahan telah disimpan','success')
+				}
+			}).catch(err=>{
+				this.ShowToast('Gagal menyimpan perubahan','error')
 			})
 		},
 		UpdateSkalaMaximum(index){
@@ -212,24 +243,37 @@ export default {
 				maximum : this.question[index].maximum
 			}).then(result=>{
 				console.log(result.data == 1 ? 'success updated maximum' : 'failed updated maximum');
+				if(result.data === 1){
+					this.ShowToast('Perubahan telah disimpan','success')
+				}
+			}).catch(err=>{
+				this.ShowToast('Gagal menyimpan perubahan','error')
 			})
 		},
 		UpdateLabelMinumum(index){
-			console.log(this.question[index].label_minimum);
+			//console.log(this.question[index].label_minimum);
 			axios.post('/api/updateLabelMinimum',{
 					id : this.question[index].question_id,
 					label : this.question[index].label_minimum
 			}).then(result=>{
-				
+				if(result.data === 1){
+					this.ShowToast('Perubahan telah disimpan','success')
+				}
+			}).catch(err=>{
+				this.ShowToast('Gagal menyimpan perubahan','error')
 			})
 		},
 		UpdateLabelMaximum(index){
-			console.log(this.question[index].label_maximum);
+			//console.log(this.question[index].label_maximum);
 			axios.post('/api/updateLabelMaximum',{
 					id : this.question[index].question_id,
 					label : this.question[index].label_maximum
-				}).then(result=>{
-				
+			}).then(result=>{
+				if(result.data === 1){
+					this.ShowToast('Perubahan telah disimpan','success')
+				}
+			}).catch(err=>{
+				this.ShowToast('Gagal menyimpan perubahan','error')
 			})
 		},
         GetID() {
@@ -259,6 +303,7 @@ export default {
 		GetQuestion(){
 			axios.post('/api/getQuestion',{id : this.GetID()}).then(result=>{
 				this.question = result.data
+				console.log(result.data)
 			});
 		},
 		GetAllOptions(){
@@ -277,11 +322,14 @@ export default {
 				this.isUpdating = false
 				var type = this.question[index].question_type
 				//console.log((result.data == 0) ? 'type still same : '+type : 'type has been changed to : '+type)
-
-				if(this.question[index].question_type === 'Skala Linier'){
-
+				if(result.data === 1){
+					this.ShowToast('Perubahan telah disimpan','success')
+					setTimeout(() => console.log('Mengambil perubahan'), 500);
+					this.GetQuestion()
 				}
-			});
+			}).catch(err=>{
+				this.ShowToast('Gagal menyimpan perubahan','error')
+			})
 		},
 		UpdateRequired(index){
 			this.isUpdating = true
@@ -291,8 +339,13 @@ export default {
 				questionnaire_id : this.GetID()
 			}).then(result=>{
 				this.isUpdating = false
-				console.log((result.data == 0) ? 'require still same' : 'require has been changed')
-			});
+				//console.log((result.data == 0) ? 'require still same' : 'require has been changed')
+				if(result.data === 1){
+					this.ShowToast('Perubahan telah disimpan','success')
+				}
+			}).catch(err=>{
+				this.ShowToast('Gagal menyimpan perubahan','error')
+			})
 		},
 		UpdateQuestionContent(index){
 			this.isUpdating = true
@@ -303,7 +356,12 @@ export default {
 			}).then(result=>{
 				this.isUpdating = false
 				console.log((result.data == 0) ? 'content still same' : 'content has been changed')
-			});
+				if(result.data === 1){
+					this.ShowToast('Perubahan telah disimpan','success')
+				}
+			}).catch(err=>{
+				this.ShowToast('Gagal menyimpan perubahan','error')
+			})
 		},
 		UpdateType(){
 			this.isUpdating = true
@@ -312,8 +370,13 @@ export default {
 				id : this.GetID()
 			}).then(result =>{
 				this.isUpdating = false
-				console.log((result.data == 0) ? 'type still same' : 'type has been changed')
-			});
+				//console.log((result.data == 0) ? 'type still same' : 'type has been changed')
+				if(result.data === 1){
+					this.ShowToast('Perubahan telah disimpan','success')
+				}
+			}).catch(err=>{
+				this.ShowToast('Gagal menyimpan perubahan','error')
+			})
 		},
 		UpdateStatus(){
 			this.isUpdating = true
@@ -322,22 +385,37 @@ export default {
 				id : this.GetID() 
 			}).then(result =>{
 				this.isUpdating = false
-				console.log((result.data == 0) ? 'status still same' : 'status has been changed')
-			});
+				//console.log((result.data == 0) ? 'status still same' : 'status has been changed')
+				if(result.data === 1){
+					this.ShowToast('Perubahan telah disimpan','success')
+				}
+			}).catch(err=>{
+				this.ShowToast('Gagal menyimpan perubahan','error')
+			})
 		},
 		UpdateTitle(){
 			this.isUpdating = true
 			axios.post('/api/updateTitleKuesioner',{id : this.GetID(),title : this.title}).then(result=>{
 				this.isUpdating = false
 				console.log((result.data == 0) ? 'title not update' : 'title has been updated');
-			});
+				if(result.data === 1){
+					this.ShowToast('Perubahan telah disimpan','success')
+				}
+			}).catch(err=>{
+				this.ShowToast('Gagal menyimpan perubahan','error')
+			})
 		},
 		UpdateDescription(){
 			this.isUpdating = true
 			axios.post('/api/updateDescriptionKuesioner',{id : this.GetID(),desc : this.desc}).then(result=>{
 				this.isUpdating = false
-				console.log((result.data == 0) ? 'desc not update' : 'desc has been updated');
-			});
+				//console.log((result.data == 0) ? 'desc not update' : 'desc has been updated');
+				if(result.data === 1){
+					this.ShowToast('Perubahan telah disimpan','success')
+				}
+			}).catch(err=>{
+				this.ShowToast('Gagal menyimpan perubahan','error')
+			})
 		},
 		DeleteQuestion(index){
 			this.$swal({
@@ -347,28 +425,42 @@ export default {
 				showCancelButton: true,
 				confirmButtonText: 'Ya, lanjutkan',
 				cancelButtonText: 'Tidak'
-			}).then((result)=>{
+			}).then(result=>{
 				if(result.isConfirmed){
 					axios.post('/api/deleteQuestion',{
 						id : this.question[index].question_id
 					}).then(result=>{
-						if(result.data){
+						if(result.data === 1){
 							this.question.splice(index,1)
+							/*
+							this.$toast.open({
+								message: 'Something went wrong!',
+								type: 'error',
+							});
+							*/
+							this.ShowToast('Pertanyaan telah dihapus','success')
 						}else{
+							/*
 							this.$swal({
 								title : 'Oops',
 								text : 'Gagal menghapus, terjadi kesalahan.',
 								icon : 'error'
-							});
+							}); 
+							*/
+							this.ShowToast('Gagal menghapus pertanyaan.','error')
 						}
-					});
+					}).catch(err=>{
+						this.ShowToast('Terjadi kesalahan','error')
+					})
 				}
 			});
 		},
-		AddQuestions(){
-			this.isUpdating = true
-			axios.post('/api/updateTitleKuesioner',{id : this.GetID()}).then(result=>{
-				this.isUpdating = false
+		ShowToast(messages,types){
+			this.$toast.open({
+				message: messages,
+				type: types,
+				position: 'bottom-right',
+				duration : 2000
 			});
 		},
 	},
@@ -386,11 +478,16 @@ export default {
 </script>
 
 <style scoped>
+	.option-input, .input-question{
+		min-height: 1em;
+	}
 	.my-form{
 		border: none !important;	
+		min-height: 1em;
 	}
 	.my-form:focus, .my-form:active{
 		border: 1px solid #E4E6EF !important;
+		min-height: 1em;
 	}
 	.card-sticky-on .card.card-custom.card-sticky > .card-header{
 		margin-top: -96px !important;

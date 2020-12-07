@@ -16,7 +16,7 @@ class MultipleChoice extends Migration
         Schema::create('multiple_choice', function (Blueprint $table) {
             $table->id();
             $table->foreignId('question_id');
-            $table->string('choice')->nullable();
+            $table->string('choice')->default('Opsi pertanyaan')->nullable();
         });
     }
 

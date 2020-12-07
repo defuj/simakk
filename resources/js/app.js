@@ -14,6 +14,10 @@ const options = {
 //Vue.use(VueSweetalert2, options);
 Vue.use(VueSweetalert2)
 
+import VueToast from 'vue-toast-notification'
+import 'vue-toast-notification/dist/theme-sugar.css'
+Vue.use(VueToast)
+
 import TextareaAutosize from 'vue-textarea-autosize'
 Vue.use(TextareaAutosize)
 

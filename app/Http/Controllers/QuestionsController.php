@@ -95,9 +95,10 @@ class QuestionsController extends Controller
     public function getQuestion(Request $request)
     {
         $question = DB::table('questions')
-        ->leftJoin('skala_linier', 'questions.question_id', '=', 'skala_linier.question_id')
+        ->select('questions.question_id','questions.questionnaire_id','questions.question_content','questions.question_type','questions.question_require','skala_linier.minimum','skala_linier.maximum','skala_linier.label_minimum','skala_linier.label_maximum')
+        ->leftJoin('skala_linier', 'skala_linier.question_id', '=', 'questions.question_id')
         ->where('questions.questionnaire_id', $request->id)->get();
-        $result = $question;
+        //$question = DB::select('select * FROM questions left join skala_linier on skala_linier.question_id = questions.question_id where questions.questionnaire_id = :id', ['id' => $request->id]);
         return response()->json($question);
     }
 
