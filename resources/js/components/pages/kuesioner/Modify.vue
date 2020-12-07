@@ -15,7 +15,7 @@
 				<div class="card-body">
 					<div class="row">
 						<div class="col-md-9 col-sm-12">
-							<textarea-autosize :min-height="40" :max-height="500" @input="UpdateQuestionContent(index)" class="form-control input-question" v-model="question[index].question_content" placeholder="Pertanyaan atau Pernyataan" rows="1" style="font-size:16px;">{{question[index].question_content}}</textarea-autosize>
+							<textarea-autosize :min-height="40" :max-height="500" @input="UpdateQuestionContent(index)" class="form-control input-question my-form" v-model="question[index].question_content" placeholder="Pertanyaan atau Pernyataan" rows="1" style="font-size:16px;">{{question[index].question_content}}</textarea-autosize>
 						</div>
 						<div class="col-md-3 col-sm-12">
 							<div class="form-group">
@@ -71,27 +71,17 @@
 							</div>
 						</div>
 					</div>
-					<div class="row" v-if="data.question_type === ''">
+					<div class="row my-2" v-for="(option,i) in options" :key="option.id" :index="i" v-show="option.question_id === data.question_id && data.question_type === 'Pilihan Ganda'">
 						
-					</div>
-				</div>
-				<div class="card-footer border-top-0" v-if="data.question_type === 'Pilihan Ganda'" style="padding-top: 0px;">
-					<div class="row align-items-center mb-3">
-						<div class="col text-left">Opsi jawaban : </div>
-					</div>
-					<section v-if="options.length > 0" style="width:100%;">
-						<div class="row my-2" v-for="(option,i) in options" :key="option.id" :index="i" v-show="option.question_id === data.question_id">
-							<div class="col-md-11 col-sm-11" v-if="option.question_id === data.question_id">
-								<textarea-autosize v-model="option.choice" @input="UpdateOptions(i)" :min-height="24" :max-height="500" type="text" class="form-control option-input" rows="1" :placeholder="'Opsi pertanyaan'">{{option.choice}}</textarea-autosize>
-							</div>
-							<div class="col-md-1 col-sm-1" v-if="option.question_id == data.question_id">
-								<a href="#" class="btn btn-text-dark btn-hover-text-dark" @click="DeleteOptions(option.id,i)" style="pointer:cursor;">
-									<i class="flaticon2-cross icon-nm" style="color:#969698 !important;"></i>
-								</a>
-							</div>
+						<div class="col-md-11 col-sm-11" v-if="option.question_id === data.question_id">
+							<textarea-autosize v-model="option.choice" @input="UpdateOptions(i)" :min-height="24" :max-height="500" type="text" class="form-control option-input my-form my-options" rows="1" :placeholder="'Opsi pertanyaan'">{{option.choice}}</textarea-autosize>
 						</div>
-					</section>
-					
+						<div class="col-md-1 col-sm-1" v-if="option.question_id == data.question_id">
+							<a href="#" class="btn btn-text-dark btn-hover-text-dark" @click="DeleteOptions(option.id,i)" style="pointer:cursor;">
+								<i class="flaticon2-cross icon-nm" style="color:#969698 !important;"></i>
+							</a>
+						</div>
+					</div>
 				</div>
 				<div class="card-header" style="min-height: 60px;border-top: 1px solid #EBEDF3;">
 					<h3 class="card-title">
@@ -478,6 +468,9 @@ export default {
 </script>
 
 <style scoped>
+	.my-options{
+		font-size: 14px;;	
+	}
 	.option-input, .input-question{
 		min-height: 1em;
 	}
@@ -485,7 +478,7 @@ export default {
 		border: none !important;	
 		min-height: 1em;
 	}
-	.my-form:focus, .my-form:active{
+	.my-form:focus, .my-form:active, .my-form:hover{
 		border: 1px solid #E4E6EF !important;
 		min-height: 1em;
 	}
