@@ -1,36 +1,24 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <!--begin::Head-->
     <head>
         <meta charset="utf-8"/>
         <title>SIMAKK - SIstem Manajemen Kuesioner Kampus</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-
-        <!--begin::Fonts-->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700"/>        
-        <!--end::Fonts-->   
 
-        <!--begin::Global Theme Styles(used by all pages)-->
         <link href="{{ asset('plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css"/>
         <link href="{{ asset('plugins/custom/prismjs/prismjs.bundle.css') }}" rel="stylesheet" type="text/css"/>
         <link href="{{ asset('css/style.bundle.css') }}" rel="stylesheet" type="text/css"/>
+        
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-        <!--end::Global Theme Styles-->
-
-        <!--begin::Layout Themes(used by all pages)-->
-
-        <!--end::Layout Themes-->
 
         <link rel="shortcut icon" href="{{ asset('media/STMIK.png') }}"/>
     </head>
-    <!--end::Head-->
 
     <body id="kt_body app" class="header-fixed header-mobile-fixed">
-        <!--begin::Main-->
         <div id="app">
             <app-component ref="app"></app-component>
         </div>
-        <!--end::Main-->
 
         <script>
             var KTAppSettings = {
@@ -95,16 +83,12 @@
 
 
         <script src="{{ asset('js/app.js') }}"></script>
-        <!--begin::Global Theme Bundle(used by all pages)-->
+
         <script src="{{ asset('plugins/global/plugins.bundle.js') }}"></script>
         <script src="{{ asset('plugins/custom/prismjs/prismjs.bundle.js') }}"></script>
         <script src="{{ asset('js/scripts.bundle.js') }}"></script>
-		<!--end::Global Theme Bundle-->
 
-        <!--begin::Page Scripts(used by this page)-->
         <script src="{{ asset('js/pages/custom/todo/todo.js') }}"></script>
         <script src="{{ asset('js/pages/widgets.js') }}"></script>
-        <script src="{{ asset('js/pages/crud/forms/widgets/autosize.js') }}"></script>
-        <!--end::Page Scripts-->
     </body>
 </html>

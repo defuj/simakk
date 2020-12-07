@@ -16,8 +16,12 @@ class QuestionsController extends Controller
 
     public function getOptions(Request $request)
     {
-        $options = DB::table('multiple_choice')->where('question_id', $request->id)->get();
-        return response()->json($options);
+        //$options = DB::table('multiple_choice')
+        //->select('multiple_choice.id','multiple_choice.question_id','multiple_choice.choice')
+        //->join('questions', 'questions.questionnaire_id', '=', $request->questionnaire_id);
+
+        $result = DB::select('select DISTINCT(multiple_choice.id),multiple_choice.question_id,multiple_choice.choice FROM multiple_choice INNER join questions on questions.questionnaire_id = :id', ['id' => $request->questionnaire_id]);
+        return response()->json($result);
     }
 
     public function deleteOptions(Request $request){
@@ -90,7 +94,10 @@ class QuestionsController extends Controller
 
     public function getQuestion(Request $request)
     {
-        $question = DB::table('questions')->leftJoin('skala_linier', 'questions.question_id', '=', 'skala_linier.question_id')->where('questions.questionnaire_id', $request->id)->get();
+        $question = DB::table('questions')
+        ->leftJoin('skala_linier', 'questions.question_id', '=', 'skala_linier.question_id')
+        ->where('questions.questionnaire_id', $request->id)->get();
+        $result = $question;
         return response()->json($question);
     }
 

@@ -3,8 +3,8 @@
 	<div class="card card-custom gutter-b example example-compact" style="margin-left:auto;margin-right:auto;">
 		<div class="card-body">
 			<div class="form-group" style="margin-bottom:0px !important;">
-				<textarea v-model="title" maxlength="255" class="form-control form-control-lg my-form" id="kt_autosize_1" placeholder="Judul kuesioner" style="font-size:32px;height: 70px;"></textarea>
-				<textarea v-model="desc" class="form-control my-3 my-form" id="kt_autosize_2" placeholder="Deskripsi kuesioner"></textarea>
+				<textarea-autosize v-model="title" maxlength="255" class="form-control form-control-lg my-form" placeholder="Judul kuesioner" style="font-size:32px;height: 70px;"></textarea-autosize>
+				<textarea-autosize v-model="desc" class="form-control my-3 my-form" placeholder="Deskripsi kuesioner"></textarea-autosize>
 			</div>
 		</div>
 	</div>
@@ -79,13 +79,13 @@
 					<div class="row align-items-center mb-3">
 						<div class="col text-left">Opsi jawaban : </div>
 					</div>
-					<section v-if="data.options !== null" style="width:100%;">
-						<div class="row" v-for="(option,i) in data.options" :key="option.id" :index="i">
-							<div class="col-md-11 col-sm-11">
-								<textarea-autosize v-model="option.choice" @input="UpdateOptions(index,i)" :min-height="24" :max-height="500" type="text" class="form-control" :placeholder="'Opsi '+i">{{option.choice}}</textarea-autosize>
+					<section v-if="options.length > 0" style="width:100%;">
+						<div class="row my-2" v-for="(option,i) in options" :key="option.id" :index="i" v-show="option.question_id === data.question_id">
+							<div class="col-md-11 col-sm-11" v-if="option.question_id === data.question_id">
+								<textarea-autosize v-model="option.choice" @input="UpdateOptions(i)" :min-height="24" :max-height="500" type="text" class="form-control" :placeholder="'Opsi pertanyaan'">{{option.choice}}</textarea-autosize>
 							</div>
-							<div class="col-md-1 col-sm-1">
-								<a @click="DeleteOptions(option.id)" style="pointer:sursor;" class="btn btn-icon btn-light-secondary btn-circle">
+							<div class="col-md-1 col-sm-1" v-if="option.question_id == data.question_id">
+								<a @click="DeleteOptions(option.id,i)" style="pointer:sursor;" class="btn btn-icon btn-light-secondary btn-circle">
 									<i class="flaticon2-cross" style="color: #969698 !important;"></i>
 								</a>
 							</div>
@@ -126,7 +126,7 @@ export default {
 			question : [],
 			questionType : [],
 			isUpdating : false,
-			skala_linier : []
+			options : []
         }
 	},
 	watch:{
@@ -153,7 +153,6 @@ export default {
 		getQuestions(){
 			if(this.$store.getters.getQuestions.length > this.question.length){
 				this.question = this.$store.getters.getQuestions
-				this.GetAllOptions()
 			}
 		},
 		question(){
@@ -162,25 +161,27 @@ export default {
 					var data = this.question[i]
 				}
 			}
+			this.GetAllOptions()
 		}
 	},
     methods :{
-		
 		AddOptions(index){
 			axios.post('/api/addOptions',{id : this.question[index].question_id}).then(result=>{
-				console.log(result.data == 1 ? 'success add a option' : 'failed add a option');
+				this.GetAllOptions()
 			})
 		},
-		UpdateOptions(index,i){
+		UpdateOptions(index){
 			axios.post('/api/updateOptions',{
-				id : this.question[index].options[i].id,
-				choice : this.question[index].options[i].choice
+				id : this.options[index].id,
+				choice : this.options[index].choice
 			}).then(result=>{
 				console.log(result.data == 1 ? 'option has been updated' : 'failed to update option');
 			})
 		},
-		DeleteOptions(ID){
+		DeleteOptions(ID,index){
 			axios.post('/api/deleteOptions',{id : ID}).then(result=>{
+				//this.GetAllOptions()
+				this.options.splice(index,1)
 				console.log(result.data == 1 ? 'option has been deleted' : 'failed to delete option');
 			})
 		},
@@ -258,20 +259,14 @@ export default {
 		GetQuestion(){
 			axios.post('/api/getQuestion',{id : this.GetID()}).then(result=>{
 				this.question = result.data
-				this.GetAllOptions()
 			});
 		},
 		GetAllOptions(){
-			for(var i=0;i<this.question.length;i++){
-				var data = this.question[i]
-				console.log(data.questionnaire_type);
-				if(data.questionnaire_type == 'Pilihan Ganda'){
-					axios.post('/api/getOptions',{id : data.question_id}).then(result=>{
-						this.question[i].options = result.data
-						console.log(result.data);
-					})
-				}
-			}
+			axios.post('/api/getOptions',{questionnaire_id : this.GetID()}).then(result=>{
+				//this.question[i].push({options: [result.data]})
+				this.options = result.data
+				console.log(result.data)
+			})
 		},
 		UpdateQuestionType(index){
 			this.isUpdating = true
