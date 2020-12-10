@@ -4,7 +4,7 @@
             <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
                 <header-component></header-component>
                 <div class="d-flex flex-column-fluid">
-                    <div class=" container " style="padding-top:30px !important;">
+                    <div class=" container " style="padding-top:0px !important;">
                         <router-view></router-view>
                     </div>
                 </div>

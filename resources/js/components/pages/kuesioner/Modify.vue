@@ -1,5 +1,5 @@
 <template>
-<section class="container-kuesioner">
+<section class="container-kuesioner" style="margin-top:30px;">
 	<div class="card card-custom gutter-b example example-compact" style="margin-left:auto;margin-right:auto;">
 		<div class="card-body">
 			<div class="form-group" style="margin-bottom:0px !important;">

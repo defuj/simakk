@@ -1,7 +1,58 @@
 <template>
 <section>
     <div class="row">
-        <div class="col-xl-4">
+        <div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap" style="padding:15px !important;">
+            <!--begin::Details-->
+            <div class="d-flex align-items-center flex-wrap">
+                <!--begin::Title-->
+                <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Mulai kuesioner baru</h5>
+                <!--end::Title-->
+                <!--begin::Separator-->
+                <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-5 bg-gray-200"></div>
+                <!--end::Separator-->
+                
+            </div>
+            <!--end::Details-->
+            <!--begin::Toolbar-->
+            <div class="d-flex align-items-center">
+                <div class="form-group" style="margin-bottom: 0px;">
+                    <select class="custom-select form-control" v-model="categoryID">
+                        <option value="all" selected>Semua Kategori</option>
+                        <option v-for="category in categories" :key="category.id" :value="category.category" :selected="category.id === categoryID">{{category.category}}</option>
+                    </select>
+                </div>
+                <!--begin::Button-->
+                <button class="btn btn-primary font-weight-bold ml-2" @click="ShowAll()">Semua</button>
+                <!--end::Button-->
+            </div>
+            <!--end::Toolbar-->
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-3">
+            <!--begin::Stats Widget 16-->
+            <a class="card card-custom card-stretch gutter-b" @click="CreateNew()" style="cursor:pointer;">
+                <!--begin::Body-->
+                <div class="card-body bg-menu bgi-no-repeat">
+                    <span class="svg-icon svg-icon-info svg-icon-3x ml-n1">
+                        <!--begin::Svg Icon | path:/metronic/theme/html/demo7/dist/assets/media/svg/icons/Shopping/Cart3.svg-->
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                <rect fill="#000000" x="4" y="11" width="16" height="2" rx="1"/>
+                                <rect fill="#000000" opacity="0.3" transform="translate(12.000000, 12.000000) rotate(-270.000000) translate(-12.000000, -12.000000) " x="4" y="11" width="16" height="2" rx="1"/>
+                            </g>
+                        </svg>
+                        <!--end::Svg Icon-->
+                    </span>
+                    <div class="text-inverse-white font-weight-bolder font-size-h5 mb-2 mt-5">Buat baru</div>
+                    <div class="font-weight-bold text-inverse-white font-size-sm">Buat kesioner manual</div>
+                </div>
+                <!--end::Body-->
+            </a>
+            <!--end::Stats Widget 16-->
+        </div>
+        <div class="col-xl-3">
             <!--begin::Stats Widget 14-->
             <a class="card card-custom bg-primary bg-hover-state-primary card-stretch gutter-b" @click="CreateNew()">
                 <!--begin::Body-->
@@ -23,7 +74,7 @@
             </a>
             <!--end::Stats Widget 14-->
         </div>
-        <div class="col-xl-4">
+        <div class="col-xl-3">
             <!--begin::Stats Widget 17-->
             <a href="#" class="card card-custom bg-info bg-hover-state-info card-stretch card-stretch gutter-b">
                 <!--begin::Body-->
@@ -47,7 +98,7 @@
             </a>
             <!--end::Stats Widget 17-->
         </div>
-        <div class="col-xl-4">
+        <div class="col-xl-3">
             <!--begin::Stats Widget 16-->
             <a href="#" class="card card-custom card-stretch gutter-b">
                 <!--begin::Body-->
@@ -110,7 +161,7 @@
             <!--begin::Toolbar-->
             <div class="d-flex align-items-center">
                 <!--begin::Button-->
-                <button class="btn btn-light-primary font-weight-bold ml-2" @click="ShowAll()">Lihat Semua</button>
+                <button class="btn btn-primary font-weight-bold ml-2" @click="ShowAll()">Lihat Semua</button>
                 <!--end::Button-->
             </div>
             <!--end::Toolbar-->
@@ -174,15 +225,6 @@
                                 {{kuesioner.questionnaire_type.toUpperCase()}}
                             </a>
                         </div>
-                        <span class="svg-icon svg-icon-gray-500 icon-lg far mx-4" style="cursor:pointer;" @click="DuplicateKuesioner(kuesioner.questionnaire_id)">
-                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                    <rect x="0" y="0" width="24" height="24"/>
-                                    <path d="M15.9956071,6 L9,6 C7.34314575,6 6,7.34314575 6,9 L6,15.9956071 C4.70185442,15.9316381 4,15.1706419 4,13.8181818 L4,6.18181818 C4,4.76751186 4.76751186,4 6.18181818,4 L13.8181818,4 C15.1706419,4 15.9316381,4.70185442 15.9956071,6 Z" fill="#000000" fill-rule="nonzero" opacity="0.3"/>
-                                    <path d="M10.1818182,8 L17.8181818,8 C19.2324881,8 20,8.76751186 20,10.1818182 L20,17.8181818 C20,19.2324881 19.2324881,20 17.8181818,20 L10.1818182,20 C8.76751186,20 8,19.2324881 8,17.8181818 L8,10.1818182 C8,8.76751186 8.76751186,8 10.1818182,8 Z" fill="#000000"/>
-                                </g>
-                            </svg>
-                        </span>
                         <i class="icon-me far fa-trash-alt" style="cursor:pointer;margin-top: 2px;" @click="DeleteKuesioner(kuesioner.questionnaire_id)"></i>
                     </div>
                 </div>
@@ -213,6 +255,8 @@ export default {
             kuesioners : [],
             kuesionersAll : [],
             search : this.getSearch,
+            categories : [],
+            categoryID : 'all'
         }
     },
     watch : {
@@ -231,9 +275,17 @@ export default {
                 this.GetKuesioner()
             }
             //console.log(this.getSearch)
+        },
+        category_selected(){
+            console.log(this.categoryID);
         }
     },
     methods:{
+        GetCategories(){
+            axios.get('/api/getCategories').then(result=>{
+                this.categories = result.data
+            })
+        },
         OpenKuesioner(id){
             window.location.href = '/q/'+id
         },
@@ -405,6 +457,7 @@ export default {
     },
     mounted(){
         this.GetKuesioner()
+        this.GetCategories()
     }
 }
 </script>
