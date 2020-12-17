@@ -116,7 +116,9 @@ export default {
 			question : [],
 			questionType : [],
 			isUpdating : false,
-			options : []
+			options : [],
+			timer : '',
+			timerInterval : 3000
         }
 	},
 	watch:{
@@ -131,13 +133,24 @@ export default {
 			}
 		},
 		title(){
+			var tm
 			if(!this.isUpdating){
-				this.UpdateTitle()
+				clearTimeout(tm)
+				tm = setTimeout(() => {
+					if(this.title.length > 0){
+						this.UpdateTitle()
+					}
+				}, this.timerInterval);
 			}
 		},
 		desc(){
 			if(!this.isUpdating){
-				this.UpdateDescription()
+				if(this.desc.length > 0){
+					clearTimeout(this.timer)
+					this.timer = setTimeout(() => {
+						this.UpdateDescription()
+					}, this.timerInterval);
+				}
 			}
 		},
 		getQuestions(){
@@ -170,23 +183,25 @@ export default {
 			})
 		},
 		UpdateOptions(index){
-			axios.post('/api/updateOptions',{
-				id : this.options[index].id,
-				choice : this.options[index].choice
-			}).then(result=>{
-				//console.log(result.data == 1 ? 'option has been updated' : '');
-				if(result.data === 1){
-					this.ShowToast('Perubahan telah disimpan','success')
-				}
-			}).catch(err=>{
-				this.ShowToast('Gagal menyimpan perubahan','error')
-			})
+			clearTimeout(this.timer)
+			this.timer = setTimeout(() => {
+				axios.post('/api/updateOptions',{
+					id : this.options[index].id,
+					choice : this.options[index].choice
+				}).then(result=>{
+					//console.log(result.data == 1 ? 'option has been updated' : '');
+					if(result.data === 1){
+						this.ShowToast('Perubahan telah disimpan','success')
+					}
+				}).catch(err=>{
+					this.ShowToast('Gagal menyimpan perubahan','error')
+				})
+			}, this.timerInterval);
+
+			
 		},
 		DeleteOptions(ID,index){
 			axios.post('/api/deleteOptions',{id : ID}).then(result=>{
-				//this.GetAllOptions()
-				
-				//console.log(result.data == 1 ? 'option has been deleted' : 'failed to delete option');
 				if(result.data === 1){
 					this.options.splice(index,1)
 				}else{
@@ -232,7 +247,7 @@ export default {
 				id : this.question[index].question_id,
 				maximum : this.question[index].maximum
 			}).then(result=>{
-				console.log(result.data == 1 ? 'success updated maximum' : 'failed updated maximum');
+				//console.log(result.data == 1 ? 'success updated maximum' : 'failed updated maximum');
 				if(result.data === 1){
 					this.ShowToast('Perubahan telah disimpan','success')
 				}
@@ -241,30 +256,37 @@ export default {
 			})
 		},
 		UpdateLabelMinumum(index){
-			//console.log(this.question[index].label_minimum);
-			axios.post('/api/updateLabelMinimum',{
-					id : this.question[index].question_id,
-					label : this.question[index].label_minimum
-			}).then(result=>{
-				if(result.data === 1){
-					this.ShowToast('Perubahan telah disimpan','success')
-				}
-			}).catch(err=>{
-				this.ShowToast('Gagal menyimpan perubahan','error')
-			})
+			clearTimeout(this.timer)
+			this.timer = setTimeout(() => {
+				axios.post('/api/updateLabelMinimum',{
+						id : this.question[index].question_id,
+						label : this.question[index].label_minimum
+				}).then(result=>{
+					if(result.data === 1){
+						this.ShowToast('Perubahan telah disimpan','success')
+					}
+				}).catch(err=>{
+					this.ShowToast('Gagal menyimpan perubahan','error')
+				})
+			}, this.timerInterval);
+			
 		},
 		UpdateLabelMaximum(index){
-			//console.log(this.question[index].label_maximum);
-			axios.post('/api/updateLabelMaximum',{
-					id : this.question[index].question_id,
-					label : this.question[index].label_maximum
-			}).then(result=>{
-				if(result.data === 1){
-					this.ShowToast('Perubahan telah disimpan','success')
-				}
-			}).catch(err=>{
-				this.ShowToast('Gagal menyimpan perubahan','error')
-			})
+			clearTimeout(this.timer)
+			this.timer = setTimeout(() => {
+				axios.post('/api/updateLabelMaximum',{
+						id : this.question[index].question_id,
+						label : this.question[index].label_maximum
+				}).then(result=>{
+					if(result.data === 1){
+						this.ShowToast('Perubahan telah disimpan','success')
+					}
+				}).catch(err=>{
+					this.ShowToast('Gagal menyimpan perubahan','error')
+				})
+			}, this.timerInterval);
+
+			
 		},
         GetID() {
             return this.$route.params.id
@@ -293,14 +315,11 @@ export default {
 		GetQuestion(){
 			axios.post('/api/getQuestion',{id : this.GetID()}).then(result=>{
 				this.question = result.data
-				console.log(result.data)
 			});
 		},
 		GetAllOptions(){
 			axios.post('/api/getOptions',{questionnaire_id : this.GetID()}).then(result=>{
-				//this.question[i].push({options: [result.data]})
 				this.options = result.data
-				console.log(result.data)
 			})
 		},
 		UpdateQuestionType(index){
@@ -338,20 +357,25 @@ export default {
 			})
 		},
 		UpdateQuestionContent(index){
-			this.isUpdating = true
-			console.log(this.question[index].question_content);
-			axios.post('/api/updateQuestionContent',{
-				question_id : this.question[index].question_id,
-				question_content : this.question[index].question_content
-			}).then(result=>{
-				this.isUpdating = false
-				console.log((result.data == 0) ? 'content still same' : 'content has been changed')
-				if(result.data === 1){
-					this.ShowToast('Perubahan telah disimpan','success')
-				}
-			}).catch(err=>{
-				this.ShowToast('Gagal menyimpan perubahan','error')
-			})
+			clearTimeout(this.timer)
+			this.timer = setTimeout(() => {
+				this.isUpdating = true
+				//console.log(this.question[index].question_content);
+				axios.post('/api/updateQuestionContent',{
+					question_id : this.question[index].question_id,
+					question_content : this.question[index].question_content
+				}).then(result=>{
+					this.isUpdating = false
+					//console.log((result.data == 0) ? 'content still same' : 'content has been changed')
+					if(result.data === 1){
+						this.ShowToast('Perubahan telah disimpan','success')
+					}
+				}).catch(err=>{
+					this.ShowToast('Gagal menyimpan perubahan','error')
+				})
+			}, this.timerInterval);
+
+			
 		},
 		UpdateType(){
 			this.isUpdating = true
@@ -386,24 +410,30 @@ export default {
 		UpdateTitle(){
 			this.isUpdating = true
 			axios.post('/api/updateTitleKuesioner',{id : this.GetID(),title : this.title}).then(result=>{
-				this.isUpdating = false
-				console.log((result.data == 0) ? 'title not update' : 'title has been updated');
+				//console.log((result.data == 0) ? 'title not update' : 'title has been updated');
 				if(result.data === 1){
+					this.isUpdating = false
 					this.ShowToast('Perubahan telah disimpan','success')
+				}else{
+					this.isUpdating = false
 				}
 			}).catch(err=>{
+				this.isUpdating = false
 				this.ShowToast('Gagal menyimpan perubahan','error')
 			})
 		},
 		UpdateDescription(){
 			this.isUpdating = true
 			axios.post('/api/updateDescriptionKuesioner',{id : this.GetID(),desc : this.desc}).then(result=>{
-				this.isUpdating = false
 				//console.log((result.data == 0) ? 'desc not update' : 'desc has been updated');
 				if(result.data === 1){
+					this.isUpdating = false
 					this.ShowToast('Perubahan telah disimpan','success')
+				}else{
+					this.isUpdating = false
 				}
 			}).catch(err=>{
+				this.isUpdating = false
 				this.ShowToast('Gagal menyimpan perubahan','error')
 			})
 		},
