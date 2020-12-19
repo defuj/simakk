@@ -20,6 +20,8 @@ Route::post('/updateTypeKuesioner', [QuestionnairesController::class,'updateType
 Route::post('/updateStatusKuesioner', [QuestionnairesController::class,'updateStatus']);
 Route::post('/updateTitleKuesioner', [QuestionnairesController::class,'updateTitle']);
 Route::post('/updateDescriptionKuesioner', [QuestionnairesController::class,'updateDescription']);
+Route::post('/getTemplates', [QuestionnairesController::class,'getTemplates']);
+Route::post('/duplicateKuesioner',[QuestionnairesController::class,'duplicateKuesioner']);
 
 Route::get('/getQuestionType', [QuestionsController::class,'getQuestionType']);
 Route::post('/countQuestions', [QuestionsController::class,'count']);

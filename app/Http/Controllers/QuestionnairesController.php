@@ -9,6 +9,116 @@ use Carbon\Carbon;
 
 class QuestionnairesController extends Controller
 {
+    public function duplicateKuesioner(Request $request)
+    {
+        $old = DB::table('questionnaires')->where('questionnaire_id', $request->id)->first();
+
+        $id = rand();
+        $insert = DB::table('questionnaires')->insert([
+            'questionnaire_id'          => $id, 
+            'questionnaire_title'       => $old->questionnaire_title, 
+            'questionnaire_description' => $old->questionnaire_description, 
+            'questionnaire_status'      => 'enable',//enable & disabled
+            'questionnaire_type'        => 'draf',//draf & publish
+            'created_at'                => NOW(),
+            'updated_at'                => NOW()
+        ]);
+
+        $questions = DB::table('questions')->where('questionnaire_id', $request->id)->get();
+        foreach ($questions as $question) {
+            DB::table('questions')->insert([
+                'questionnaire_id'          => $id, 
+                'question_content'          => $question->question_content, 
+                'question_require'          => $question->question_require,
+                'question_index'            => $question->question_index,
+                'question_type'             => $question->question_type,
+                'created_at'                => NOW(),
+                'updated_at'                => NOW()
+            ]);
+        }
+
+        $news = DB::table('questions')->where('questionnaire_id', $id)->get();
+        foreach ($news as $new) {
+            $new->question_id;
+
+            if($new->question_type === "Skala Linier"){
+                $skalas = DB::table('skala_linier')
+                ->join('questions', 'skala_linier.question_id', '=', 'questions.question_id')
+                ->where('questions.questionnaire_id', $request->id)->get();
+                foreach ($skalas as $skala) {
+                    DB::table('skala_linier')->insert([
+                        'question_id'   => $new->question_id,
+                        'minimum'       => $skala->minimum,
+                        'maximum'       => $skala->maximum,
+                        'label_minimum' => $skala->label_minimum,
+                        'label_maximum' => $skala->label_maximum,
+                    ]);
+                }
+            }else if($new->question_type === "Pilihan Ganda"){
+                $options = DB::table('multiple_choice')
+                ->join('questions', 'multiple_choice.question_id', '=', 'questions.question_id')
+                ->where('questions.questionnaire_id', $request->id)->get();
+                foreach ($options as $option) {
+                    DB::table('multiple_choice')->insert([
+                        'question_id'          => $new->question_id,
+                        'choice'               => $option->choice
+                    ]);
+                }
+            }
+        }
+
+        if($insert){
+            $result = [
+                'result' => true, 
+                'id' => $id
+            ];
+
+            return $result;
+        }else{
+            $result = [
+                'result' => false
+            ];
+
+            return $result;
+        }
+    }
+
+    public function getTemplates(Request $request)
+    {
+        if($request->id == 0){
+            $templates = DB::table('templates')
+            ->select(
+                'questionnaires.questionnaire_id',
+                'questionnaires.questionnaire_title',
+                'questionnaires.questionnaire_description',
+                'questionnaires.questionnaire_status',
+                'questionnaires.questionnaire_type',
+                'questionnaires.created_at',
+                'questionnaires.updated_at',
+                'categories.category',
+            )
+            ->join('questionnaires', 'questionnaires.questionnaire_id', '=', 'templates.questionnaire_id')
+            ->join('categories', 'categories.id', '=', 'templates.category_id');
+            return response()->json($templates->get());
+        }else{
+            $templates = DB::table('templates')
+            ->select(
+                'questionnaires.questionnaire_id',
+                'questionnaires.questionnaire_title',
+                'questionnaires.questionnaire_description',
+                'questionnaires.questionnaire_status',
+                'questionnaires.questionnaire_type',
+                'questionnaires.created_at',
+                'questionnaires.updated_at',
+                'categories.category',
+            )
+            ->join('questionnaires', 'questionnaires.questionnaire_id', '=', 'templates.questionnaire_id')
+            ->join('categories', 'categories.id', '=', 'templates.category_id')
+            ->where('templates.category_id', $request->id)->get();
+            return response()->json($templates);
+        }
+    }
+
     public function updateStatus(Request $request)
     {
         $status = ($request->status == 'true') ? 'enable' : 'disabled';
@@ -61,8 +171,8 @@ class QuestionnairesController extends Controller
             'questionnaire_description' => '', 
             'questionnaire_status'      => 'enable',//enable & disabled
             'questionnaire_type'        => 'draf',//draf & publish
-            'created_at'                => Date('Y-d-m h:i:s'),
-            'updated_at'                => Date('Y-d-m h:i:s'),
+            'created_at'                => NOW(),
+            'updated_at'                => NOW(),
         ]);
 
         if($insert){

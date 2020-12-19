@@ -118,7 +118,7 @@ export default {
 			isUpdating : false,
 			options : [],
 			timer : '',
-			timerInterval : 3000
+			timerInterval : 2000
         }
 	},
 	watch:{

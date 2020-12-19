@@ -78,8 +78,8 @@ class QuestionsController extends Controller
         $insert = DB::table('questions')->insert([
             'questionnaire_id'          => $request->id, 
             'question_content'         => '', 
-            'created_at'                => Date('Y-d-m h:i:s'),
-            'updated_at'                => Date('Y-d-m h:i:s'),
+            'created_at'                => NOW(),
+            'updated_at'                => NOW(),
         ]);
 
         if($insert){
