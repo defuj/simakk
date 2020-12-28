@@ -21,7 +21,7 @@ import About from './components/pages/About.vue'
 import Team from './components/pages/Team.vue'
 import NotFound from './components/pages/NotFound.vue'
 import KuesionerEdit from './components/pages/kuesioner/Modify.vue'
-import KuesionerList from './components/pages/kuesioner/List.vue'
+import KuesionerView from './components/pages/kuesioner/Show.vue'
 
 const routes = [
     {
@@ -41,7 +41,7 @@ const routes = [
     {
       path:'/forms/:id/view',
       name: 'view_kesioner',
-      //component : KuesionerEdit,
+      component : KuesionerView,
     },
     {
       path: '/pages/team',
