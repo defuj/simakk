@@ -31,7 +31,10 @@
             },
             getLogin(){
                 return this.$store.getters.getLogin
-            }
+            },
+            GetID(){
+                return this.$route.params.id
+            },
         },
         methods: {  
             GetLogo(){

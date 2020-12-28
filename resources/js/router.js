@@ -25,41 +25,49 @@ import KuesionerList from './components/pages/kuesioner/List.vue'
 
 const routes = [
     {
-        name: 'home',
-        path:'/',
-        component: Home,
+      path:'/',
+      redirect: '/forms',
     },
     {
-        name: 'about',
-        path: '/about',
-        component: About,
+      path:'/forms',
+      name: 'home',
+      component: Home,
     },
     {
-        name: 'team',
-        path: '/team',
-        component: Team,
+      path:'/forms/:id/edit',
+      name: 'edit_kesioner',
+      component : KuesionerEdit,
     },
     {
-        name: 'kuesioner',
-        path: '/q/:id',
-        props: true,
-        component : KuesionerEdit,
+      path:'/forms/:id/view',
+      name: 'view_kesioner',
+      //component : KuesionerEdit,
     },
     {
-        path: '/auth/:provide/callback',
-        component: {
-          template: '<div class="auth-component"></div>'
-        }
+      path: '/pages/team',
+      name: 'team',
+      component: Team,
     },
     {
-        path: '*',
-        redirect: '/error_404',
-        //redirect: '/home',
+      path: '/pages/about',
+      name: 'pages',
+      component: About,
     },
     {
-        name: 'not_found',
-        path: '/error_404',
-        component: NotFound,
+      path: '/auth/:provide/callback',
+      component: {
+        template: '<div class="auth-component"></div>'
+      }
+    },
+    {
+      path: '*',
+      component: NotFound,
+      //redirect: '/error_404',
+    },
+    {
+      path: '/error_404',
+      name: 'not_found',
+      component: NotFound,
     },
 ];
 
@@ -68,19 +76,5 @@ const router = new VueRouter({
     routes: routes,
     linkActiveClass: 'active'
 });
-
-/*
-router.beforeEach((to, from, next) => {
-    if(to.matched.some(record => record.meta.requiresAuth)) {
-      if (store.getters.isLoggedIn) {
-        next()
-        return
-      }
-      next('/login')
-    } else {
-      next()
-    }
-  })
-*/
 
 export default router;

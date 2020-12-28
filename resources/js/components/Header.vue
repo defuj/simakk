@@ -8,7 +8,7 @@
                 <!--begin::Left-->
                 <div class="d-none d-lg-flex align-items-center">
                     <section v-if="this.$route.name != 'kuesioner'">
-                        <router-link to="/">
+                        <router-link to="/forms">
                             <span class="svg-icon svg-icon-3x svg-icon-primary" >
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -28,7 +28,7 @@
                         </a>
                     </section>
 
-                    <section v-if="this.$route.name == 'kuesioner'">
+                    <section v-if="this.$route.name == 'edit_kesioner'">
                         <router-link to="/">
                             <span class="svg-icon svg-icon-3x svg-icon-primary" >
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -78,7 +78,7 @@
                 <!--begin::Topbar-->
                 <div class="topbar bg-primaryyy">
 
-                    <section v-if="this.$route.name == 'kuesioner'" class="d-lg-flex align-items-center">
+                    <section v-if="this.$route.name == 'edit_kesioner'" class="d-lg-flex align-items-center">
                         <i class="la la-link icon-2x mx-3" style="cursor:pointer;color: #5f6368 !important;" data-container="body" data-toggle="tooltip" data-theme="dark" data-placement="bottom" title="Salin URL"></i>
                         <i class="la la-eye icon-2x mx-3" style="cursor:pointer;color: #5f6368 !important;" data-container="body" data-toggle="tooltip" data-theme="dark" data-placement="bottom" title="Pertinjau"></i>
                         <i @click="DeleteKuesioner()" class="la la-trash icon-2x mx-3" style="cursor:pointer;color: #5f6368 !important;" data-container="body" data-toggle="tooltip" data-theme="dark" data-placement="bottom" title="Hapus"></i>

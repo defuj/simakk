@@ -16,7 +16,7 @@ class Templates extends Migration
         Schema::create('templates', function (Blueprint $table) {
             $table->id();
             $table->foreignId('category_id');
-            $table->foreignId('questionnaire_id');
+            $table->string('questionnaire_id')->index();
         });
     }
 

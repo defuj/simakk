@@ -22,7 +22,7 @@
                     </select>
                 </div>
                 <!--begin::Button-->
-                <button class="btn btn-primary font-weight-bold ml-2" @click="ShowAll()">Semua</button>
+                <button class="btn btn-primary font-weight-bold ml-2" @click="ShowAllTemplates()">Semua</button>
                 <!--end::Button-->
             </div>
             <!--end::Toolbar-->
@@ -69,8 +69,15 @@
                         </svg>
                         <!--end::Svg Icon-->
                     </span>
-                    <div class="text-inverse-white font-weight-bolder font-size-h5 mb-2 mt-5">{{kuesioner.category}}</div>
-                    <div class="font-weight-bold text-inverse-white font-size-sm">Template Kuesioner</div>
+                    <div class="text-inverse-white font-weight-bolder font-size-h5 mb-2 mt-5" v-if="kuesioner.questionnaire_title != ''">
+                        {{kuesioner.questionnaire_title.length > 55 ? kuesioner.questionnaire_title.substring(0, 55 - 3) + "..." : kuesioner.questionnaire_title}}
+                    </div>
+                    <div class="text-inverse-white font-weight-bolder font-size-h5 mb-2 mt-5" v-else>
+                        Template kuesioner belum memiliki judul
+                    </div>
+                    <div class="font-weight-bold text-inverse-white font-size-sm">
+                        {{kuesioner.category}}
+                    </div>
                 </div>
                 <!--end::Body-->
             </a>
@@ -205,6 +212,7 @@ export default {
     props : ['home'],
     data(){
         return {
+            templateLimit : 3,
             limit : 8,
             total : 0,
             kuesioners : [],
@@ -213,6 +221,7 @@ export default {
             categories : [],
             categorySelected : 0,
             templates : [],
+            templatesAll : [],
         }
     },
     watch : {
@@ -235,11 +244,23 @@ export default {
         }
     },
     methods:{
+        ShowAllTemplates(){
+            if(this.kuesionersAll.length > 3){
+                this.templates = this.templatesAll
+            }
+        },
         GetTemplates(){
             axios.post('/api/getTemplates',{id : this.categorySelected}).then(result=>{
-                this.templates = result.data
-                //console.log(this.categorySelected);
-                //console.log(result.data);
+                this.kuesionersAll = result.data
+                this.templates = []
+                if(result.data > 3){
+                    for(var i = 0;i<3;i++){
+                        var data = this.kuesionersAll[i]
+                        this.templates.push(data)
+                    }
+                }else{
+                    this.templates = this.kuesionersAll
+                }
             })
         },
         GetCategories(){
@@ -248,7 +269,7 @@ export default {
             })
         },
         OpenKuesioner(id){
-            window.location.href = '/q/'+id
+            window.location.href = '/forms/'+id+'/edit'
         },
         SearchKuesioner(keyword){
             if(this.kuesionersAll.length > 0){
@@ -323,7 +344,7 @@ export default {
             axios.get('/api/createKuesioner').then(result =>{
                 this.$swal.close();
                 if(result.data.result){
-                    this.$router.push('q/'+result.data.id);
+                    this.$router.push('forms/'+result.data.id+'/edit');
                 }else{
                     this.$swal({
                         title: 'Oops',
@@ -368,6 +389,7 @@ export default {
                                 text : 'Kuesioner telah berhasil dihapus',
                                 icon : 'success'
                             });
+                            this.GetTemplates()
                         }else{
                             this.$swal({
                                 title : 'Oops',
@@ -402,7 +424,7 @@ export default {
                     axios.post('/api/duplicateKuesioner',{id : kuesioner_id}).then(result=>{
                         if(result.data.result){
                             this.$swal.close();
-                            this.$router.push('q/'+result.data.id);
+                            this.$router.push('forms/'+result.data.id+'/edit');
                         }else{
                             this.$swal.close();
                             this.$swal({

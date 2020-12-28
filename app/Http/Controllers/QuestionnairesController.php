@@ -9,11 +9,22 @@ use Carbon\Carbon;
 
 class QuestionnairesController extends Controller
 {
+    public function random_id() {
+        $length = 45;
+        $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-';
+        $pieces = [];
+        $max = mb_strlen($keyspace, '8bit') - 1;
+        for ($i = 0; $i < $length; ++$i) {
+            $pieces []= $keyspace[random_int(0, $max)];
+        }
+        return implode('', $pieces);
+    }
+
     public function duplicateKuesioner(Request $request)
     {
         $old = DB::table('questionnaires')->where('questionnaire_id', $request->id)->first();
 
-        $id = rand();
+        $id = $this->random_id();
         $insert = DB::table('questionnaires')->insert([
             'questionnaire_id'          => $id, 
             'questionnaire_title'       => $old->questionnaire_title, 
@@ -164,7 +175,7 @@ class QuestionnairesController extends Controller
      */
     public function create()
     {
-        $id = rand();
+        $id = $this->random_id();
         $insert = DB::table('questionnaires')->insert([
             'questionnaire_id'          => $id, 
             'questionnaire_title'       => '', 
