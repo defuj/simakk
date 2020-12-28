@@ -35,12 +35,12 @@ const routes = [
     },
     {
       path:'/forms/:id/edit',
-      name: 'edit_kesioner',
+      name: 'edit_kuesioner',
       component : KuesionerEdit,
     },
     {
       path:'/forms/:id/view',
-      name: 'view_kesioner',
+      name: 'view_kuesioner',
       component : KuesionerView,
     },
     {
