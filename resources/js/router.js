@@ -20,7 +20,7 @@ import Home from './components/pages/Home.vue'
 import About from './components/pages/About.vue'
 import Team from './components/pages/Team.vue'
 import NotFound from './components/pages/NotFound.vue'
-import KuesionerEdit from './components/pages/kuesioner/Modify.vue'
+import KuesionerEdit from './components/pages/kuesioner/Edit.vue'
 import KuesionerView from './components/pages/kuesioner/Show.vue'
 
 const routes = [

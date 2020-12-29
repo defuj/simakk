@@ -2,7 +2,7 @@
     <div class="d-flex flex-column flex-root" v-if="getUser != null && getLogin != null">
         <div class="d-flex flex-row flex-column-fluid page">
             <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
-                <header-component v-if="this.$route.name != 'view_kesioner'"></header-component>
+                <header-component v-if="this.$route.name != 'view_kuesioner'"></header-component>
                 <div class="d-flex flex-column-fluid">
                     <div class=" container " style="padding-top:0px !important;">
                         <router-view></router-view>
