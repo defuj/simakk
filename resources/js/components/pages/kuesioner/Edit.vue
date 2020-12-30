@@ -599,19 +599,55 @@ export default {
 					if(e.question_type === 'Skala Linier'){
 						//do save label minimum if not null
 						if(e.label_minimum != null && e.label_minimum != '' && e.label_minimum != undefined){
+							axios.post('/api/updateLabelMinimum',{
+								id : e.question_id,
+								label : e.label_minimum
+							}).then(result=>{
+							}).catch(err=>{
+								this.$swal.close()
+								this.ShowToast('Terjadi kesalahan','error')
 
+								return false
+							})
 						}
 						//do save label maximum if not null
 						if(e.label_maximum != null && e.label_maximum != '' && e.label_maximum != undefined){
+							axios.post('/api/updateLabelMaximum',{
+								id : e.question_id,
+								label : e.label_maximum
+							}).then(result=>{
+							}).catch(err=>{
+								this.$swal.close()
+								this.ShowToast('Terjadi kesalahan','error')
 
+								return false
+							})
 						}
 						//do save minimum number
 						if(e.minimum != null && e.minimum != '' && e.minimum != undefined){
+							axios.post('/api/updateSkalaMinimum',{
+								id : e.question_id,
+								minimum : e.minimum
+							}).then(result=>{
+							}).catch(err=>{
+								this.$swal.close()
+								this.ShowToast('Terjadi kesalahan','error')
 
+								return false
+							})
 						}
 						//do save maximum number
 						if(e.maximum != null && e.maximum != '' && e.maximum != undefined){
+							axios.post('/api/updateSkalaMaximum',{
+								id : e.question_id,
+								maximum : e.maximum
+							}).then(result=>{
+							}).catch(err=>{
+								this.$swal.close()
+								this.ShowToast('Terjadi kesalahan','error')
 
+								return false
+							})
 						}
 						
 					}else if(e.question_type === 'Pilihan Ganda'){
