@@ -598,9 +598,22 @@ export default {
 					
 					if(e.question_type === 'Skala Linier'){
 						//do save label minimum if not null
+						if(e.label_minimum != null && e.label_minimum != '' && e.label_minimum != undefined){
+
+						}
 						//do save label maximum if not null
+						if(e.label_maximum != null && e.label_maximum != '' && e.label_maximum != undefined){
+
+						}
 						//do save minimum number
+						if(e.minimum != null && e.minimum != '' && e.minimum != undefined){
+
+						}
 						//do save maximum number
+						if(e.maximum != null && e.maximum != '' && e.maximum != undefined){
+
+						}
+						
 					}else if(e.question_type === 'Pilihan Ganda'){
 						//do save options of the question
 					}
