@@ -556,7 +556,8 @@ export default {
 			if(this.question.length > 0){
 				if(index < this.question.length){
 					const e = this.question[index]
-					console.log(e)	
+					console.log(e)
+					console.log(this.options)	
 
 					//do save the question
 					axios.post('/api/updateQuestionContent',{
@@ -658,6 +659,7 @@ export default {
 					if(index == this.question.length-1){
 						//close progress dialog
 						this.$swal.close()
+						this.ShowToast('Perubahan telah disimpan','success')
 					}else{
 						//do next save process
 						this.saveChanges(index+1)
