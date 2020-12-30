@@ -9,25 +9,7 @@ const store = new Vuex.Store({
         search : null,
         questions : [],
         answers : [],
-        /*
-        login : {
-          token : String,
-          refreshToken : String,
-          expiresIn : Int,
-          id : String,
-          nickname : String,
-          avatar : String,
-          avatar_original : String,
-          email : String,
-        },
-        user : {
-          email : String,
-          email_verified : Boolean,
-          id : String,
-          name : String,
-          picture : String
-        }
-        */
+        changes : null,
       },
       mutations: {
           set_user: (state, user) =>{
@@ -52,6 +34,9 @@ const store = new Vuex.Store({
           add_questions: (state, questions) =>{
             state.questions.push(questions)
           },
+          put_changes : (state,changes) =>{
+            state.changes = changes
+          }
       },
       getters: {
         getUser : state =>{
@@ -65,6 +50,9 @@ const store = new Vuex.Store({
         },
         getQuestions : state =>{
           return state.questions
+        },
+        getChanges : state =>{
+          return state.changes
         },
       },
       actions: {
@@ -85,6 +73,9 @@ const store = new Vuex.Store({
         },
         addQuestions({commit, state}, questions){
           commit('set_questions',questions)
+        },
+        saveChanges({commit,state}, changes){
+          commit('put_changes',changes)
         },
       },
 })

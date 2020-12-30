@@ -66,13 +66,13 @@ const routes = [
       }
     },
     {
-      path: '*',
-      component: NotFound,
-      //redirect: '/error_404',
-    },
-    {
       path: '/error_404',
       name: 'not_found',
+      component: NotFound,
+    },
+    {
+      path: '/*',
+      name : 'not_found',
       component: NotFound,
     },
 ];

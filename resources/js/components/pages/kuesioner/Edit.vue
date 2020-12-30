@@ -118,7 +118,8 @@ export default {
 			isUpdating : false,
 			options : [],
 			timer : '',
-			timerInterval : 2000
+			timerInterval : 2000,
+			changes : ''
         }
 	},
 	watch:{
@@ -158,6 +159,54 @@ export default {
 				var data = this.$store.getters.getQuestions
 				this.question.push(data[data.length-1])
 				//this.GetAllOptions()
+			}
+		},
+		saveChanges(){
+			if(this.$store.getters.getChanges != this.changes){
+				this.changes = this.$store.getters.getChanges
+			}else{
+				return false;
+			}
+			if(this.title.length < 1){
+				this.ShowToast('Harap untuk mengisi judul kuesioner','warning')
+			}else{
+				if(this.type){
+					this.$swal({
+						title : 'Menyimpan perubahan ...',
+						timerProgressBar: true,
+						showConfirmButton: false,
+						allowOutsideClick : false,
+						willOpen: () => {
+							this.$swal.showLoading()
+						},
+					});
+				}else{
+					this.$swal({
+						title : 'Mengirim kuesioner ...',
+						timerProgressBar: true,
+						showConfirmButton: false,
+						allowOutsideClick : false,
+						willOpen: () => {
+							this.$swal.showLoading()
+						},
+					});
+				}
+			
+				axios.post('/api/updateTypeKuesioner',{
+					id : this.GetID(),
+					type : true
+				}).then(result =>{
+					this.$swal.close()
+					if(result.data === 1){
+						this.ShowToast('Kuesioner siap digunakan','success')
+						window.open('/forms/'+this.GetID()+'/view','_blank')
+					}
+					this.GetKuesioner(this.GetID())
+				})
+				.catch(err=>{
+					this.$swal.close()
+					this.GetKuesioner(this.GetID())
+				})
 			}
 		},
 		question(){
@@ -498,7 +547,10 @@ export default {
 	computed:{
 		getQuestions(){
             return this.$store.getters.getQuestions
-        },
+		},
+		saveChanges(){
+			return this.$store.getters.getChanges
+		}
 	}
 }
 </script>

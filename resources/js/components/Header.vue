@@ -68,7 +68,7 @@
                         <button v-if="this.type === 'draf'" @click="PublishKuesioner()" type="button" class="btn btn-primary font-weight-bolder mx-3" style="width:80px;" data-container="body" data-toggle="tooltip" data-theme="dark" data-placement="bottom" title="Publikasikan Kuesioner">
                             Kirim
                         </button>	
-                        <button v-else-if="this.type === 'publish'" @click="SaveKuesioner()" type="button" class="btn btn-primary font-weight-bolder mx-3" style="width:80px;" data-container="body" data-toggle="tooltip" data-theme="dark" data-placement="bottom" title="Simpan Perubahan">
+                        <button v-else-if="this.type === 'publish' || this.type === null" @click="SaveKuesioner()" type="button" class="btn btn-primary font-weight-bolder mx-3" style="width:80px;" data-container="body" data-toggle="tooltip" data-theme="dark" data-placement="bottom" title="Simpan Perubahan">
                             Simpan
                         </button>
                     </section>
@@ -114,7 +114,6 @@
         watch:{
             search(){
                 this.$store.dispatch('updateSearch',this.search)
-                //console.log(this.getSearch)
             },
             getSearch(){
                 this.search = this.getSearch
@@ -122,34 +121,18 @@
         },
         methods :{
             SaveKuesioner(){
-
+                this.$store.dispatch('saveChanges',this.MakeRandomString())
             },
             PublishKuesioner(){
-                this.$swal({
-                    title : 'Mengirim kuesioner ...',
-                    timerProgressBar: true,
-                    showConfirmButton: false,
-                    allowOutsideClick : false,
-                    willOpen: () => {
-                        this.$swal.showLoading()
-                    },
-                });
-
-                axios.post('/api/updateTypeKuesioner',{
-                    id : this.GetID(),
-                    type : true
-                }).then(result =>{
-                    this.$swal.close()
-                    if(result.data === 1){
-                        this.ShowToast('Kuesioner siap digunakan','success')
-                        window.open('/forms/'+this.GetID()+'/view','_blank')
-                    }
-                    this.GetKuesioner(this.GetID())
-                })
-                .catch(err=>{
-                    this.$swal.close()
-                    this.GetKuesioner(this.GetID())
-                })
+                this.$store.dispatch('saveChanges',this.MakeRandomString())
+            },
+            MakeRandomString(){
+                var result           = ''
+                var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+                for ( var i = 0; i < 32; i++ ) {
+                    result += characters.charAt(Math.floor(Math.random() * characters.length));
+                }
+                return result
             },
             ShowToast(messages,types){
                 this.$toast.open({
@@ -214,7 +197,6 @@
                     if(result.data.questionnaire_type == undefined){
                         this.$router.push({ name: 'not_found' })
                     }else{
-                        console.log(result.data);
                         var data = result.data
                         this.status = data.questionnaire_status
                         this.type = data.questionnaire_type
@@ -232,7 +214,9 @@
             }
         },
         mounted(){
-            this.GetKuesioner(this.GetID())
+            if(this.$route.name == 'edit_kuesioner'){
+                this.GetKuesioner(this.GetID())
+            }
         }
     }
 </script>
