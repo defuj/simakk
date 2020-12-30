@@ -168,7 +168,7 @@ export default {
 				return false;
 			}
 			if(this.title.length < 1){
-				this.ShowToast('Harap untuk mengisi judul kuesioner','warning')
+				this.ShowToast('Harap untuk mengisi judul kuesioner','error')
 			}else{
 				if(this.type){
 					this.$swal({
@@ -191,7 +191,16 @@ export default {
 						},
 					});
 				}
-			
+
+				if(this.question.length > 0){
+					for (let i = 0; i < this.question.length; i++) {
+						const e = this.question[i]
+						console.log(e)	
+					}
+				}else{
+					this.$swal.close()
+				}
+
 				axios.post('/api/updateTypeKuesioner',{
 					id : this.GetID(),
 					type : true
