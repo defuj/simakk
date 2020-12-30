@@ -23,6 +23,7 @@ import NotFound from './components/pages/NotFound.vue'
 import KuesionerEdit from './components/pages/kuesioner/Edit.vue'
 import KuesionerView from './components/pages/kuesioner/Show.vue'
 import KuesionerPreview from './components/pages/kuesioner/Preview.vue'
+import KuesionerResponses from './components/pages/kuesioner/Responses.vue'
 
 const routes = [
     {
@@ -38,6 +39,11 @@ const routes = [
       path:'/forms/:id/edit',
       name: 'edit_kuesioner',
       component : KuesionerEdit,
+    },
+    {
+      path:'/forms/:id/edit/responses',
+      name: 'responses_kuesioner',
+      component : KuesionerResponses,
     },
     {
       path:'/forms/:id/view',

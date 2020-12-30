@@ -4,7 +4,7 @@
         <!--begin::Top-->
         <div class="header-top">
             <!--begin::Container-->
-            <div class=" container " style="max-width:100%;height: 65px;">
+            <div class=" container " style="max-width:100%;height: auto;">
                 <!--begin::Left-->
                 <div class="d-none d-lg-flex align-items-center">
                     <section>
@@ -21,11 +21,11 @@
                         </router-link>
                         
 
-                        <a class="mr-20" >
-                            <span class="kuesioner" v-if="this.$route.name == 'edit_kuesioner'">
+                        <a class="mr-20">
+                            <span class="kuesioner" v-if="this.$route.name == 'edit_kuesioner' || this.$route.name == 'responses_kuesioner'" style="font-weight:400;color:#202124;font-family: 'Google Sans',Roboto,Arial,sans-serif;">
                                 Kuesioner
                             </span>
-                            <span class="kuesioner" v-if="this.$route.name != 'edit_kuesioner'">
+                            <span class="kuesioner" v-if="this.$route.name != 'edit_kuesioner' && this.$route.name != 'responses_kuesioner'" style="font-weight:400;color:#202124;font-family: 'Google Sans',Roboto,Arial,sans-serif;">
                                 SIMAKK
                             </span>
                             
@@ -94,6 +94,20 @@
                 <!--end::Topbar-->
             </div>
             <!--end::Container-->
+        </div>
+        <div class="header-bottom d-flex justify-content-center" v-if="this.$route.name == 'responses_kuesioner' || this.$route.name == 'edit_kuesioner'" style="height: 40px !important;margin-top:-10px;">
+            <ul class="nav nav-bolder ">
+                <li class="nav-item">
+                    <router-link :to="'/forms/'+this.$route.params.id+'/edit'" class="nav-link" exact>
+                        <span class="nav-text">Pertanyaan</span>
+                    </router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link :to="'/forms/'+this.$route.params.id+'/edit/responses'" class="nav-link">
+                        <span class="nav-text">Responses</span>
+                    </router-link>
+                </li>
+            </ul>
         </div>
         <!--end::Top-->
     </div>
@@ -245,6 +259,9 @@
 </style>
 
 <style scoped>
+    .nav.nav-bolder .nav-item .nav-link{
+        color: #3C4043;
+    }
     .kuesioner {
         color: #5f6368;
         margin-left: 16px;

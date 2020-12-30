@@ -161,25 +161,32 @@ export default {
 				//this.GetAllOptions()
 			}
 		},
-		saveChanges(){
+		getChanges(){
 			if(this.$store.getters.getChanges != this.changes){
 				this.changes = this.$store.getters.getChanges
 			}else{
-				return false;
+				return false
 			}
-			if(this.title.length < 1){
-				this.ShowToast('Harap untuk mengisi judul kuesioner','error')
+
+			if(this.type){
+				this.$swal({
+					title : 'Menyimpan perubahan ...',
+					timerProgressBar: true,
+					showConfirmButton: false,
+					allowOutsideClick : false,
+					willOpen: () => {
+						this.$swal.showLoading()
+					},
+				});
+
+				if(this.question.length > 0){
+					this.saveChanges(0)
+				}else{
+					this.$swal.close()
+				}
 			}else{
-				if(this.type){
-					this.$swal({
-						title : 'Menyimpan perubahan ...',
-						timerProgressBar: true,
-						showConfirmButton: false,
-						allowOutsideClick : false,
-						willOpen: () => {
-							this.$swal.showLoading()
-						},
-					});
+				if(this.title.length < 1){
+					this.ShowToast('Harap untuk mengisi judul kuesioner','error')
 				}else{
 					this.$swal({
 						title : 'Mengirim kuesioner ...',
@@ -190,32 +197,30 @@ export default {
 							this.$swal.showLoading()
 						},
 					});
-				}
 
-				if(this.question.length > 0){
-					for (let i = 0; i < this.question.length; i++) {
-						const e = this.question[i]
-						console.log(e)	
-					}
-				}else{
-					this.$swal.close()
-				}
+					axios.post('/api/updateTypeKuesioner',{
+						id : this.GetID(),
+						type : true
+					}).then(result =>{
+						if(result.data === 1){
+							this.ShowToast('Kuesioner siap digunakan','success')
+							window.open('/forms/'+this.GetID()+'/view','_blank')
+						}
+						this.GetKuesioner(this.GetID())
 
-				axios.post('/api/updateTypeKuesioner',{
-					id : this.GetID(),
-					type : true
-				}).then(result =>{
-					this.$swal.close()
-					if(result.data === 1){
-						this.ShowToast('Kuesioner siap digunakan','success')
-						window.open('/forms/'+this.GetID()+'/view','_blank')
-					}
-					this.GetKuesioner(this.GetID())
-				})
-				.catch(err=>{
-					this.$swal.close()
-					this.GetKuesioner(this.GetID())
-				})
+						if(this.question.length > 0){
+							this.saveChanges(0)
+						}else{
+							this.$swal.close()
+						}
+						
+					})
+					.catch(err=>{
+						this.$swal.close()
+						this.GetKuesioner(this.GetID())
+					})
+					
+				}
 			}
 		},
 		question(){
@@ -547,6 +552,78 @@ export default {
 				duration : 2000
 			});
 		},
+		saveChanges(index){
+			if(this.question.length > 0){
+				if(index < this.question.length){
+					const e = this.question[index]
+					console.log(e)	
+
+					//do save the question
+					axios.post('/api/updateQuestionContent',{
+						question_id : e.question_id,
+						question_content : e.question_content
+					}).then(result=>{
+						
+					}).catch(err=>{
+						this.$swal.close()
+						this.ShowToast('Terjadi kesalahan','error')
+
+						return false
+					})
+					//do save the required setting for the question
+					axios.post('/api/updateQuestionRequire',{
+						question_id : e.question_id,
+						question_require : e.question_require,
+						questionnaire_id : this.GetID()
+					}).then(result=>{
+						
+					}).catch(err=>{
+						this.$swal.close()
+						this.ShowToast('Terjadi kesalahan','error')
+
+						return false
+					})
+					//do save the question type
+					axios.post('/api/updateQuestionType',{
+						question_id : e.question_id,
+						question_type : e.question_type
+					}).then(result=>{
+
+					}).catch(err=>{
+						this.$swal.close()
+						this.ShowToast('Terjadi kesalahan','error')
+
+						return false
+					})
+					
+					if(e.question_type === 'Skala Linier'){
+						//do save label minimum if not null
+						//do save label maximum if not null
+						//do save minimum number
+						//do save maximum number
+					}else if(e.question_type === 'Pilihan Ganda'){
+						//do save options of the question
+					}
+
+					//cehck if the process is the last or not
+					if(index == this.question.length-1){
+						//close progress dialog
+						this.$swal.close()
+					}else{
+						//do next save process
+						this.saveChanges(index+1)
+					}
+				}else{
+					//close progress dialog
+					this.$swal.close()
+				}
+			}else{
+				//close progress dialog
+				this.$swal.close()
+			}
+
+			
+		},
 	},
     mounted(){
 		this.GetKuesioner(this.GetID())
@@ -557,7 +634,7 @@ export default {
 		getQuestions(){
             return this.$store.getters.getQuestions
 		},
-		saveChanges(){
+		getChanges(){
 			return this.$store.getters.getChanges
 		}
 	}
