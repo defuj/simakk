@@ -22,6 +22,7 @@ import Team from './components/pages/Team.vue'
 import NotFound from './components/pages/NotFound.vue'
 import KuesionerEdit from './components/pages/kuesioner/Edit.vue'
 import KuesionerView from './components/pages/kuesioner/Show.vue'
+import KuesionerPreview from './components/pages/kuesioner/Preview.vue'
 
 const routes = [
     {
@@ -42,6 +43,11 @@ const routes = [
       path:'/forms/:id/view',
       name: 'view_kuesioner',
       component : KuesionerView,
+    },
+    {
+      path:'/forms/:id/preview',
+      name: 'preview_kuesioner',
+      component : KuesionerPreview,
     },
     {
       path: '/pages/team',

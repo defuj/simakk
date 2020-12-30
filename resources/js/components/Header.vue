@@ -65,10 +65,10 @@
                         <i @click="Preview()" class="la la-eye icon-2x mx-3" style="cursor:pointer;color: #5f6368 !important;" data-container="body" data-toggle="tooltip" data-theme="dark" data-placement="bottom" title="Pertinjau"></i>
                         <i @click="DeleteKuesioner()" class="la la-trash icon-2x mx-3" style="cursor:pointer;color: #5f6368 !important;" data-container="body" data-toggle="tooltip" data-theme="dark" data-placement="bottom" title="Hapus"></i>
                         <i @click="AddQuestion()" class="la la-plus-circle icon-2x mx-3" style="cursor:pointer;color: #5f6368 !important;" data-container="body" data-toggle="tooltip" data-theme="dark" data-placement="bottom" title="Tambah Pertanyaan"></i>
-                        <button v-if="this.type === 'draft'" @click="PublishKuesioner()" type="button" class="btn btn-primary font-weight-bolder mx-3" style="width:80px;" data-container="body" data-toggle="tooltip" data-theme="dark" data-placement="bottom" title="Publikasikan Kuesioner">
+                        <button v-if="this.type === 'draf'" @click="PublishKuesioner()" type="button" class="btn btn-primary font-weight-bolder mx-3" style="width:80px;" data-container="body" data-toggle="tooltip" data-theme="dark" data-placement="bottom" title="Publikasikan Kuesioner">
                             Kirim
                         </button>	
-                        <button v-if="this.type === 'publish'" @click="SaveKuesioner()" type="button" class="btn btn-primary font-weight-bolder mx-3" style="width:80px;" data-container="body" data-toggle="tooltip" data-theme="dark" data-placement="bottom" title="Publikasikan Kuesioner">
+                        <button v-else-if="this.type === 'publish'" @click="SaveKuesioner()" type="button" class="btn btn-primary font-weight-bolder mx-3" style="width:80px;" data-container="body" data-toggle="tooltip" data-theme="dark" data-placement="bottom" title="Simpan Perubahan">
                             Simpan
                         </button>
                     </section>
@@ -125,10 +125,42 @@
 
             },
             PublishKuesioner(){
-                
+                this.$swal({
+                    title : 'Mengirim kuesioner ...',
+                    timerProgressBar: true,
+                    showConfirmButton: false,
+                    allowOutsideClick : false,
+                    willOpen: () => {
+                        this.$swal.showLoading()
+                    },
+                });
+
+                axios.post('/api/updateTypeKuesioner',{
+                    id : this.GetID(),
+                    type : true
+                }).then(result =>{
+                    this.$swal.close()
+                    if(result.data === 1){
+                        this.ShowToast('Kuesioner siap digunakan','success')
+                        window.open('/forms/'+this.GetID()+'/view','_blank')
+                    }
+                    this.GetKuesioner(this.GetID())
+                })
+                .catch(err=>{
+                    this.$swal.close()
+                    this.GetKuesioner(this.GetID())
+                })
+            },
+            ShowToast(messages,types){
+                this.$toast.open({
+                    message: messages,
+                    type: types,
+                    position: 'bottom-right',
+                    duration : 2000
+                });
             },
             Preview(){
-                window.open('/forms/'+this.GetID()+'/view','_blank')
+                window.open('/forms/'+this.GetID()+'/preview','_blank')
             },
             Relog(){
                 this.$parent.AuthProvider('google')
@@ -178,17 +210,18 @@
                 });
             },
             GetKuesioner(ID){
-			axios.post('/api/getKuesioner',{kode : ID}).then(result =>{
-				if(result.data.questionnaire_type == undefined){
-					this.$router.push({ name: 'not_found' })
-				}else{
-					var data = result.data
-					this.status = data.questionnaire_status == 'enable' ? true : false;
-					this.type = data.questionnaire_type == 'publish' ? true : false;
-				}
-				
-			});
-		},
+                axios.post('/api/getKuesioner',{kode : ID}).then(result =>{
+                    if(result.data.questionnaire_type == undefined){
+                        this.$router.push({ name: 'not_found' })
+                    }else{
+                        console.log(result.data);
+                        var data = result.data
+                        this.status = data.questionnaire_status
+                        this.type = data.questionnaire_type
+                    }
+                    
+                });
+		    },
         },
         computed:{
             getUser(){
