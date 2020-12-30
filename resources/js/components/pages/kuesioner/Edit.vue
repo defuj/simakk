@@ -308,6 +308,12 @@ export default {
 					this.type = data.questionnaire_type == 'publish' ? true : false;
 					this.title = data.questionnaire_title
 					this.desc = data.questionnaire_description
+
+					if(data.questionnaire_title === ''){
+						window.document.title = 'Belum memiliki judul - SIMAKK'
+					}else{
+						window.document.title = data.questionnaire_title+' - SIMAKK'
+					}
 				}
 				
 			});

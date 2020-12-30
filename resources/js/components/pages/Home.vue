@@ -121,7 +121,7 @@
             </div>
             <!--end::Details-->
             <!--begin::Toolbar-->
-            <div class="d-flex align-items-center">
+            <div class="d-flex align-items-center" v-if="total > 8">
                 <!--begin::Button-->
                 <button class="btn btn-primary font-weight-bold ml-2" @click="ShowAll()">Lihat Semua</button>
                 <!--end::Button-->
@@ -458,6 +458,7 @@ export default {
         this.GetKuesioner()
         this.GetCategories()
         this.GetTemplates()
+        window.document.title = 'SIMAKK - Sistem Manajemen Kuesioner Kampus'
     }
 }
 </script>

@@ -62,17 +62,19 @@
                 <div class="topbar bg-primaryyy">
 
                     <section v-if="this.$route.name == 'edit_kuesioner'" class="d-lg-flex align-items-center">
-                        <i @click="CopyLink()" class="la la-link icon-2x mx-3" style="cursor:pointer;color: #5f6368 !important;" data-container="body" data-toggle="tooltip" data-theme="dark" data-placement="bottom" title="Salin URL"></i>
                         <i @click="Preview()" class="la la-eye icon-2x mx-3" style="cursor:pointer;color: #5f6368 !important;" data-container="body" data-toggle="tooltip" data-theme="dark" data-placement="bottom" title="Pertinjau"></i>
                         <i @click="DeleteKuesioner()" class="la la-trash icon-2x mx-3" style="cursor:pointer;color: #5f6368 !important;" data-container="body" data-toggle="tooltip" data-theme="dark" data-placement="bottom" title="Hapus"></i>
                         <i @click="AddQuestion()" class="la la-plus-circle icon-2x mx-3" style="cursor:pointer;color: #5f6368 !important;" data-container="body" data-toggle="tooltip" data-theme="dark" data-placement="bottom" title="Tambah Pertanyaan"></i>
-                        <button @click="SaveAll()" type="button" class="btn btn-primary font-weight-bolder mx-3" style="width:80px;" data-container="body" data-toggle="tooltip" data-theme="dark" data-placement="bottom" title="Publikasikan Kuesioner">
+                        <button v-if="this.type === 'draft'" @click="PublishKuesioner()" type="button" class="btn btn-primary font-weight-bolder mx-3" style="width:80px;" data-container="body" data-toggle="tooltip" data-theme="dark" data-placement="bottom" title="Publikasikan Kuesioner">
                             Kirim
                         </button>	
+                        <button v-if="this.type === 'publish'" @click="SaveKuesioner()" type="button" class="btn btn-primary font-weight-bolder mx-3" style="width:80px;" data-container="body" data-toggle="tooltip" data-theme="dark" data-placement="bottom" title="Publikasikan Kuesioner">
+                            Simpan
+                        </button>
                     </section>
                     
                     <!--begin::User-->
-                    <div class="topbar-item">
+                    <div class="topbar-item" v-if="this.$route.name != 'edit_kuesioner'">
                         <div class="btn btn-icon btn-hover-transparent-dark w-lg-auto d-flex align-items-center btn-lg px-2" id="kt_quick_user_toggle" @click="Relog()">
                             <div class="d-flex flex-column text-right pr-lg-3" v-if="this.$route.name != 'kuesioner'">
                                 <span class="text-dark opacity-50 font-weight-bold font-size-sm d-none d-md-inline">
@@ -105,6 +107,8 @@
             return {
                 logged : false,
                 search : null,
+                status : null,
+                type : null,
             }
         },
         watch:{
@@ -117,11 +121,11 @@
             }
         },
         methods :{
-            SaveAll(){
+            SaveKuesioner(){
 
             },
-            CopyLink(){
-
+            PublishKuesioner(){
+                
             },
             Preview(){
                 window.open('/forms/'+this.GetID()+'/view','_blank')
@@ -173,6 +177,18 @@
                     }
                 });
             },
+            GetKuesioner(ID){
+			axios.post('/api/getKuesioner',{kode : ID}).then(result =>{
+				if(result.data.questionnaire_type == undefined){
+					this.$router.push({ name: 'not_found' })
+				}else{
+					var data = result.data
+					this.status = data.questionnaire_status == 'enable' ? true : false;
+					this.type = data.questionnaire_type == 'publish' ? true : false;
+				}
+				
+			});
+		},
         },
         computed:{
             getUser(){
@@ -183,7 +199,7 @@
             }
         },
         mounted(){
-            //console.log('route name : '+this.$route.name);
+            this.GetKuesioner(this.GetID())
         }
     }
 </script>
