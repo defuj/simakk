@@ -21,10 +21,20 @@
                     <strong class="text-danger" v-if="data.question_require === 1">*</strong>
                 </p>
                 <section v-if="data.question_type === 'Jawaban Singkat'">
-                    <textarea-autosize v-model="data.question_content" class="form-control my-3 my-form" rows="1" placeholder="Jawaban Anda"></textarea-autosize>
+                    <textarea-autosize v-model="data.answers" class="form-control my-3 my-form" rows="1" placeholder="Jawaban Anda"></textarea-autosize>
                 </section>
-                <section v-else-if="data.question_type === 'Skala Linier'"></section>
-                <section v-else-if="data.question_type === 'Pilihan Ganda'"></section>
+                <section v-else-if="data.question_type === 'Skala Linier'">
+
+                </section>
+                <section v-else-if="data.question_type === 'Pilihan Ganda'">
+                    <div class="radio-list">
+                        <label v-for="opsi in options" :item="opsi" :key="opsi.id" v-show="opsi.question_id === data.question_id" class="radio radio-outline radio-outline-2x radio-primary">
+                            <input type="radio" :name="'radio'+opsi.id" v-model="data.answers" :value="opsi.choice"/>
+                            <span></span>
+                            {{opsi.choice}}
+                        </label>
+                    </div>
+                </section>
             </div>
         </div>
   </section>
@@ -62,6 +72,9 @@ export default {
 			question : [],
 			options : [],
         }
+    },
+    watch:{
+
     },
     methods:{
         CheckAnswers(){
