@@ -23,12 +23,28 @@
                 <section v-if="data.question_type === 'Jawaban Singkat'">
                     <textarea-autosize v-model="data.answers" class="form-control my-3 my-form" rows="1" placeholder="Jawaban Anda"></textarea-autosize>
                 </section>
-                <section v-else-if="data.question_type === 'Skala Linier'">
+                <section v-else-if="data.question_type === 'Skala Linier'" class="">
+                    <p class="d-flex justify-content-start">{{data.label_minimum}}</p>
+                    <div class="radio-inline d-flex justify-content-center" v-if="data.minimum === 0">
+                        <label v-for="n in data.maximum+1" :item="n" :key="n" class="radio radio-lg radio-outline radio-outline-2x radio-primary">
+                            <input type="radio" :name="'radio'+data.question_id" v-model="data.answers" :value="n-1"/>
+                            <span></span>
+                            {{n-1}}
+                        </label>
+                    </div>
 
+                    <div class="radio-inline d-flex justify-content-center" v-else-if="data.minimum === 1">
+                        <label v-for="n in data.maximum" :item="n" :key="n" class="radio radio-lg radio-outline radio-outline-2x radio-primary">
+                            <input type="radio" :name="'radio'+data.question_id" v-model="data.answers" :value="n"/>
+                            <span></span>
+                            {{n}}
+                        </label>
+                    </div>
+                    <p class="d-flex justify-content-end">{{data.label_maximum}}</p>
                 </section>
                 <section v-else-if="data.question_type === 'Pilihan Ganda'">
                     <div class="radio-list">
-                        <label v-for="opsi in options" :item="opsi" :key="opsi.id" v-show="opsi.question_id === data.question_id" class="radio radio-outline radio-outline-2x radio-primary">
+                        <label v-for="opsi in options" :item="opsi" :key="opsi.id" v-show="opsi.question_id === data.question_id" class="radio radio-lg radio-outline radio-outline-2x radio-primary">
                             <input type="radio" :name="'radio'+opsi.id" v-model="data.answers" :value="opsi.choice"/>
                             <span></span>
                             {{opsi.choice}}
