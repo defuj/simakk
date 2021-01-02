@@ -7,7 +7,7 @@ const store = new Vuex.Store({
         user : null,
         login : null,
         search : null,
-        questions : [],
+        questions : null,
         answers : [],
         changes : null,
       },

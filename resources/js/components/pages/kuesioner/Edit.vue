@@ -119,7 +119,8 @@ export default {
 			options : [],
 			timer : '',
 			timerInterval : 2000,
-			changes : ''
+			changes : '',
+			newQuestionCode : ''
         }
 	},
 	watch:{
@@ -155,10 +156,24 @@ export default {
 			}
 		},
 		getQuestions(){
+			/*
+			if(this.$store.getters.getQuestions != this.newQuestionCode){
+				this.newQuestionCode = this.$store.getters.getQuestions
+
+				axios.post('/api/addQuestion',{id : this.GetID()}).then(result=>{
+                    if(result.data.length > 0){
+                        console.log('a question has been added');
+                    }else{
+                        console.log('failed to add a question');
+                    }
+                });
+			}
+			*/
+
+			
 			if(this.$store.getters.getQuestions.length > this.question.length){
 				var data = this.$store.getters.getQuestions
 				this.question.push(data[data.length-1])
-				//this.GetAllOptions()
 			}
 		},
 		getChanges(){
@@ -653,6 +668,7 @@ export default {
 						
 					}else if(e.question_type === 'Pilihan Ganda'){
 						//do save options of the question
+						
 					}
 
 					//cehck if the process is the last or not

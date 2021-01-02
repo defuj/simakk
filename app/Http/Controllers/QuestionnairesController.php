@@ -178,8 +178,8 @@ class QuestionnairesController extends Controller
         $id = $this->random_id();
         $insert = DB::table('questionnaires')->insert([
             'questionnaire_id'          => $id, 
-            'questionnaire_title'       => '', 
-            'questionnaire_description' => '', 
+            'questionnaire_title'       => 'Ketikan judul kuesioner Anda di sini ...', 
+            'questionnaire_description' => 'Ketikan deskripsi untuk kesioner Anda ...', 
             'questionnaire_status'      => 'enable',//enable & disabled
             'questionnaire_type'        => 'draf',//draf & publish
             'created_at'                => NOW(),

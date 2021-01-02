@@ -77,7 +77,8 @@ class QuestionsController extends Controller
     {
         $insert = DB::table('questions')->insert([
             'questionnaire_id'          => $request->id, 
-            'question_content'         => '', 
+            'question_content'          => 'Ketikan pertanyaan Anda di sini...', 
+            'question_type'             => 'Jawaban Singkat',
             'created_at'                => NOW(),
             'updated_at'                => NOW(),
         ]);
