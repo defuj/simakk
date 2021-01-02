@@ -6,6 +6,7 @@ use App\Http\Controllers\QuestionnairesController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\QuestionsController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\AnswersController;
 
 
 Route::get('/teams', [TeamsController::class, 'index']);
@@ -40,6 +41,8 @@ Route::post('/addOptions', [QuestionsController::class,'addOptions']);
 Route::post('/deleteOptions', [QuestionsController::class,'deleteOptions']);
 Route::post('/getOptions', [QuestionsController::class,'getOptions']);
 Route::post('/updateOptions', [QuestionsController::class,'updateOptions']);
+
+Route::post('/checkMyAnswers', [AnswersController::class,'checkMyAnswers']);
 
 Route::get('/getCategories', [CategoriesController::class,'getCategories']);
 

@@ -1,5 +1,5 @@
 <template>
-    <section class="container-kuesioner" style="margin-top:-20px;">
+    <section class="container-kuesioner" style="margin-top:-20px;" v-if="status != null && status == false">
         <div class="card card-custom gutter-b example example-compact" style="margin-left:auto;margin-right:auto;">
 		    <div class="card-body">
                 <p class="display5 display4-lg">
@@ -28,12 +28,35 @@
             </div>
         </div>
   </section>
+  <section class="container-kuesioner" style="margin-top:-20px;" v-else-if="status != null && status == true">
+      <div class="card card-custom gutter-b example example-compact" style="margin-left:auto;margin-right:auto;">
+		    <div class="card-body">
+                <p class="display5 display4-lg">
+                    <strong v-if="response ===  'closed'">
+                        Anda sudah menanggapi
+                    </strong>
+                    <strong v-else-if="response ===  'sent'">
+                        {{title}}
+                    </strong>
+                </p>
+                <p class="font-size-lg" v-if="response ===  'closed'">
+                    Anda hanya dapat mengisi formulir ini sekali.<br>
+                    Coba hubungi pemilik formulir ini jika menurut Anda hal ini adalah kesalahan.
+                </p>
+                <p class="font-size-lg" v-else-if="response ===  'sent'">
+                    Tanggapan Anda telah kami simpan.
+                </p>
+		    </div>
+	    </div>
+  </section>
 </template>
 
 <script>
 export default {
     data(){
         return{
+            status : null,
+            response : null, //sent : anda baru saja mengirimkan tanggapan, closed : anda sudah mengirim tanggapan dan mencoba membuka kembali halaman
 			title : "",
 			desc : "",
 			question : [],
@@ -41,6 +64,21 @@ export default {
         }
     },
     methods:{
+        CheckAnswers(){
+            axios.post('/api/checkMyAnswers',{
+                email : this.GetUser().email,
+                questionnaire_id : this.GetID()
+            }).then(res =>{
+                if(res.data.length > 0){
+                    this.status = true
+                    this.response = 'closed'
+                }else{
+                    this.status = false
+                    this.response = ''
+                }
+                this.GetKuesioner(this.GetID())
+            })
+        },
         GetID() {
             return this.$route.params.id
         },
@@ -62,8 +100,10 @@ export default {
                             window.document.title = data.questionnaire_title+' - SIMAKK'
                         }
 
-                        this.GetQuestion()
-                        this.GetAllOptions()
+                        if(this.status == false){
+                            this.GetQuestion()
+                            this.GetAllOptions()
+                        }
                     }
 				}
 			})
@@ -79,13 +119,16 @@ export default {
                 this.options = result.data
                 console.log(result.data)
 			})
-		},
+        },
+        GetUser(){
+            return JSON.parse(localStorage.getItem('login'))
+        }
     },
     computed:{
-
+        
     },
     mounted(){
-        this.GetKuesioner(this.GetID())
+        this.CheckAnswers()
     }
 }
 </script>
