@@ -39,7 +39,7 @@ class QuestionnairesController extends Controller
 
     public function deleteFromTemplate(Request $request)
     {
-        $detele = DB::table('templates')->where('questionnaire_id', $request->id)->delete();
+        $delete = DB::table('templates')->where('questionnaire_id', $request->id)->delete();
         return $delete;
     }
 

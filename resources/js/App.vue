@@ -145,6 +145,7 @@
                                 this.ShowToast('Perubahan telah disimpan','success')
                                 this.GetTemplates()
                             }).catch(err=>{
+                                console.log(err);
                                 this.ShowToast('Gagal menyimpan perubahan','error')
                             })
                         }else{
