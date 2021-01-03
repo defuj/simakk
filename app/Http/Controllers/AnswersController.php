@@ -15,7 +15,13 @@ class AnswersController extends Controller
 
     public function saveAnswers(Request $request)
     {
-        
+        $insert = DB::table('answers')->insert([
+            'answers_id'          => $request->id, 
+            'email'               => $request->email, 
+            'questionnaire_id'    => $request->questionnaire_id,
+            'created_at'          => NOW(),
+            'updated_at'          => NOW(),
+        ]);
     }
 
     public function index()
