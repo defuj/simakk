@@ -121,23 +121,19 @@ export default {
 					this.$router.push({ name: 'not_found' })
 				}else{
                     var data = result.data
-                    if(data.questionnaire_type != 'publish'){
-                        this.$router.push({ name: 'not_found' })
+                    this.title = data.questionnaire_title
+                    this.desc = data.questionnaire_description
+                    this.setting_single_response = data.setting_single_response
+                    this.setting_campus_response = data.setting_campus_response
+
+                    if(data.questionnaire_title === ''){
+                        window.document.title = 'Belum memiliki judul - SIMAKK'
                     }else{
-                        this.title = data.questionnaire_title
-                        this.desc = data.questionnaire_description
-                        this.setting_single_response = data.setting_single_response
-                        this.setting_campus_response = data.setting_campus_response
-
-                        if(data.questionnaire_title === ''){
-                            window.document.title = 'Belum memiliki judul - SIMAKK'
-                        }else{
-                            window.document.title = data.questionnaire_title+' - SIMAKK'
-                        }
-
-                        this.GetQuestion()
-                        this.GetAllOptions()
+                        window.document.title = data.questionnaire_title+' - SIMAKK'
                     }
+
+                    this.GetQuestion()
+                    this.GetAllOptions()
 				}
 			})
         },
