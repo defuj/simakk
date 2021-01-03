@@ -112,7 +112,9 @@ export default {
 			title : "",
 			desc : "",
 			question : [],
-			options : [],
+            options : [],
+            answers_id : null,
+            last_index_send_result : 0
         }
     },
     watch:{
@@ -134,20 +136,82 @@ export default {
 
                     if(i == this.question.length-1){
                         if(required == input_required){
-                            //send all answers
-                            axios.post('',{
-                                
-                            }).then(res=>{
-
-                            }).catch(err=>{
-                                this.ShowToast('Gagal mengirim jawaban','error')
-                            })
+                            if(this.answers_id != null && this.answers_id != ''){
+                                //send all answers
+                                this.SaveResponse(last_index_send_result,this.answers_id)
+                            }else{
+                                //create new answers
+                                axios.post('/api/saveAnswers',{
+                                    email : this.GetUser().email,
+                                    questionnaire_id : this.GetID()
+                                }).then(res=>{
+                                    if(res.data.result == true){
+                                        //send all answers
+                                        this.answers_id = res.data.id
+                                        this.SaveResponse(0,res.data.id)
+                                    }else{
+                                        this.ShowToast('Gagal mengirim jawaban','error')
+                                    }
+                                }).catch(err=>{
+                                    this.ShowToast('Gagal mengirim jawaban','error')
+                                })
+                            }
                         }else{
                             this.ShowToast('Harap isi bagian wajib','error')
                         }
                     }
                 }
             }
+        },
+        SaveResponse(index,answers_id){
+            if(index == 0){
+                this.$swal({
+					title : 'Mengirim jawaban ...',
+					timerProgressBar: true,
+					showConfirmButton: false,
+					allowOutsideClick : false,
+					willOpen: () => {
+						this.$swal.showLoading()
+					},
+				})
+            }else{
+                if(index == this.last_index_send_result){
+                    this.$swal({
+                        title : 'Mengirim jawaban ...',
+                        timerProgressBar: true,
+                        showConfirmButton: false,
+                        allowOutsideClick : false,
+                        willOpen: () => {
+                            this.$swal.showLoading()
+                        },
+                    })
+                }
+            }
+            this.last_index_send_result = index
+
+            axios.post('/api/addAnswers',{
+                answers_id : answers_id,
+                questionnaire_id : this.GetID(),
+                question_id : this.question[index].question_id,
+                question_type : this.question[index].question_type,
+                answers : this.question[index].answers,
+            }).then(res=>{
+                if(res.data.result === true){
+                    if(index == this.question.length-1){
+                        this.$swal.close()
+                        this.status = true
+                        this.response = 'sent'
+                    }else{
+                        this.SaveResponse(index+1,answers_id)
+                    }
+                }else{
+                    this.$swal.close()
+                    this.ShowToast('Gagal mengirim jawaban','error')
+                }
+            }).catch(err=>{
+                this.$swal.close()
+                this.ShowToast('Gagal mengirim jawaban','error')
+            })
         },
         CheckAnswers(){
             axios.post('/api/checkMyAnswers',{

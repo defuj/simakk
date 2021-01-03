@@ -30,7 +30,7 @@
 						<div class="col-md-2 col-sm-6">
 							<div class="form-group">
 								<select class="custom-select form-control" v-model="data.minimum" @change="UpdateSkalaMinimum(index)">
-									<option v-for="n in 2" :key="n" :value="n-1" :selected="n-data.minimum === data.minimum">{{n-1}}</option>
+									<option v-for="n in 1" :key="n" :value="n" :selected="n-data.minimum === data.minimum">{{n}}</option>
 								</select>
 							</div>
 						</div>
@@ -42,7 +42,7 @@
 						<div class="col-md-2 col-sm-6">
 							<div class="form-group">
 								<select class="custom-select form-control" v-model="data.maximum" @change="UpdateSkalaMaximum(index)">
-									<option v-for="n in 9" :key="n" :value="n+data.minimum" :selected="n+data.minimum === data.maximum">{{n+data.minimum}}</option>
+									<option v-for="n in 4" :key="n" :value="n+data.minimum" :selected="n+data.minimum === data.maximum">{{n+data.minimum}}</option>
 								</select>
 							</div>
 						</div>
@@ -103,6 +103,8 @@
 			</div>
 		</div>
 	</div>
+
+
 </section>
 </template>
 <script>
@@ -735,5 +737,19 @@ export default {
 			margin-right: auto;
 		}
 	}
-	
+	.float{
+		position:fixed;
+		width:60px;
+		height:60px;
+		bottom:40px;
+		right:40px;
+		color:#FFF;
+		border-radius:50px;
+		text-align:center;
+		box-shadow: 2px 2px 3px #999;
+	}
+
+	.my-float{
+		margin-top:22px;
+	}
 </style>

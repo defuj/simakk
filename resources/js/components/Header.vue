@@ -64,7 +64,8 @@
                     <section v-if="this.$route.name == 'edit_kuesioner'" class="d-lg-flex align-items-center">
                         <i @click="Preview()" class="la la-eye icon-2x mx-3" style="cursor:pointer;color: #5f6368 !important;" data-container="body" data-toggle="tooltip" data-theme="dark" data-placement="bottom" title="Pertinjau"></i>
                         <i @click="DeleteKuesioner()" class="la la-trash icon-2x mx-3" style="cursor:pointer;color: #5f6368 !important;" data-container="body" data-toggle="tooltip" data-theme="dark" data-placement="bottom" title="Hapus"></i>
-                        <i @click="AddQuestion()" class="la la-plus-circle icon-2x mx-3" style="cursor:pointer;color: #5f6368 !important;" data-container="body" data-toggle="tooltip" data-theme="dark" data-placement="bottom" title="Tambah Pertanyaan"></i>
+                        <i @click="AddQuestion()" class="la la-plus-circle icon-2x mx-3" style="cursor:pointer;color: #5f6368 !important;display:none;" data-container="body" data-toggle="tooltip" data-theme="dark" data-placement="bottom" title="Tambah Pertanyaan"></i>
+                        <i class="la la-gear icon-2x mx-3" style="cursor:pointer;color: #5f6368 !important;" data-container="body" data-toggle="tooltip" data-theme="dark" data-placement="bottom" title="Pengaturan"></i>
                         <button v-if="this.type === 'draf'" @click="PublishKuesioner()" type="button" class="btn btn-primary font-weight-bolder mx-3" style="width:80px;" data-container="body" data-toggle="tooltip" data-theme="dark" data-placement="bottom" title="Publikasikan Kuesioner">
                             Kirim
                         </button>	
@@ -110,6 +111,10 @@
             </ul>
         </div>
         <!--end::Top-->
+
+        <a v-if="this.$route.name == 'edit_kuesioner'" @click="AddQuestion()" style="cursor:pointer;" class="float btn btn-icon btn-primary btn-circle btn-lg  mr-4" data-container="body" data-toggle="tooltip" data-theme="dark" data-placement="top" title="Tambah Pertanyaan">
+            <i class="flaticon2-plus my-float"></i>
+        </a>
     </div>
     <!--end::Header-->
 </template>
@@ -331,5 +336,19 @@
         }
     }
 
-    
+    .float{
+		position:fixed;
+		width:60px;
+		height:60px;
+		bottom:40px;
+		right:40px;
+		color:#FFF;
+		border-radius:50px;
+		text-align:center;
+		box-shadow: 2px 2px 3px #999;
+	}
+
+	.my-float{
+		margin-top:22px;
+	}
 </style>

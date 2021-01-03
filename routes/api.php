@@ -43,6 +43,8 @@ Route::post('/getOptions', [QuestionsController::class,'getOptions']);
 Route::post('/updateOptions', [QuestionsController::class,'updateOptions']);
 
 Route::post('/checkMyAnswers', [AnswersController::class,'checkMyAnswers']);
+Route::post('/saveAnswers', [AnswersController::class,'saveAnswers']);
+Route::post('/addAnswers', [AnswersController::class,'addAnswers']);
 
 Route::get('/getCategories', [CategoriesController::class,'getCategories']);
 
