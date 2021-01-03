@@ -113,45 +113,59 @@
                         updated_at: new Date().getTime(),
                     };
 
-                    if(response.data.user.email.includes('stmik-sumedang.ac.id')){
+                    if(this.$route.name != 'view_kuesioner'){
+                        if(response.data.user.email.includes('stmik-sumedang.ac.id')){
+                            axios.post('/api/registerUser',data)
+                            .then(result =>{
+                                if(result.data == 'admin'){
+                                    this.$store.dispatch('saveLogin',response.data)
+                                    this.$store.dispatch('saveUser',response.data.user)
+
+                                    localStorage.setItem('user',JSON.stringify(response.data.user))
+                                    localStorage.setItem('login',JSON.stringify(response.data))
+                                }else{
+                                    this.login = 'failed'
+                                    this.error = "Email yang Anda gunakan tidak memiliki akses admin."
+
+                                    var login = JSON.parse(localStorage.getItem('login'))
+                                    if(login != null){
+                                        localStorage.removeItem('user')
+                                        localStorage.removeItem('login')
+
+                                        location.reload()
+                                    }
+                                }
+                            }).catch(err => {
+                                console.log({err:err})
+                            })
+
+                        }else{
+                            this.login = 'failed'
+                            this.error = "Email yang Anda gunakan tidak didukung."
+
+                            var login = JSON.parse(localStorage.getItem('login'))
+                            if(login != null){
+                                localStorage.removeItem('user')
+                                localStorage.removeItem('login')
+
+                                location.reload()
+                            }
+                            
+                        }
+                    }else{
                         axios.post('/api/registerUser',data)
                         .then(result =>{
-                            console.log(result.data)
-                            if(result.data == 'admin'){
-                                this.$store.dispatch('saveLogin',response.data)
-                                this.$store.dispatch('saveUser',response.data.user)
+                            this.$store.dispatch('saveLogin',response.data)
+                            this.$store.dispatch('saveUser',response.data.user)
 
-                                localStorage.setItem('user',JSON.stringify(response.data.user))
-                                localStorage.setItem('login',JSON.stringify(response.data))
-                            }else{
-                                this.login = 'failed'
-                                this.error = "Email yang Anda gunakan tidak memiliki akses admin."
-
-                                var login = JSON.parse(localStorage.getItem('login'))
-                                if(login != null){
-                                    localStorage.removeItem('user')
-                                    localStorage.removeItem('login')
-
-                                    location.reload()
-                                }
-                            }
+                            localStorage.setItem('user',JSON.stringify(response.data.user))
+                            localStorage.setItem('login',JSON.stringify(response.data))
                         }).catch(err => {
                             console.log({err:err})
                         })
-
-                    }else{
-                        this.login = 'failed'
-                        this.error = "Email yang Anda gunakan tidak didukung."
-
-                        var login = JSON.parse(localStorage.getItem('login'))
-                        if(login != null){
-                            localStorage.removeItem('user')
-                            localStorage.removeItem('login')
-
-                            location.reload()
-                        }
-                        
                     }
+
+                    
                 }).catch(err => {
                     console.log({err:err})
                 })
@@ -177,6 +191,50 @@
 
             if(this.getUser == null || this.getLogin == null){
                 this.AuthProvider('google')
+            }else{
+                if(this.$route.name != 'view_kuesioner'){
+                    console.log(this.getUser)
+                    const data = {
+                        name      : this.getUser.name,
+                        email     : this.getUser.email,
+                        token     : this.getUser.token,
+                        access    : 'default',
+                        google_id : this.getUser.id,
+                        avatar    : this.getUser.avatar,
+                        created_at: new Date().getTime(),
+                        updated_at: new Date().getTime(),
+                    };
+                    if(this.getUser.email.includes('stmik-sumedang.ac.id')){
+                        axios.post('/api/registerUser',data)
+                        .then(result =>{
+                            if(result.data != 'admin'){
+                                this.login = 'failed'
+                                this.error = "Email yang Anda gunakan tidak memiliki akses admin."
+
+                                var login = JSON.parse(localStorage.getItem('login'))
+                                if(login != null){
+                                    localStorage.removeItem('user')
+                                    localStorage.removeItem('login')
+
+                                    location.reload()
+                                }
+                            }
+                        }).catch(err => {
+                            console.log({err:err})
+                        })
+                    }else{
+                        this.login = 'failed'
+                        this.error = "Email yang Anda gunakan tidak didukung."
+
+                        var login = JSON.parse(localStorage.getItem('login'))
+                        if(login != null){
+                            localStorage.removeItem('user')
+                            localStorage.removeItem('login')
+
+                            location.reload()
+                        }
+                    }
+                }
             }
         },
         created(){

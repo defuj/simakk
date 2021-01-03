@@ -90,6 +90,9 @@
                     <strong v-else-if="response ===  'sent'">
                         {{title}}
                     </strong>
+                    <strong v-else-if="response ===  'email'">
+                        Anda memerlukan izin
+                    </strong>
                 </p>
                 <p class="font-size-lg" v-if="response ===  'closed'">
                     Anda hanya dapat mengisi formulir ini sekali.<br>
@@ -97,6 +100,10 @@
                 </p>
                 <p class="font-size-lg" v-else-if="response ===  'sent'">
                     Tanggapan Anda telah kami simpan.
+                </p>
+                <p class="font-size-lg" v-else-if="response ===  'email'">
+                    Formulir ini hanya bisa dilihat oleh pengguna di organisasi pemilik.<br>
+                    Coba hubungi pemilik formulir ini jika menurut Anda hal ini adalah kesalahan.
                 </p>
 		    </div>
 	    </div>
@@ -108,7 +115,10 @@ export default {
     data(){
         return{
             status : null,
-            response : null, //sent : anda baru saja mengirimkan tanggapan, closed : anda sudah mengirim tanggapan dan mencoba membuka kembali halaman
+            response : null, 
+            //sent : anda baru saja mengirimkan tanggapan, 
+            //closed : anda sudah mengirim tanggapan dan mencoba membuka kembali halaman
+            //email : ketika harus menggunakan email STMIk, dan responden tidak menggunakan email STMIk
 			title : "",
 			desc : "",
 			question : [],
@@ -260,6 +270,39 @@ export default {
                         }else{
                             window.document.title = data.questionnaire_title+' - SIMAKK'
                         }
+
+                        if(data.setting_campus_response === 1){
+                            if(this.GetUser().email.includes('stmik-sumedang.ac.id')){
+                                if(data.setting_single_response === 1){
+                                    if(this.status == true){
+                                        this.status = true
+                                        this.response = 'closed'
+                                    }
+                                }else{
+                                    if(this.status == true){
+                                        this.status = false
+                                        this.response = ''
+                                    }
+                                }
+                            }else{
+                                this.status = true
+                                this.response = 'email'
+                            }
+                        }else{
+                            if(this.setting_single_response === 1){
+                                if(this.status == true){
+                                    this.status = true
+                                    this.response = 'closed'
+                                }
+                            }else{
+                                if(this.status == true){
+                                    this.status = false
+                                    this.response = ''
+                                }
+                            }
+                        }
+
+                        
 
                         if(this.status == false){
                             this.GetQuestion()
