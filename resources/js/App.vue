@@ -13,7 +13,7 @@
         </div>
 
         <!-- Modal-->
-        <div v-if="this.$route.name == 'edit_kuesioner' || this.$route.name == 'responses_kuesioner' && modal != null" class="modal fade" id="modalSettings" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div v-if="(this.$route.name == 'edit_kuesioner' || this.$route.name == 'responses_kuesioner') && modal != null" class="modal fade" id="modalSettings" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg" style="max-width: 620px!important;" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -345,7 +345,7 @@
                 }
             }
 
-            if(this.$route.name == 'edit_kuesioner' || this.$route.name == 'responses_kuesioner'){
+            if(this.$route.name === 'edit_kuesioner' || this.$route.name === 'responses_kuesioner'){
                 this.GetKuesioner()
                 this.GetTemplates()
                 this.GetCategories()
