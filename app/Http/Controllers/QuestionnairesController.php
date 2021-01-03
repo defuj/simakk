@@ -9,13 +9,31 @@ use Carbon\Carbon;
 
 class QuestionnairesController extends Controller
 {
+    public function countResponden(Request $request)
+    {
+        $count = DB::table('answers')->where('questionnaire_id', $request->questionnaire_id)->count();
+        return $count;
+    }
+
     public function addToTemplate(Request $request)
     {
         $count = DB::table('templates')->where('questionnaire_id', $request->questionnaire_id)->count();
         if($count > 0){
             //update data
+            $update = DB::table('templates')
+            ->where('questionnaire_id', $request->questionnaire_id)
+            ->update([
+                'category_id' => $request->id,
+            ]);
+            return $update;
         }else{
             //add new data
+            $insert = DB::table('templates')->insert([
+                'questionnaire_id'  => $request->questionnaire_id, 
+                'category_id'       => $request->id,
+            ]);
+
+            return $insert;
         }
     }
 
@@ -135,6 +153,7 @@ class QuestionnairesController extends Controller
                 'questionnaires.created_at',
                 'questionnaires.updated_at',
                 'categories.category',
+                'categories.id as category_id',
             )
             ->join('questionnaires', 'questionnaires.questionnaire_id', '=', 'templates.questionnaire_id')
             ->join('categories', 'categories.id', '=', 'templates.category_id');

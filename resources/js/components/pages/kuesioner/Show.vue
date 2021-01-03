@@ -315,13 +315,11 @@ export default {
         GetQuestion(){
 			axios.post('/api/getQuestion',{id : this.GetID()}).then(result=>{
                 this.question = result.data
-                console.log(result.data)
 			})
 		},
 		GetAllOptions(){
 			axios.post('/api/getOptions',{questionnaire_id : this.GetID()}).then(result=>{
                 this.options = result.data
-                console.log(result.data)
 			})
         },
         GetUser(){

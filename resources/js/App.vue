@@ -132,6 +132,7 @@
                             questionnaire_id : this.$route.params.id
                         }).then(res=>{
                             this.ShowToast('Perubahan telah disimpan','success')
+                            this.GetTemplates()
                         }).catch(err=>{
                             this.ShowToast('Gagal menyimpan perubahan','error')
                         })
@@ -142,11 +143,13 @@
                                 id : this.$route.params.id
                             }).then(res=>{
                                 this.ShowToast('Perubahan telah disimpan','success')
+                                this.GetTemplates()
                             }).catch(err=>{
                                 this.ShowToast('Gagal menyimpan perubahan','error')
                             })
                         }else{
                             this.ShowToast('Perubahan telah disimpan','success')
+                            this.GetTemplates()
                         }
                     }
                 }).catch(err=>{
@@ -273,7 +276,7 @@
                     for(var i = 0;i<data.length;i++){
                         if(data[i].questionnaire_id === this.$route.params.id){
                             this.isTemplate = true
-                            this.categorySelected = data[i].id
+                            this.categorySelected = data[i].category_id
                         }
                     }
                 })
@@ -298,7 +301,6 @@
                 this.AuthProvider('google')
             }else{
                 if(this.$route.name != 'view_kuesioner'){
-                    console.log(this.getUser)
                     const data = {
                         name      : this.getUser.name,
                         email     : this.getUser.email,

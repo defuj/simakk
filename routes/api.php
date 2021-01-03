@@ -26,6 +26,7 @@ Route::post('/duplicateKuesioner',[QuestionnairesController::class,'duplicateKue
 Route::post('/updateSettings',[QuestionnairesController::class,'updateSettings']);
 Route::post('/deleteFromTemplate',[QuestionnairesController::class,'deleteFromTemplate']);
 Route::post('/addToTemplate',[QuestionnairesController::class,'addToTemplate']);
+Route::post('/countResponden',[QuestionnairesController::class,'countResponden']);
 
 Route::get('/getQuestionType', [QuestionsController::class,'getQuestionType']);
 Route::post('/countQuestions', [QuestionsController::class,'count']);

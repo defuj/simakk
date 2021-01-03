@@ -573,8 +573,6 @@ export default {
 			if(this.question.length > 0){
 				if(index < this.question.length){
 					const e = this.question[index]
-					console.log(e)
-					console.log(this.options)	
 
 					//do save the question
 					axios.post('/api/updateQuestionContent',{

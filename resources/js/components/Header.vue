@@ -105,7 +105,10 @@
                 </li>
                 <li class="nav-item">
                     <router-link :to="'/forms/'+this.$route.params.id+'/edit/responses'" class="nav-link">
-                        <span class="nav-text">Responses</span>
+                        <span class="nav-text">
+                            Responses
+                            <span class="badge badge-dark" v-if="responden > 0">{{responden}}</span>
+                        </span>
                     </router-link>
                 </li>
             </ul>
@@ -130,6 +133,7 @@
                 search : null,
                 status : null,
                 type : null,
+                responden : 0
             }
         },
         watch:{
@@ -226,7 +230,17 @@
                     }
                     
                 });
-		    },
+            },
+            CountResponden(){
+                axios.post('/api/countResponden',{
+                    questionnaire_id : this.GetID()
+                }).then(res=>{
+                    this.responden = res.data
+                })
+                var timer = setTimeout(() => {
+                    this.CountResponden()
+                }, 15000);
+            },
         },
         computed:{
             getUser(){
@@ -239,6 +253,7 @@
         mounted(){
             if(this.$route.name == 'edit_kuesioner'){
                 this.GetKuesioner(this.GetID())
+                this.CountResponden()
             }
         }
     }
