@@ -61,7 +61,7 @@
                 <!--begin::Topbar-->
                 <div class="topbar bg-primaryyy">
 
-                    <section v-if="this.$route.name == 'edit_kuesioner'" class="d-lg-flex align-items-center">
+                    <section v-if="this.$route.name == 'edit_kuesioner' || this.$route.name == 'responses_kuesioner'" class="d-lg-flex align-items-center">
                         <i @click="Preview()" class="la la-eye icon-2x mx-3" style="cursor:pointer;color: #5f6368 !important;" data-container="body" data-toggle="tooltip" data-theme="dark" data-placement="bottom" title="Pertinjau"></i>
                         <i @click="DeleteKuesioner()" class="la la-trash icon-2x mx-3" style="cursor:pointer;color: #5f6368 !important;" data-container="body" data-toggle="tooltip" data-theme="dark" data-placement="bottom" title="Hapus"></i>
                         <i @click="AddQuestion()" class="la la-plus-circle icon-2x mx-3" style="cursor:pointer;color: #5f6368 !important;display:none;" data-container="body" data-toggle="tooltip" data-theme="dark" data-placement="bottom" title="Tambah Pertanyaan"></i>
@@ -75,7 +75,7 @@
                     </section>
                     
                     <!--begin::User-->
-                    <div class="topbar-item" v-if="this.$route.name != 'edit_kuesioner'">
+                    <div class="topbar-item" v-if="this.$route.name != 'edit_kuesioner' && this.$route.name != 'responses_kuesioner'">
                         <div class="btn btn-icon btn-hover-transparent-dark w-lg-auto d-flex align-items-center btn-lg px-2" id="kt_quick_user_toggle" @click="Relog()">
                             <div class="d-flex flex-column text-right pr-lg-3" v-if="this.$route.name != 'kuesioner'">
                                 <span class="text-dark opacity-50 font-weight-bold font-size-sm d-none d-md-inline">
