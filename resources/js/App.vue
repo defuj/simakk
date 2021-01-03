@@ -13,7 +13,7 @@
         </div>
 
         <!-- Modal-->
-        <div v-if="this.$route.name == 'edit_kuesioner'" class="modal fade" id="modalSettings" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div v-if="this.$route.name == 'edit_kuesioner' && modal != null" class="modal fade" id="modalSettings" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg" style="max-width: 620px!important;" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -23,7 +23,7 @@
                         <h5>Perlu Masuk:</h5>
                         <div class="checkbox-inline">
                             <label class="checkbox checkbox-lg">
-                                <input type="checkbox" checked="checked" name="Settings_1"/>
+                                <input type="checkbox" v-model="modal.setting_campus_response" name="Settings_1"/>
                                 <span></span>
                                 Batasi untuk pengguna di STMIK Sumedang dan organisasi tepercayanya
                             </label>
@@ -31,7 +31,7 @@
 
                         <div class="checkbox-inline">
                             <label class="checkbox checkbox-lg">
-                                <input type="checkbox" checked="checked" name="Settings_2"/>
+                                <input type="checkbox" v-model="modal.setting_single_response" name="Settings_2"/>
                                 <span></span>
                                 Batasi hanya untuk 1 tanggapan
                             </label>
@@ -41,16 +41,22 @@
                         <h5 class="mt-5">Lainnya:</h5>
                         <div class="checkbox-inline">
                             <label class="checkbox checkbox-lg">
-                                <input type="checkbox" checked="checked" name="Settings_3"/>
+                                <input type="checkbox" v-model="isTemplate" name="Settings_3"/>
                                 <span></span>
                                 Jadikan dokumen sebagai template
                             </label>
                         </div>
+                        <div class="form-group" style="margin-bottom: 0px;">
+                            <select class="custom-select form-control" v-model="categorySelected" :disabled="isTemplate === false">
+                                <option v-for="category in categories" :key="category.id" :value="category.id" :selected="category.id === categorySelected">{{category.category}}</option>
+                            </select>
+                        </div>
+
                         
                     </div>
                     <div class="modal-footer">
                         <a href="#" class="btn btn-link-secondary font-weight-bold mx-3" style="color:#5f6368;" data-dismiss="modal">Batal</a>
-                        <a href="#" class="btn btn-link-primary font-weight-bold mx-3">Simpan</a>
+                        <a href="#" class="btn btn-link-primary font-weight-bold mx-3" @click="SaveSettings()">Simpan</a>
                     </div>
                 </div>
             </div>
@@ -64,10 +70,17 @@
         name : 'app',
         data() {
             return {
+                categorySelected : null,
+                categories:[],
+                modal : null,
+                isTemplate : false,
                 login : null,
                 error : null,
                 logo : 'http://127.0.0.1:8000/media/logos/logo-letter-9.png',
             }
+        },
+        watch:{
+
         },
         computed:{
             getUser(){
@@ -81,6 +94,65 @@
             },
         },
         methods: {  
+            SaveSettings(){
+                var campus = null
+                if(this.modal.setting_campus_response === true){
+                    campus = 1
+                }else if(this.modal.setting_campus_response === false){
+                    campus = 0
+                }else{
+                    campus = this.modal.setting_campus_response
+                }
+
+                var single = null
+                if(this.modal.setting_single_response === true){
+                    single = 1
+                }else if(this.modal.setting_single_response === false){
+                    single = 0
+                }else{
+                    single = this.modal.setting_single_response
+                }
+
+                if(this.isTemplate == true){
+                    if(this.categorySelected === null){
+                        this.ShowToast('Harap pilih satu kategori untuk template','error')
+                        return false
+                    }
+                }
+
+                axios.post('/api/updateSettings',{
+                    setting_campus_response : campus,
+                    setting_single_response : single,
+                    questionnaire_id : this.$route.params.id
+                }).then(res=>{
+                    if(this.isTemplate == true){
+                        //add to template first
+                        axios.post('/api/addToTemplate',{
+                            id : this.categorySelected,
+                            questionnaire_id : this.$route.params.id
+                        }).then(res=>{
+                            this.ShowToast('Perubahan telah disimpan','success')
+                        }).catch(err=>{
+                            this.ShowToast('Gagal menyimpan perubahan','error')
+                        })
+                    }else{
+                        if(this.categorySelected != null){
+                            //delete this from template
+                            axios.post('/api/deleteFromTemplate',{
+                                id : this.$route.params.id
+                            }).then(res=>{
+                                this.ShowToast('Perubahan telah disimpan','success')
+                            }).catch(err=>{
+                                this.ShowToast('Gagal menyimpan perubahan','error')
+                            })
+                        }else{
+                            this.ShowToast('Perubahan telah disimpan','success')
+                        }
+                    }
+                }).catch(err=>{
+                    this.ShowToast('Gagal menyimpan perubahan','error')
+                })
+            },
             GetLogo(){
                 return this.logo
             },
@@ -177,7 +249,40 @@
                     icon: 'warning',
                     timer:5000,
                 });
-            }
+            },
+            GetKuesioner(){
+                axios.post('/api/getKuesioner',{kode : this.$route.params.id}).then(result =>{
+                    if(result.data.questionnaire_type == undefined){
+                        this.$router.push({ name: 'not_found' })
+                    }else{
+                        this.modal = result.data
+                    }
+                })
+            },
+            ShowToast(messages,types){
+                this.$toast.open({
+                    message: messages,
+                    type: types,
+                    position: 'bottom-right',
+                    duration : 2000
+                });
+            },
+            GetTemplates(){
+                axios.post('/api/getTemplates',{id : 0}).then(result=>{
+                    var data = result.data
+                    for(var i = 0;i<data.length;i++){
+                        if(data[i].questionnaire_id === this.$route.params.id){
+                            this.isTemplate = true
+                            this.categorySelected = data[i].id
+                        }
+                    }
+                })
+            },
+            GetCategories(){
+                axios.get('/api/getCategories').then(result=>{
+                    this.categories = result.data
+                })
+            },
         },
         mounted() {
             try{
@@ -235,6 +340,12 @@
                         }
                     }
                 }
+            }
+
+            if(this.$route.name == 'edit_kuesioner'){
+                this.GetKuesioner()
+                this.GetTemplates()
+                this.GetCategories()
             }
         },
         created(){

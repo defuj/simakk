@@ -9,6 +9,34 @@ use Carbon\Carbon;
 
 class QuestionnairesController extends Controller
 {
+    public function addToTemplate(Request $request)
+    {
+        $count = DB::table('templates')->where('questionnaire_id', $request->questionnaire_id)->count();
+        if($count > 0){
+            //update data
+        }else{
+            //add new data
+        }
+    }
+
+    public function deleteFromTemplate(Request $request)
+    {
+        $detele = DB::table('templates')->where('questionnaire_id', $request->id)->delete();
+        return $delete;
+    }
+
+    public function updateSettings(Request $request)
+    {
+        $update = DB::table('questionnaires')
+        ->where('questionnaire_id', $request->questionnaire_id)
+        ->update([
+            'setting_campus_response' => $request->setting_campus_response,
+            'setting_single_response' => $request->setting_single_response,
+            'updated_at'              => NOW()
+        ]);
+        return $update;
+    }
+
     public function random_id() {
         $length = 45;
         $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-';

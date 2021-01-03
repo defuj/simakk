@@ -23,6 +23,9 @@ Route::post('/updateTitleKuesioner', [QuestionnairesController::class,'updateTit
 Route::post('/updateDescriptionKuesioner', [QuestionnairesController::class,'updateDescription']);
 Route::post('/getTemplates', [QuestionnairesController::class,'getTemplates']);
 Route::post('/duplicateKuesioner',[QuestionnairesController::class,'duplicateKuesioner']);
+Route::post('/updateSettings',[QuestionnairesController::class,'updateSettings']);
+Route::post('/deleteFromTemplate',[QuestionnairesController::class,'deleteFromTemplate']);
+Route::post('/addToTemplate',[QuestionnairesController::class,'addToTemplate']);
 
 Route::get('/getQuestionType', [QuestionsController::class,'getQuestionType']);
 Route::post('/countQuestions', [QuestionsController::class,'count']);
