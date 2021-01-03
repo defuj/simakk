@@ -23,25 +23,50 @@
                 <section v-if="data.question_type === 'Jawaban Singkat'">
                     <textarea-autosize v-model="data.answers" class="form-control my-3 my-form" rows="1" placeholder="Jawaban Anda"></textarea-autosize>
                 </section>
-                <section v-else-if="data.question_type === 'Skala Linier'" class="">
-                    <p class="d-flex justify-content-start">{{data.label_minimum}}</p>
-                    <div class="radio-inline d-flex justify-content-center" v-if="data.minimum === 0">
-                        <label v-for="n in data.maximum+1" :item="n" :key="n" class="radio radio-lg radio-outline radio-outline-2x radio-primary">
-                            <input type="radio" :name="'radio'+data.question_id" v-model="data.answers" :value="n-1"/>
-                            <span></span>
-                            {{n-1}}
-                        </label>
+                <div v-else-if="data.question_type === 'Skala Linier'" class="row">
+                    <div class="col-sm-2 col-md-2 col-lg-2">
+                        <p class="d-flex justify-content-end"><strong>{{data.label_minimum}}</strong></p>
                     </div>
 
-                    <div class="radio-inline d-flex justify-content-center" v-else-if="data.minimum === 1">
-                        <label v-for="n in data.maximum" :item="n" :key="n" class="radio radio-lg radio-outline radio-outline-2x radio-primary">
-                            <input type="radio" :name="'radio'+data.question_id" v-model="data.answers" :value="n"/>
-                            <span></span>
-                            {{n}}
-                        </label>
+                    <div class="col-sm-8 col-md-8 col-lg-8">
+                        <div class="row d-flex justify-content-center">
+                            <div class="radio-inline d-flex justify-content-center" v-if="data.minimum === 0">
+                                <label v-for="n in data.maximum+1" :item="n" :key="n" style="min-width:50px;" class="d-flex justify-content-center">
+                                    {{n-1}}
+                                </label>
+                            </div>
+
+                            <div class="d-flex justify-content-center" v-else-if="data.minimum === 1">
+                                <label v-for="n in data.maximum" :item="n" :key="n" style="width:50px;" class="d-flex justify-content-center">
+                                    {{n}}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row d-flex justify-content-center">
+                            <div class="radio-inline d-flex justify-content-center" v-if="data.minimum === 0">
+                                <label v-for="n in data.maximum+1" :item="n" :key="n" class="radio radio-lg radio-outline radio-outline-2x radio-primary d-flex justify-content-center" style="margin-right: 0rem;width:50px;">
+                                    <input type="radio" :name="'radio'+data.question_id" v-model="data.answers" :value="n-1"/>
+                                    <span style="margin-right: 0rem;"></span>
+                                </label>
+                            </div>
+
+                            <div class="radio-inline d-flex justify-content-center" v-else-if="data.minimum === 1">
+                                <label v-for="n in data.maximum" :item="n" :key="n" class="radio radio-lg radio-outline radio-outline-2x radio-primary d-flex justify-content-center" style="margin-right: 0rem;width:50px;">
+                                    <input type="radio" :name="'radio'+data.question_id" v-model="data.answers" :value="n"/>
+                                    <span style="margin-right: 0rem;"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                            
                     </div>
-                    <p class="d-flex justify-content-end">{{data.label_maximum}}</p>
-                </section>
+                    
+
+                    <div class="col-sm-2 col-md-2 col-lg-2">
+                        <p class="d-flex justify-content-start"><strong>{{data.label_maximum}}</strong></p>
+                    </div>
+                    
+                </div>
                 <section v-else-if="data.question_type === 'Pilihan Ganda'">
                     <div class="radio-list">
                         <label v-for="opsi in options" :item="opsi" :key="opsi.id" v-show="opsi.question_id === data.question_id" class="radio radio-lg radio-outline radio-outline-2x radio-primary">
@@ -53,6 +78,7 @@
                 </section>
             </div>
         </div>
+        <button v-if="question.length > 0" @click="SendResponse()" type="button" class="btn btn-primary mb-6" style="min-width:80px;margin-top:-10px;"><strong>Kirim</strong></button>
   </section>
   <section class="container-kuesioner" style="margin-top:-20px;" v-else-if="status != null && status == true">
       <div class="card card-custom gutter-b example example-compact" style="margin-left:auto;margin-right:auto;">
@@ -93,6 +119,36 @@ export default {
 
     },
     methods:{
+        SendResponse(){
+            if(this.question.length > 0){
+                var required = 0
+                var input_required = 0
+                for (let i = 0; i < this.question.length; i++) {
+                    const e = this.question[i]
+                    if(e.question_require == 1){
+                        required +=1
+                        if(e.answers != null && e.answers != '' && e.answers != undefined){
+                            input_required +=1
+                        }
+                    }
+
+                    if(i == this.question.length-1){
+                        if(required == input_required){
+                            //send all answers
+                            axios.post('',{
+                                
+                            }).then(res=>{
+
+                            }).catch(err=>{
+                                this.ShowToast('Gagal mengirim jawaban','error')
+                            })
+                        }else{
+                            this.ShowToast('Harap isi bagian wajib','error')
+                        }
+                    }
+                }
+            }
+        },
         CheckAnswers(){
             axios.post('/api/checkMyAnswers',{
                 email : this.GetUser().email,
@@ -108,6 +164,14 @@ export default {
                 this.GetKuesioner(this.GetID())
             })
         },
+        ShowToast(messages,types){
+			this.$toast.open({
+				message: messages,
+				type: types,
+				position: 'bottom-right',
+				duration : 2000
+			});
+		},
         GetID() {
             return this.$route.params.id
         },

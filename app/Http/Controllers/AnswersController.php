@@ -13,6 +13,11 @@ class AnswersController extends Controller
         return response()->json($result);
     }
 
+    public function saveAnswers(Request $request)
+    {
+        
+    }
+
     public function index()
     {
         //
