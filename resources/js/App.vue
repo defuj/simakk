@@ -11,6 +11,50 @@
                 <!-- <footer-component></footer-component> -->
             </div>
         </div>
+
+        <!-- Modal-->
+        <div v-if="this.$route.name == 'edit_kuesioner'" class="modal fade" id="modalSettings" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg" style="max-width: 620px!important;" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="">Pengaturan</h3>
+                    </div>
+                    <div class="modal-body">
+                        <h5>Perlu Masuk:</h5>
+                        <div class="checkbox-inline">
+                            <label class="checkbox checkbox-lg">
+                                <input type="checkbox" checked="checked" name="Settings_1"/>
+                                <span></span>
+                                Batasi untuk pengguna di STMIK Sumedang dan organisasi tepercayanya
+                            </label>
+                        </div>
+
+                        <div class="checkbox-inline">
+                            <label class="checkbox checkbox-lg">
+                                <input type="checkbox" checked="checked" name="Settings_2"/>
+                                <span></span>
+                                Batasi hanya untuk 1 tanggapan
+                            </label>
+                        </div>
+                        
+
+                        <h5 class="mt-5">Lainnya:</h5>
+                        <div class="checkbox-inline">
+                            <label class="checkbox checkbox-lg">
+                                <input type="checkbox" checked="checked" name="Settings_3"/>
+                                <span></span>
+                                Jadikan dokumen sebagai template
+                            </label>
+                        </div>
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" class="btn btn-link-secondary font-weight-bold mx-3" style="color:#5f6368;" data-dismiss="modal">Batal</a>
+                        <a href="#" class="btn btn-link-primary font-weight-bold mx-3">Simpan</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <login-component v-else-if="getUser == null && getLogin == null"></login-component>
 </template>

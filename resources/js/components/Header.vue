@@ -65,7 +65,7 @@
                         <i @click="Preview()" class="la la-eye icon-2x mx-3" style="cursor:pointer;color: #5f6368 !important;" data-container="body" data-toggle="tooltip" data-theme="dark" data-placement="bottom" title="Pertinjau"></i>
                         <i @click="DeleteKuesioner()" class="la la-trash icon-2x mx-3" style="cursor:pointer;color: #5f6368 !important;" data-container="body" data-toggle="tooltip" data-theme="dark" data-placement="bottom" title="Hapus"></i>
                         <i @click="AddQuestion()" class="la la-plus-circle icon-2x mx-3" style="cursor:pointer;color: #5f6368 !important;display:none;" data-container="body" data-toggle="tooltip" data-theme="dark" data-placement="bottom" title="Tambah Pertanyaan"></i>
-                        <i class="la la-gear icon-2x mx-3" style="cursor:pointer;color: #5f6368 !important;" data-container="body" data-toggle="tooltip" data-theme="dark" data-placement="bottom" title="Pengaturan"></i>
+                        <i data-toggle="modal" data-target="#modalSettings" class="la la-gear icon-2x mx-3" style="cursor:pointer;color: #5f6368 !important;" title="Pengaturan"></i>
                         <button v-if="this.type === 'draf'" @click="PublishKuesioner()" type="button" class="btn btn-primary font-weight-bolder mx-3" style="width:80px;" data-container="body" data-toggle="tooltip" data-theme="dark" data-placement="bottom" title="Publikasikan Kuesioner">
                             Kirim
                         </button>	
@@ -115,6 +115,8 @@
         <a v-if="this.$route.name == 'edit_kuesioner'" @click="AddQuestion()" style="cursor:pointer;" class="float btn btn-icon btn-primary btn-circle btn-lg  mr-4" data-container="body" data-toggle="tooltip" data-theme="dark" data-placement="top" title="Tambah Pertanyaan">
             <i class="flaticon2-plus my-float"></i>
         </a>
+
+        
     </div>
     <!--end::Header-->
 </template>

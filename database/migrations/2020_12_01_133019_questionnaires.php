@@ -19,6 +19,8 @@ class Questionnaires extends Migration
             $table->text('questionnaire_description');
             $table->enum('questionnaire_status', ['enable', 'disabled'])->default('disabled');
             $table->enum('questionnaire_type', ['draf', 'publish'])->default('draf');
+            $table->boolean('setting_campus_response')->default('0');
+            $table->boolean('setting_single_response')->default('0');
             $table->timestamps(0);
         });
     }

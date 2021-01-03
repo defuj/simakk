@@ -114,7 +114,9 @@ export default {
 			question : [],
             options : [],
             answers_id : null,
-            last_index_send_result : 0
+            last_index_send_result : 0,
+            setting_single_response : null,
+            setting_campus_response : null
         }
     },
     watch:{
@@ -250,6 +252,8 @@ export default {
                     }else{
                         this.title = data.questionnaire_title
                         this.desc = data.questionnaire_description
+                        this.setting_single_response = data.setting_single_response
+                        this.setting_campus_response = data.setting_campus_response
 
                         if(data.questionnaire_title === ''){
                             window.document.title = 'Belum memiliki judul - SIMAKK'
