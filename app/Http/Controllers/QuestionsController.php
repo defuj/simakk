@@ -8,6 +8,44 @@ use Illuminate\Support\Facades\DB;
 
 class QuestionsController extends Controller
 {
+    public function getQuestionOptions(Request $request)
+    {
+        $select = DB::select(
+            'select * from multiple_choice where question_id = :id1', 
+            [
+                'id1' => $request->question_id,
+            ]);
+            return response()->json($select);
+    }
+
+    public function getQuestionResponses(Request $request)
+    {
+        $select = DB::select(
+                'select 
+                questions.question_id,
+                questions.questionnaire_id,
+                questions.question_content,
+                questions.question_type,
+                (select count(*) from answers_content where questionnaire_id = :id1) AS total_responden
+                from questions 
+                where questions.questionnaire_id = :id2', 
+                [
+                    'id1' => $request->id,
+                    'id2' => $request->id,
+                ]);
+                return response()->json($select);
+    }
+
+    public function getQuestion(Request $request)
+    {
+        $question = DB::table('questions')
+        ->select('questions.question_id','questions.questionnaire_id','questions.question_content','questions.question_type','questions.question_require','skala_linier.minimum','skala_linier.maximum','skala_linier.label_minimum','skala_linier.label_maximum')
+        ->leftJoin('skala_linier', 'skala_linier.question_id', '=', 'questions.question_id')
+        ->where('questions.questionnaire_id', $request->id)->get();
+        //$question = DB::select('select * FROM questions left join skala_linier on skala_linier.question_id = questions.question_id where questions.questionnaire_id = :id', ['id' => $request->id]);
+        return response()->json($question);
+    }
+
     public function updateOptions(Request $request)
     {
         $update = DB::table('multiple_choice')->where('id',$request->id)->update(['choice' => $request->choice]);
@@ -91,16 +129,6 @@ class QuestionsController extends Controller
 
             return $result;
         }
-    }
-
-    public function getQuestion(Request $request)
-    {
-        $question = DB::table('questions')
-        ->select('questions.question_id','questions.questionnaire_id','questions.question_content','questions.question_type','questions.question_require','skala_linier.minimum','skala_linier.maximum','skala_linier.label_minimum','skala_linier.label_maximum')
-        ->leftJoin('skala_linier', 'skala_linier.question_id', '=', 'questions.question_id')
-        ->where('questions.questionnaire_id', $request->id)->get();
-        //$question = DB::select('select * FROM questions left join skala_linier on skala_linier.question_id = questions.question_id where questions.questionnaire_id = :id', ['id' => $request->id]);
-        return response()->json($question);
     }
 
     public function updateQuestionType(Request $request)

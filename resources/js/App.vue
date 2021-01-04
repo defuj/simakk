@@ -299,6 +299,7 @@
             
 
             if(this.getUser == null || this.getLogin == null){
+                window.document.title = 'Login - Sistem Manajemen Kuesioner Kampus'
                 this.AuthProvider('google')
             }else{
                 if(this.$route.name != 'view_kuesioner'){
@@ -316,6 +317,7 @@
                         axios.post('/api/registerUser',data)
                         .then(result =>{
                             if(result.data != 'admin'){
+                                window.document.title = 'Login - Sistem Manajemen Kuesioner Kampus'
                                 this.login = 'failed'
                                 this.error = "Email yang Anda gunakan tidak memiliki akses admin."
 
@@ -331,6 +333,7 @@
                             console.log({err:err})
                         })
                     }else{
+                        window.document.title = 'Login - Sistem Manajemen Kuesioner Kampus'
                         this.login = 'failed'
                         this.error = "Email yang Anda gunakan tidak didukung."
 

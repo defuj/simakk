@@ -21,6 +21,9 @@ Vue.use(VueToast)
 import TextareaAutosize from 'vue-textarea-autosize'
 Vue.use(TextareaAutosize)
 
+import VueGoogleCharts from 'vue-google-charts' 
+Vue.use(VueGoogleCharts)
+
 Vue.config.productionTip = false
 Vue.component('app-component',require('./App.vue').default)
 Vue.component('header-component',require('./components/Header.vue').default)

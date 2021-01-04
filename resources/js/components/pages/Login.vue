@@ -121,7 +121,7 @@
             }
         },
         mounted(){
-            window.document.title = 'Login - Sistem Manajemen Kuesioner Kampus'
+            
         }
     }
 </script>

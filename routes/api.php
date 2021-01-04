@@ -28,9 +28,12 @@ Route::post('/deleteFromTemplate',[QuestionnairesController::class,'deleteFromTe
 Route::post('/addToTemplate',[QuestionnairesController::class,'addToTemplate']);
 Route::post('/countResponden',[QuestionnairesController::class,'countResponden']);
 
+
 Route::get('/getQuestionType', [QuestionsController::class,'getQuestionType']);
 Route::post('/countQuestions', [QuestionsController::class,'count']);
 Route::post('/getQuestion', [QuestionsController::class,'getQuestion']);
+Route::post('/getQuestionResponses',[QuestionsController::class,'getQuestionResponses']);
+Route::post('/getQuestionOptions',[QuestionsController::class,'getQuestionOptions']);
 Route::post('/addQuestion', [QuestionsController::class,'addQuestion']);
 Route::post('/deleteQuestion', [QuestionsController::class,'deleteQuestion']);
 Route::post('/updateQuestionContent', [QuestionsController::class,'updateQuestionContent']);

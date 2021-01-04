@@ -107,7 +107,8 @@
                     <router-link :to="'/forms/'+this.$route.params.id+'/edit/responses'" class="nav-link">
                         <span class="nav-text">
                             Responses
-                            <span class="badge badge-dark" v-if="responden > 0">{{responden}}</span>
+                            <span v-if="this.$route.name == 'edit_kuesioner' && responden > 0" class="badge badge-dark" >{{responden}}</span>
+                            <span v-else-if="this.$route.name == 'responses_kuesioner'  && responden > 0" class="badge badge-primary" >{{responden}}</span>
                         </span>
                     </router-link>
                 </li>
@@ -237,9 +238,6 @@
                 }).then(res=>{
                     this.responden = res.data
                 })
-                var timer = setTimeout(() => {
-                    this.CountResponden()
-                }, 15000);
             },
         },
         computed:{
@@ -251,7 +249,7 @@
             }
         },
         mounted(){
-            if(this.$route.name == 'edit_kuesioner'){
+            if(this.$route.name == 'edit_kuesioner' || this.$route.name == 'responses_kuesioner'){
                 this.GetKuesioner(this.GetID())
                 this.CountResponden()
             }
@@ -368,4 +366,9 @@
 	.my-float{
 		margin-top:22px;
 	}
+
+    .badge{
+        border-radius: 1rem !important;
+        margin-left: 10px;
+    }
 </style>
