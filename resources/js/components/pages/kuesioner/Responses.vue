@@ -22,8 +22,15 @@
                             {{data.total_responden}} tanggapan
                         </p>
 
-                        <GChart v-if="data.question_type == 'Jawaban Singkat'" 
-                                type="ColumnChart" :data="chartData" :options="chartOptions"></GChart>
+                        <div v-if="data.question_type == 'Jawaban Singkat'"  class="row overflow-auto" style="max-height:350px;">
+                            <div class="col-12" v-for="el in simple_answers" :key="el.id">
+                                <div v-if="el.question_id == data.question_id" class="d-flex align-items-center bg-light-info rounded p-3 mb-3">
+                                    <div class="d-flex flex-column flex-grow-1">
+                                        <a class="font-weight-bold text-dark-75 font-size-md">{{el.answer}}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                         <GChart v-if="data.question_type == 'Skala Linier'" 
                                 type="ColumnChart" :data="chartData" :options="chartOptions"></GChart>
@@ -50,6 +57,7 @@ export default {
             answers_content : [],
             responden : 0,
             multiple : [],
+            simple_answers : [],
 
             chartOptions: {
                 chart: {
@@ -74,18 +82,25 @@ export default {
                     axios.post('/api/getQuestionOptions',{
                         question_id : e.question_id
                     }).then(res=>{
-                        console.log(res.data)
                         this.answers.push(res.data)
                     })
                 }else if(e.question_type == 'Skala Linier'){
 
+                }else if(e.question_type == 'Jawaban Singkat'){
+                    axios.post('/api/getSimpleAnswers',{
+                        question_id : e.question_id
+                    }).then(res=>{
+                        for (let i = 0; i < res.data.length; i++) {
+                            const element = res.data[i];
+                            this.simple_answers.push(element)
+                        }
+                    })
                 }
             }
         },
     },
     methods:{
         chartDatas(question_id,question_type,questionnaire_id){
-            console.log(this.chartData);
             if(question_type == 'Pilihan Ganda'){
                 var data = []
                 var column = []
@@ -97,11 +112,28 @@ export default {
                     }
                 }
                 data.push(column)
+
+                for (let a = 0; a < column.length; a++) {
+                    const el = column[a];
+                    row.push('')
+                    for (let i = 0; i < this.answers_content.length; i++) {
+                        const e = this.answers_content[i];
+                        
+                    }
+                }
+                
                 
                 return data
             }else{
                 return this.chartData
             }
+        },
+        GetAnswerContent(){
+            axios.post('/api/getAnswerContent',{
+                questionnaire_id : this.GetID()
+            }).then(res=>{
+                this.answers_content = res.data
+            })
         },
         CountResponden(){
             axios.post('/api/countResponden',{
@@ -143,6 +175,7 @@ export default {
     mounted(){
         this.CountResponden()
         this.GetKuesioner(this.GetID())
+        this.GetAnswerContent()
     }
 }
 </script>

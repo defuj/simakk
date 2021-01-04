@@ -8,6 +8,33 @@ use Illuminate\Support\Facades\DB;
 
 class QuestionsController extends Controller
 {
+    public function getSimpleAnswers(Request $request)
+    {
+        $select = DB::select(
+            'select *
+            from answers_content 
+            where question_id = :id1 AND question_type = "Jawaban Singkat"', 
+            ['id1' => $request->question_id,]);
+        return response()->json($select);
+    }
+
+    public function getAnswerContent(Request $request)
+    {
+        $select = DB::select(
+            'select
+            answers_content.id,
+            answers_content.answers_id,
+            answers_content.questionnaire_id,
+            answers_content.question_id,
+            answers_content.question_type,
+            answers_content.answer,
+            (select count(*) from answers_content where questionnaire_id = answers_content.questionnaire_id && question_id = answers_content.question_id) as total 
+            from answers_content 
+            where answers_content.questionnaire_id = :id1 ORDER BY answers_content.question_id ASC', 
+            ['id1' => $request->questionnaire_id,]);
+        return response()->json($select);
+    }
+
     public function getQuestionOptions(Request $request)
     {
         $select = DB::select(
@@ -26,7 +53,7 @@ class QuestionsController extends Controller
                 questions.questionnaire_id,
                 questions.question_content,
                 questions.question_type,
-                (select count(*) from answers_content where questionnaire_id = :id1) AS total_responden
+                (select count(*) from answers_content where questionnaire_id = :id1 && question_id = questions.question_id) AS total_responden
                 from questions 
                 where questions.questionnaire_id = :id2', 
                 [

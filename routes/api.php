@@ -34,6 +34,9 @@ Route::post('/countQuestions', [QuestionsController::class,'count']);
 Route::post('/getQuestion', [QuestionsController::class,'getQuestion']);
 Route::post('/getQuestionResponses',[QuestionsController::class,'getQuestionResponses']);
 Route::post('/getQuestionOptions',[QuestionsController::class,'getQuestionOptions']);
+Route::post('/getAnswerContent',[QuestionsController::class,'getAnswerContent']);
+Route::post('/getSimpleAnswers',[QuestionsController::class,'getSimpleAnswers']);
+
 Route::post('/addQuestion', [QuestionsController::class,'addQuestion']);
 Route::post('/deleteQuestion', [QuestionsController::class,'deleteQuestion']);
 Route::post('/updateQuestionContent', [QuestionsController::class,'updateQuestionContent']);
