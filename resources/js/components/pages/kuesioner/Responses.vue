@@ -56,7 +56,7 @@ export default {
             answers : [],
             answers_content : [],
             responden : 0,
-            multiple : [],
+            multiple_choice : [],
             simple_answers : [],
 
             chartOptions: {
@@ -84,6 +84,15 @@ export default {
                     }).then(res=>{
                         this.answers.push(res.data)
                     })
+
+                    axios.post('/api/getMultipleChoiceResult',{
+                        question_id : e.question_id
+                    }).then(res=>{
+                        for (let i = 0; i < res.data.length; i++) {
+                            this.multiple_choice.push(res.data[i])
+                        }
+                    })
+                    
                 }else if(e.question_type == 'Skala Linier'){
 
                 }else if(e.question_type == 'Jawaban Singkat'){
@@ -102,27 +111,19 @@ export default {
     methods:{
         chartDatas(question_id,question_type,questionnaire_id){
             if(question_type == 'Pilihan Ganda'){
-                var data = []
-                var column = []
-                var row = []
-                for (let i = 0; i < this.answers.length; i++) {
-                    const e = this.answers[i];
-                    if(e.question_id == question_id){
-                        column.push(e.choice)
-                    }
-                }
-                data.push(column)
+                var dat = this.multiple_choice.filter(el => el.question_id == question_id)
 
-                for (let a = 0; a < column.length; a++) {
-                    const el = column[a];
-                    row.push('')
-                    for (let i = 0; i < this.answers_content.length; i++) {
-                        const e = this.answers_content[i];
-                        
-                    }
+                var data = [
+                    ['Opsi','Jumlah']
+                ]
+                var column = []
+                for (let i = 0; i < dat.length; i++) {
+                    const e = dat[i]
+                    data.push([e.choice,e.total])
                 }
                 
-                
+                console.log(data)
+                console.log(this.chartData)
                 return data
             }else{
                 return this.chartData

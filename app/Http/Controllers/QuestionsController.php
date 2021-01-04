@@ -8,6 +8,14 @@ use Illuminate\Support\Facades\DB;
 
 class QuestionsController extends Controller
 {
+    public function getMultipleChoiceResult(Request $request)
+    {
+        $select = DB::select(
+            'select multiple_choice.question_id,multiple_choice.choice, (select count(*) from answers_content INNER JOIN questions on questions.question_id = answers_content.question_id WHERE answers_content.question_id = multiple_choice.question_id AND answers_content.answer = multiple_choice.choice) AS total FROM multiple_choice WHERE multiple_choice.question_id = :id', 
+            ['id' => $request->question_id,]);
+        return response()->json($select);
+    }
+
     public function getSimpleAnswers(Request $request)
     {
         $select = DB::select(
