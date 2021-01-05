@@ -142,17 +142,18 @@ export default {
 
                 for (let i = 0; i < dat[0].maximum; i++) {
                     var pilihan = 'Pilihan '+(i+1)
-                    
+                    data.push([pilihan,0])
+
                     for (let a = 0; a < skala.length; a++) {
                         const element = skala[a]
+
                         if(element.answer2 == (i+1) && element.quest_id == question_id){
-                            const current = [pilihan+' : '+element.total,element.total]
-                            data.push(current)
+                            let total = element.total
+                            let current = [pilihan+' : '+total,total]
+                            data[i+1] = current
                         }
                     }
-                    
                 }
-                
                 
                 return data
             }

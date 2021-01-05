@@ -303,7 +303,7 @@ export default {
                 this.total = result.data.length
                 this.kuesionersAll = result.data
 
-                console.log(this.total)
+                
                 if(this.limit == 8){
                     if(result.data.length > 8){
                         this.kuesioners = []
