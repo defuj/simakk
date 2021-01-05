@@ -350,6 +350,7 @@ class QuestionnairesController extends Controller
 
         DB::table('answers')->where('questionnaire_id',$request->id)->delete();
         DB::table('answers_content')->where('questionnaire_id',$request->id)->delete();
+        DB::table('templates')->where('questionnaire_id',$request->id)->delete();
 
         return $delete->delete();
     }

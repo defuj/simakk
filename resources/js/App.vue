@@ -1,11 +1,30 @@
 <template>
     <div class="d-flex flex-column flex-root" v-if="getUser != null && getLogin != null">
         <div class="d-flex flex-row flex-column-fluid page">
-            <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
+            <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper" v-if="width > 750">
                 <header-component v-if="this.$route.name != 'view_kuesioner' && this.$route.name != 'preview_kuesioner'"></header-component>
                 <div class="d-flex flex-column-fluid">
                     <div class=" container " style="padding-top:0px !important;">
                         <router-view></router-view>
+                    </div>
+                </div>
+                <!-- <footer-component></footer-component> -->
+            </div>
+
+            <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper" v-else>
+                <div class="d-flex flex-column-fluid">
+                    <div class=" container " style="padding-top:0px !important;">
+                        <router-view v-if="this.$route.name == 'view_kuesioner' || this.$route.name == 'preview_kuesioner'"></router-view>
+                        <div v-else>
+                            <div class="alert alert-success mb-5 p-5" role="alert">
+                                <h4 class="alert-heading">Oops!</h4>
+                                <p>Sorry, this page does not support the device / screen size you are currently using. 
+                                    <br>Please use another device that has a screen size larger than a laptop.</p>
+                                <div class="border-bottom border-white opacity-20 mb-5"></div>
+                                <p class="mb-0">Maaf, halaman ini tidak mendukung perangkat / ukuran layar yang Anda gunakan saat ini.</p>
+                                <p class="mb-0">Silahkan gunakan perangkat lain yang memiliki ukuran layar lebih dari besar seperti Laptop.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!-- <footer-component></footer-component> -->
@@ -70,6 +89,7 @@
         name : 'app',
         data() {
             return {
+                width : 0,
                 categorySelected : null,
                 categories:[],
                 modal : null,
@@ -80,7 +100,13 @@
             }
         },
         watch:{
-
+            width(){
+                if(this.width <= 750){
+                    if(this.$route.name != 'view_kuesioner' || this.$route.name != 'preview_kuesioner'){
+                        window.document.title = 'Not supported for mobile layout'
+                    }
+                }
+            }
         },
         computed:{
             getUser(){
@@ -260,7 +286,6 @@
                         this.$router.push({ name: 'not_found' })
                     }else{
                         this.modal = result.data
-                        console.log(this.modal);
                     }
                 })
             },
@@ -353,6 +378,11 @@
                 this.GetKuesioner()
                 this.GetTemplates()
                 this.GetCategories()
+            }
+
+            this.width = window.innerWidth
+            window.onresize = function(){
+                this.width = window.innerWidth
             }
         },
         created(){
