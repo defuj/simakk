@@ -37,6 +37,7 @@ Route::post('/getQuestionOptions',[QuestionsController::class,'getQuestionOption
 Route::post('/getAnswerContent',[QuestionsController::class,'getAnswerContent']);
 Route::post('/getSimpleAnswers',[QuestionsController::class,'getSimpleAnswers']);
 Route::post('/getMultipleChoiceResult',[QuestionsController::class,'getMultipleChoiceResult']);
+Route::post('/getSkalaLiniers',[QuestionsController::class,'getSkalaLiniers']);
 
 Route::post('/addQuestion', [QuestionsController::class,'addQuestion']);
 Route::post('/deleteQuestion', [QuestionsController::class,'deleteQuestion']);

@@ -8,6 +8,14 @@ use Illuminate\Support\Facades\DB;
 
 class QuestionsController extends Controller
 {
+    public function getSkalaLiniers(Request $request)
+    {
+        $select = DB::select(
+            'select DISTINCT answers_content.questionnaire_id,answers_content.question_id as quest_id,answers_content.question_type,answers_content.answer as answer2, (select DISTINCT count(*) from answers_content WHERE question_id = quest_id AND answer = answer2 ORDER BY answer) as total FROM answers_content WHERE answers_content.question_id = :id ORDER BY answers_content.answer', 
+            ['id' => $request->question_id,]);
+        return response()->json($select);
+    }
+
     public function getMultipleChoiceResult(Request $request)
     {
         $select = DB::select(

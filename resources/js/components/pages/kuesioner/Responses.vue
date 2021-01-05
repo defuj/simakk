@@ -32,8 +32,8 @@
                             </div>
                         </div>
 
-                        <GChart v-if="data.question_type == 'Skala Linier'" 
-                                type="ColumnChart" :data="chartData" :options="chartOptions"></GChart>
+                        <GChart v-if="data.question_type == 'Skala Linier' && skala_linier.length > 0" 
+                                type="PieChart" :data="chartDatas(data.question_id,data.question_type,data.questionnaire_id)" :options="chartOptions"></GChart>
 
                         <GChart v-if="data.question_type == 'Pilihan Ganda'" 
                                 type="PieChart" :data="chartDatas(data.question_id,data.question_type,data.questionnaire_id)" :options="chartOptions"></GChart>
@@ -52,12 +52,14 @@ export default {
         return {
             title : '',
 			desc : '',
-			question : [],
+            question : [],
+            question2 : [],
             answers : [],
             answers_content : [],
             responden : 0,
             multiple_choice : [],
             simple_answers : [],
+            skala_linier : [],
 
             chartOptions: {
                 chart: {
@@ -94,7 +96,14 @@ export default {
                     })
                     
                 }else if(e.question_type == 'Skala Linier'){
-
+                    axios.post('/api/getSkalaLiniers',{
+                        question_id : e.question_id
+                    }).then(res=>{
+                        for (let i = 0; i < res.data.length; i++) {
+                            const element = res.data[i];
+                            this.skala_linier.push(element)
+                        }
+                    })
                 }else if(e.question_type == 'Jawaban Singkat'){
                     axios.post('/api/getSimpleAnswers',{
                         question_id : e.question_id
@@ -111,6 +120,7 @@ export default {
     methods:{
         chartDatas(question_id,question_type,questionnaire_id){
             if(question_type == 'Pilihan Ganda'){
+                //array filter
                 var dat = this.multiple_choice.filter(el => el.question_id == question_id)
 
                 var data = [
@@ -119,14 +129,32 @@ export default {
                 var column = []
                 for (let i = 0; i < dat.length; i++) {
                     const e = dat[i]
-                    data.push([e.choice,e.total])
+                    data.push([e.choice+' : '+e.total,e.total])
                 }
                 
-                console.log(data)
-                console.log(this.chartData)
                 return data
             }else{
-                return this.chartData
+                var dat = this.question2.filter(el => el.question_id == question_id)
+                var skala = this.skala_linier
+                var data = [
+                    ['Opsi','Jumlah']
+                ]
+
+                for (let i = 0; i < dat[0].maximum; i++) {
+                    var pilihan = 'Pilihan '+(i+1)
+                    
+                    for (let a = 0; a < skala.length; a++) {
+                        const element = skala[a]
+                        if(element.answer2 == (i+1) && element.quest_id == question_id){
+                            const current = [pilihan+' : '+element.total,element.total]
+                            data.push(current)
+                        }
+                    }
+                    
+                }
+                
+                
+                return data
             }
         },
         GetAnswerContent(){
@@ -170,7 +198,11 @@ export default {
             axios.post('/api/getQuestionResponses',{id : this.GetID()})
             .then(result=>{
                 this.question = result.data
-			})
+            })
+            
+            axios.post('/api/getQuestion',{id : this.GetID()}).then(result=>{
+				this.question2 = result.data
+			});
 		},
     },
     mounted(){

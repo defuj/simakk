@@ -71,7 +71,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="row my-2" v-for="(option,i) in options" :key="option.id" :index="i" v-show="option.question_id === data.question_id && data.question_type === 'Pilihan Ganda'">
+					<div class="row my-2" v-for="(option,i) in options" :key="i+'a'" v-show="option.question_id === data.question_id && data.question_type === 'Pilihan Ganda'">
 						
 						<div class="col-md-11 col-sm-11" v-if="option.question_id === data.question_id">
 							<textarea-autosize v-model="option.choice" @input="UpdateOptions(i)" :min-height="24" :max-height="500" type="text" class="form-control option-input my-form my-options" rows="1" :placeholder="'Opsi pertanyaan'">{{option.choice}}</textarea-autosize>
