@@ -95,33 +95,45 @@ class QuestionnairesController extends Controller
         }
 
         $news = DB::table('questions')->where('questionnaire_id', $id)->get();
+        $a = DB::table('questions')->where('questionnaire_id', $id)->count();
+        $re = 1;
         foreach ($news as $new) {
-            $new->question_id;
-
-            if($new->question_type === "Skala Linier"){
-                $skalas = DB::table('skala_linier')
-                ->join('questions', 'skala_linier.question_id', '=', 'questions.question_id')
-                ->where('questions.questionnaire_id', $request->id)->get();
-                foreach ($skalas as $skala) {
-                    DB::table('skala_linier')->insert([
-                        'question_id'   => $new->question_id,
-                        'minimum'       => $skala->minimum,
-                        'maximum'       => $skala->maximum,
-                        'label_minimum' => $skala->label_minimum,
-                        'label_maximum' => $skala->label_maximum,
-                    ]);
-                }
-            }else if($new->question_type === "Pilihan Ganda"){
-                $options = DB::table('multiple_choice')
-                ->join('questions', 'multiple_choice.question_id', '=', 'questions.question_id')
-                ->where('questions.questionnaire_id', $request->id)->get();
-                foreach ($options as $option) {
-                    DB::table('multiple_choice')->insert([
-                        'question_id'          => $new->question_id,
-                        'choice'               => $option->choice
-                    ]);
+            if($re <= $a){
+                if($new->question_type === "Skala Linier"){
+                    $skalas = DB::table('skala_linier')
+                    ->join('questions', 'skala_linier.question_id', '=', 'questions.question_id')
+                    ->where('questions.questionnaire_id', $request->id)->get();
+                    foreach ($skalas as $skala) {
+                        DB::table('skala_linier')->insert([
+                            'question_id'   => $new->question_id,
+                            'minimum'       => $skala->minimum,
+                            'maximum'       => $skala->maximum,
+                            'label_minimum' => $skala->label_minimum,
+                            'label_maximum' => $skala->label_maximum,
+                        ]);
+                    }
+                }else if($new->question_type === "Pilihan Ganda"){
+                    $options = DB::table('multiple_choice')
+                    ->join('questions', 'multiple_choice.question_id', '=', 'questions.question_id')
+                    ->where('questions.questionnaire_id', $request->id)->get();
+    
+                    $jumlah = DB::table('multiple_choice')
+                    ->join('questions', 'multiple_choice.question_id', '=', 'questions.question_id')
+                    ->where('questions.questionnaire_id', $request->id)->count();
+    
+                    $c = 1;
+                    foreach ($options as $option) {
+                        if($c <= $jumlah){
+                            DB::table('multiple_choice')->insert([
+                                'question_id'          => $new->question_id,
+                                'choice'               => $option->choice
+                            ]);
+                            $c+=1;
+                        }
+                    }
                 }
             }
+            $re +=1;
         }
 
         if($insert){
@@ -319,6 +331,26 @@ class QuestionnairesController extends Controller
     public function destroy(Request $request)
     {
         $delete = DB::table('questionnaires')->where('questionnaire_id',$request->id);
+
+        $news = DB::table('questions')->where('questionnaire_id', $request->id)->get();
+        foreach ($news as $new) {
+            $new->question_id;
+
+            if($new->question_type === "Skala Linier"){
+                DB::table('skala_linier')->where('question_id',$new->question_id)->delete();
+            }else if($new->question_type === "Pilihan Ganda"){
+                DB::table('multiple_choice')->where('question_id',$new->question_id)->delete();
+            }
+        }
+
+        $questions = DB::table('questions')->where('questionnaire_id', $request->id)->get();
+        foreach ($questions as $question) {
+            DB::table('questions')->where('questionnaire_id',$request->id)->delete();
+        }
+
+        DB::table('answers')->where('questionnaire_id',$request->id)->delete();
+        DB::table('answers_content')->where('questionnaire_id',$request->id)->delete();
+
         return $delete->delete();
     }
 }

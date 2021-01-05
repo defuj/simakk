@@ -15,7 +15,7 @@ class Questionnaires extends Migration
     {
         Schema::create('questionnaires', function (Blueprint $table) {
             $table->string('questionnaire_id')->primary();
-            $table->mediumText('questionnaire_title');
+            $table->text('questionnaire_title');
             $table->text('questionnaire_description');
             $table->enum('questionnaire_status', ['enable', 'disabled'])->default('disabled');
             $table->enum('questionnaire_type', ['draf', 'publish'])->default('draf');

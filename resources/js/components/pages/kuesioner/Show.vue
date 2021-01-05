@@ -150,7 +150,7 @@ export default {
                         if(required == input_required){
                             if(this.answers_id != null && this.answers_id != ''){
                                 //send all answers
-                                this.SaveResponse(last_index_send_result,this.answers_id)
+                                this.SaveResponse(this.last_index_send_result,this.answers_id)
                             }else{
                                 //create new answers
                                 axios.post('/api/saveAnswers',{

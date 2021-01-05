@@ -113,6 +113,7 @@ class QuestionsController extends Controller
     public function addOptions(Request $request)
     {
         $insert = DB::table('multiple_choice')->insert([
+            'choice'               => 'Opsi pertanyaan',
             'question_id'          => $request->id
         ]);
         if($insert){

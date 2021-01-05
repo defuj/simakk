@@ -19,7 +19,7 @@ class AnswersContent extends Migration
             $table->string('questionnaire_id')->index();
             $table->foreignId('question_id');
             $table->string('question_type');
-            $table->string('answer')->nullable();
+            $table->text('answer')->nullable();
             $table->timestamps(0);
         });
     }
