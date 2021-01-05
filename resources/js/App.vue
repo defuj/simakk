@@ -260,6 +260,7 @@
                         this.$router.push({ name: 'not_found' })
                     }else{
                         this.modal = result.data
+                        console.log(this.modal);
                     }
                 })
             },
@@ -348,7 +349,7 @@
                 }
             }
 
-            if(this.$route.name === 'edit_kuesioner' || this.$route.name === 'responses_kuesioner'){
+            if(this.$route.name == 'edit_kuesioner' || this.$route.name == 'responses_kuesioner'){
                 this.GetKuesioner()
                 this.GetTemplates()
                 this.GetCategories()

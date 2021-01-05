@@ -344,7 +344,8 @@ export default {
             axios.get('/api/createKuesioner').then(result =>{
                 this.$swal.close();
                 if(result.data.result){
-                    this.$router.push('forms/'+result.data.id+'/edit');
+                    //this.$router.push('forms/'+result.data.id+'/edit')
+                    window.location.href = '/forms/'+result.data.id+'/edit'
                 }else{
                     this.$swal({
                         title: 'Oops',
@@ -424,7 +425,8 @@ export default {
                     axios.post('/api/duplicateKuesioner',{id : kuesioner_id}).then(result=>{
                         if(result.data.result){
                             this.$swal.close();
-                            this.$router.push('forms/'+result.data.id+'/edit');
+                            //this.$router.push('forms/'+result.data.id+'/edit');
+                            window.location.href = '/forms/'+result.data.id+'/edit'
                         }else{
                             this.$swal.close();
                             this.$swal({
