@@ -137,14 +137,13 @@ export default {
 			}
 		},
 		title(){
-			var tm
 			if(!this.isUpdating){
-				clearTimeout(tm)
-				tm = setTimeout(() => {
-					if(this.title.length > 0){
+				if(this.title.length > 0){
+					clearTimeout(this.timer)
+					this.timer = setTimeout(() => {
 						this.UpdateTitle()
-					}
-				}, this.timerInterval);
+					}, this.timerInterval);
+				}
 			}
 		},
 		desc(){
