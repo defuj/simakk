@@ -41,14 +41,3 @@ const app = new Vue({
     router,
     store,
 });
-/*
-store.dispatch('get_user', token).then(() => {
-    new Vue({
-        el : '#app',
-        router,
-        store,
-    });
-}).catch((error) => {
-  console.error(error);
-})
-*/
