@@ -65,10 +65,10 @@
                                 Jadikan dokumen sebagai template
                             </label>
                         </div>
-                        <div class="form-group" style="margin-bottom: 0px;">
-                            <select class="custom-select form-control" v-model="categorySelected" :disabled="isTemplate === false">
-                                <option v-for="category in categories" :key="category.id" :value="category.id" :selected="category.id === categorySelected">{{category.category}}</option>
-                            </select>
+
+                        <h5 class="mt-5">Tautan</h5>
+                        <div class="form-group">
+                            <input type="text" class="form-control" readonly :value="axios.defaults.baseURL+'forms/'+this.$route.params.id+'/view'"/>
                         </div>
 
                         
