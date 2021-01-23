@@ -7,6 +7,32 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+# Sistem Informasi Manajemen Kuesioner Kampus (SIMAKK)
+
+Sistem Informasi Manajemen Kuesioner Kampus (SIMAKK) adalah aplikasi berbasis website yang dikembangkan menggunakan teknologi Framework Laravel (PHP) & VueJS (javascript) dimana aplikasi ini dibuat sebagai media baru untuk pengelolaan kuesioner atau untuk tujuan survey yang berkaitan dengan kampus.
+
+## Kebutuhan
+
+- Node.js v15.2.0 (recommended)
+- PHP Version >= 7.3.0
+- PHP Composer
+- Web Server (Test on Apache)
+- Database (MySQL)
+
+## Instalasi
+
+- Unduh project/clone ke perangkat Anda.
+- Buka project dengan code editor, disarankan menggunakan Visual Studio Code.
+- Buka terminal dan arahkan root ke directory project.
+- Persiapkan database, anda bisa gunakan file database yang tersedia dalam project (simakk.sql) atau membuat dari awal dengan perintah pada terminal "php artisan migrate".
+- jalankan perintah "npm install" untuk mengunduh "node_module" yang diperlukan.
+- Edit file .env dan atur konfigurasi database anda.
+- Untuk mulai mempersiapkan aplikasi ketikan perintah "npm run dev" atau "npm run watch" pada terminal. 
+- Mulai menjalankan server dengan mengetikan perintah "php artisan serve" pada terminal.
+- Akses http://127.0.0.1:8000 pada browser untuk membuka websiste.
+
+Note : sangat disarankan agar server berjalan pada IP 127.0.0.1 dan port 8000, karena untuk autentikasi google didaftarkan dengan ip tersebut.
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
